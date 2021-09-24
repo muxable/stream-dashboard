@@ -3,7 +3,7 @@ import { Container, Box, Button, Grid, TextField } from "@mui/material";
 export function SignUp() {
 	return (
 		<Container>
-			<p> Stream Dashboard by Muxable </p>
+			<p> Stream Dashboard by Muxable</p>
 			<Grid container spacing={3} direction='column' alignContent='center'>
 				<Grid item>
 					<Box width={350}>
