@@ -1,4 +1,5 @@
 import { Container, Box, Button, Grid, TextField } from "@mui/material";
+import { Link } from "react-router-dom";
 
 export function SignUp() {
   return (
@@ -43,6 +44,13 @@ export function SignUp() {
         <Grid item>
           <Box width={350}>
             <Button fullWidth size='medium' variant="outlined"> Create Account </Button>
+          </Box>
+        </Grid>
+        <Grid item>
+          <Box width={350} textAlign='left'>
+            <text> Have an account?
+              <Link to="/login"> Login </Link>
+            </text>
           </Box>
         </Grid>
       </Grid>

@@ -1,4 +1,5 @@
-import { Container, Box, Button, Grid, TextField, Link } from "@mui/material";
+import { Container, Box, Button, Grid, TextField } from "@mui/material";
+import { Link } from "react-router-dom";
 
 export function Login() {
   return (
@@ -41,9 +42,7 @@ export function Login() {
         <Grid item>
           <Box width={350} textAlign='left'>
             <text> Don't have an account?
-              <Link href="#" underline="none">
-                {' Sign up'}
-              </Link>
+              <Link to="/sign-up"> Sign up </Link>
             </text>
           </Box>
         </Grid>
