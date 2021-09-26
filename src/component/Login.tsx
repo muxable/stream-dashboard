@@ -1,9 +1,10 @@
 import { Container, Box, Button, Grid, TextField } from "@mui/material";
 import { Link } from "react-router-dom";
-
+import  Logo from './Logo';
 export function Login() {
   return (
     <Container>
+      <Logo/>
       <p> Stream Dashboard by Muxable </p>
       <Grid container spacing={3} direction='column' alignContent='center'>
         <Grid item>

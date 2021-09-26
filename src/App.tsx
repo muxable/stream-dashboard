@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import { Login } from './component/Login';
 import { SignUp } from './component/SignUp';
+
 import {
   BrowserRouter as Router,
   Switch,
