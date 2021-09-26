@@ -2,7 +2,7 @@ import logo from '../assets/muxlogo.png'
 
 const Logo = () => {
   return (
-    <img src={logo} alt={"muxLogo"}/>
+    <img src={logo} alt="muxLogo"/>
   )
 }
 
