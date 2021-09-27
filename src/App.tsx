@@ -7,6 +7,7 @@ import {
   Switch,
   Route,
 } from "react-router-dom";
+import DataGridDemo from './component/TableView';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
             </Route>
             <Route path="/">
               <p> Stream Dashboard by Muxable </p>
+              <DataGridDemo />
             </Route>
           </Switch>
         </Router>
