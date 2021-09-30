@@ -9,6 +9,7 @@ import {
   Route,
 } from "react-router-dom";
 import DataGridDemo from './component/TableView';
+import { Analytics } from './screens/Analytics';
 
 function App() {
   return (
@@ -21,6 +22,9 @@ function App() {
             </Route>
             <Route path="/login">
               <Login />
+            </Route>
+            <Route path="/analytic">
+              <Analytics />
             </Route>
             <Route path="/">
               <p> Stream Dashboard by Muxable </p>
