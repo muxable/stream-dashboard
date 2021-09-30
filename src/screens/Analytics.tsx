@@ -1,6 +1,6 @@
 import { Container } from "@mui/material";
-import ComposedTwoAreasChart from "../component/ComposedTwoAreasChart";
-import ComposedTwoYAxisChart from "../component/ComposedTwoYAxisChart";
+import { ComposedTwoAreasChart } from "../component/ComposedTwoAreasChart";
+import { ComposedTwoYAxisChart } from "../component/ComposedTwoYAxisChart";
 
 export function Analytics() {
 	return (

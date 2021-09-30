@@ -21,7 +21,7 @@ for (let i = 0; i < 2000; i++) {
 	data.push(d);
 }
 
-export default function ComposedTwoAreasChart() {
+export function ComposedTwoAreasChart() {
 	return (
 		<ComposedChart
 			width={600}

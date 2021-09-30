@@ -27,7 +27,7 @@ data[1001]["bitrate"] = 4500;
 data[1022]["bitrate"] = 4300;
 data[1030]["bitrate"] = 4500;
 
-export default function App() {
+export function ComposedTwoYAxisChart() {
 	return (
 		<ComposedChart
 			width={600}
