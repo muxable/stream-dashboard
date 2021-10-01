@@ -27,7 +27,6 @@ function App() {
               <Analytics />
             </Route>
             <Route path="/">
-              <p> Stream Dashboard by Muxable </p>
               <DataGridDemo />
             </Route>
           </Switch>

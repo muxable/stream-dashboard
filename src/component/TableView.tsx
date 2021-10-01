@@ -1,5 +1,8 @@
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { IconButton } from '@mui/material';
+import { CssBaseline, AppBar, Toolbar, Typography } from '@material-ui/core'
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import SearchIcon from '@mui/icons-material/Search';
 import AnalyticsIcon from '@mui/icons-material/Analytics';
 
 
@@ -72,6 +75,23 @@ const rows = [
 
 export default function DataGridDemo() {
 	return (
+		<>
+		<CssBaseline />
+		<AppBar position = 'fixed' color = 'primary'>
+			<Toolbar>
+				<Typography variant = "overline" style={{display:'inline'}} > Stream Dashboard</Typography>
+
+				<IconButton color = 'inherit' size = "large" edge="start" style={{marginLeft:'25px'}}>
+					<SearchIcon />
+				</IconButton>
+				{/*Profile icon if ever decided to show a profile page*/}
+				<IconButton color = 'inherit' size = "large" style={{marginLeft:'960px'}}>
+					<AccountCircleIcon  />
+				</IconButton>
+
+			</Toolbar>
+		</AppBar>
+
 		<div style={{ height: 400, width: '1100px' }}>
 			<DataGrid
 				rows={rows}
@@ -82,5 +102,6 @@ export default function DataGridDemo() {
 				disableSelectionOnClick
 			/>
 		</div>
+		</>
 	);
 }
