@@ -8,10 +8,9 @@ export function Analytics() {
 	const [value, setValue] = useState(0)
 
 	const handleChange = (event: any, newValue: number) => {
-		console.log(newValue);
 		setValue(newValue)
 	}
-
+	// style to be changed later, css help please
 	return (
 		<Container style={{ backgroundColor: '#3443eb' }}>
 			<Stack direction='column' spacing={4}>
