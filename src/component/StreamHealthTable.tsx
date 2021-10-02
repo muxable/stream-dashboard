@@ -62,7 +62,7 @@ const rows = [
 	{ id: 9, timestamp: Date(), health: new HealthCellMetaData(true, 12) },
 ];
 
-export default function StreamHealthTable() {
+export function StreamHealthTable() {
 	return (
 		<div style={{ height: 400, width: 500 }}>
 			<DataGrid

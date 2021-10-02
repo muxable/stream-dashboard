@@ -2,7 +2,7 @@ import { Container, Paper, Tab, Tabs, Stack } from "@mui/material";
 import { useState } from "react";
 import { ComposedTwoAreasChart } from "../component/ComposedTwoAreasChart";
 import { ComposedTwoYAxisChart } from "../component/ComposedTwoYAxisChart";
-import StreamHealthTable from "../component/StreamHealthTable";
+import { StreamHealthTable } from "../component/StreamHealthTable";
 
 export function Analytics() {
 
