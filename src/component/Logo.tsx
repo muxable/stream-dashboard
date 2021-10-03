@@ -1,4 +1,4 @@
-import logo from '../assets/muxlogo.png'
+import logo from '../assets/muxlogoR.png'
 
 const Logo = () => {
   return (

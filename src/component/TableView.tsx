@@ -3,6 +3,8 @@ import { IconButton } from '@mui/material';
 import { CssBaseline, AppBar, Toolbar, Typography } from '@material-ui/core'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import SearchIcon from '@mui/icons-material/Search';
+import Divider from '@mui/material/Divider';
+import Tooltip from '@mui/material/Tooltip';
 import AnalyticsIcon from '@mui/icons-material/Analytics';
 
 
@@ -77,17 +79,17 @@ export default function DataGridDemo() {
 	return (
 		<>
 		<CssBaseline />
-		<AppBar position = 'fixed' color = 'primary'>
+		
+		<AppBar position = 'fixed' color = 'primary' >
 			<Toolbar>
-				<Typography variant = "overline" style={{display:'inline'}} > Stream Dashboard</Typography>
-
-				<IconButton color = 'inherit' size = "large" edge="start" style={{marginLeft:'25px'}}>
-					<SearchIcon />
-				</IconButton>
+				<Typography variant='overline'>Stream Dashboard</Typography>
+				
 				{/*Profile icon if ever decided to show a profile page*/}
-				<IconButton color = 'inherit' size = "large" style={{marginLeft:'960px'}}>
-					<AccountCircleIcon  />
-				</IconButton>
+				<Tooltip title="Your account">
+					<IconButton color = 'inherit' size = "large" style={{marginLeft:'auto'}}>
+						<AccountCircleIcon  />
+					</IconButton>
+				</Tooltip>
 
 			</Toolbar>
 		</AppBar>
