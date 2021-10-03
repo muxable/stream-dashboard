@@ -2,6 +2,7 @@ import { Container, Paper, Tab, Tabs, Stack } from "@mui/material";
 import { useState } from "react";
 import { ComposedTwoAreasChart } from "../component/ComposedTwoAreasChart";
 import { ComposedTwoYAxisChart } from "../component/ComposedTwoYAxisChart";
+import { StreamHealthTable } from "../component/StreamHealthTable";
 
 export function Analytics() {
 
@@ -33,8 +34,9 @@ export function Analytics() {
 						{value === 2 && <ComposedTwoAreasChart />}
 						{value === 3 && <ComposedTwoAreasChart />}
 					</Paper>
-					<Paper style={{ backgroundColor: '#34ff1b' }}>
-						<p> hardware info/stuff or another table view stufffffffff </p>
+					<Paper>
+						<StreamHealthTable />
+						{/* <p> hardware info/stuff or another table view stufffffffff </p> */}
 					</Paper>
 				</Stack>
 
