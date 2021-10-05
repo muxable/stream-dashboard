@@ -32,8 +32,7 @@ export function Map() {
 				url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
 			/>
 			{
-				unstableEvents.map((unstableEvent, i) => {
-					const { x, y, fps, bitrate, upstream, downstream, temperature } = unstableEvent
+				unstableEvents.map(({ x, y, fps, bitrate, upstream, downstream, temperature }, i) => {
 					return (
 						<CircleMarker center={[x, y]} pathOptions={{ color: 'red' }} radius={10}>
 							<Popup>
