@@ -2,8 +2,10 @@ import { Container, Paper, Tab, Tabs, Stack } from "@mui/material";
 import { useState } from "react";
 import { ComposedTwoAreasChart } from "../component/ComposedTwoAreasChart";
 import { ComposedTwoYAxisChart } from "../component/ComposedTwoYAxisChart";
+import { Map } from "../component/Map";
 import { SimpleStatsTable } from "../component/SimpleStatsTable";
 import { StreamHealthTable } from "../component/StreamHealthTable";
+
 
 export function Analytics() {
 
@@ -14,7 +16,7 @@ export function Analytics() {
 	}
 	// style to be changed later, css help please
 	return (
-		<Container style={{ backgroundColor: '#3443eb' }}>
+		<Container >
 			<Stack direction='column' spacing={4}>
 				<Stack direction='row' spacing={2}>
 					<Paper style={{ width: 650 }}>
@@ -50,9 +52,7 @@ export function Analytics() {
 				</Stack>
 
 				{/* Map */}
-				<Container style={{ backgroundColor: '#3fab12', minHeight: 400 }}>
-					<p> MAP </p>
-				</Container>
+				<Map />
 
 				{/* card stuff */}
 				<Container style={{ backgroundColor: '#3fab12', minHeight: 400 }}>
