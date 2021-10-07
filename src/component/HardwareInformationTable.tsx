@@ -7,22 +7,22 @@ import Paper from "@mui/material/Paper";
 import { Stack } from "@mui/material";
 
 type HardwareInformation = {
-  audioCodec: string,
-  videoCodec: string,
-  videoResolution: string,
-  avgBitrate: number,
-  avgFramerate: number,
-  avgAudioBitrate: number,
-  AVCLevel: number,
-  keyframeInterval: number,
+  audioCodec: string;
+  videoCodec: string;
+  videoResolution: string;
+  avgBitrate: number;
+  avgFramerate: number;
+  avgAudioBitrate: number;
+  AVCLevel: number;
+  keyframeInterval: number;
 };
 
 function HardwareInformationStack({
   title,
   value,
 }: {
-  title: string,
-  value: string,
+  title: string;
+  value: string;
 }) {
   return (
     <Stack direction="column">
@@ -35,7 +35,7 @@ function HardwareInformationStack({
 export function HardwareInformationTable({
   hardwareInfo,
 }: {
-  hardwareInfo: HardwareInformation,
+  hardwareInfo: HardwareInformation;
 }) {
   return (
     <TableContainer component={Paper}>
