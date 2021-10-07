@@ -1,12 +1,12 @@
 import { Container, Box, Button, Grid, TextField } from "@mui/material";
 import { Link } from "react-router-dom";
-import  Logo from './Logo';
+import Logo from "./Logo";
 export function Login() {
   return (
     <Container>
-      <Logo/>
+      <Logo />
       <p> Stream Dashboard by Muxable </p>
-      <Grid container spacing={3} direction='column' alignContent='center'>
+      <Grid container spacing={3} direction="column" alignContent="center">
         <Grid item>
           <Box width={350}>
             <TextField
@@ -32,22 +32,30 @@ export function Login() {
         </Grid>
         <Grid item>
           <Box width={350}>
-            <Button fullWidth size='medium' variant="outlined"> Login </Button>
+            <Button fullWidth size="medium" variant="outlined">
+              {" "}
+              Login{" "}
+            </Button>
           </Box>
         </Grid>
-        <Grid item textAlign='left'>
+        <Grid item textAlign="left">
           <Box width={350}>
-            <Button fullWidth size='medium' variant="outlined"> Forgot password? </Button>
+            <Button fullWidth size="medium" variant="outlined">
+              {" "}
+              Forgot password?{" "}
+            </Button>
           </Box>
         </Grid>
         <Grid item>
-          <Box width={350} textAlign='left'>
-            <text> Don't have an account?
+          <Box width={350} textAlign="left">
+            <text>
+              {" "}
+              Don't have an account?
               <Link to="/sign-up"> Sign up </Link>
             </text>
           </Box>
         </Grid>
       </Grid>
-    </Container >
-  )
+    </Container>
+  );
 }

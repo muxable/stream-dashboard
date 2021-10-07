@@ -1,15 +1,11 @@
-import React from 'react';
-import './App.css';
-import { Login } from './component/Login';
-import { SignUp } from './component/SignUp';
+import React from "react";
+import "./App.css";
+import { Login } from "./component/Login";
+import { SignUp } from "./component/SignUp";
 
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-} from "react-router-dom";
-import DataGridDemo from './component/TableView';
-import { Analytics } from './screens/Analytics';
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import DataGridDemo from "./component/TableView";
+import { Analytics } from "./screens/Analytics";
 
 function App() {
   return (
