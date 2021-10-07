@@ -7,36 +7,34 @@ import { Map } from "../component/Map";
 import { SimpleStatsTable } from "../component/SimpleStatsTable";
 import { StreamHealthTable } from "../component/StreamHealthTable";
 
-
 export function Analytics() {
+  const [value, setValue] = useState(0);
 
-	const [value, setValue] = useState(0)
-
-	const handleChange = (event: any, newValue: number) => {
-		setValue(newValue)
-	}
-	// style to be changed later, css help please
-	return (
-		<Container >
-			<Stack direction='column' spacing={4}>
-				<Stack direction='row' spacing={2}>
-					<Paper style={{ width: 650 }}>
-						<Tabs
-							value={value}
-							onChange={handleChange}
-							variant="scrollable"
-							scrollButtons="auto"
-						// style={{ marginBottom: 20, marginTop: 20, background: '#a2fb1b' }}
-						>
-							<Tab label="bitrate/fps" style={{ marginRight: 12 }} />
-							<Tab label="modem one bandwidth" style={{ marginRight: 12 }} />
-							<Tab label="modem Two bandwidth" style={{ marginRight: 12 }} />
-							<Tab label="modem Three bandwidth" style={{ marginRight: 12 }} />
-						</Tabs>
-						{value === 0 && <ComposedTwoYAxisChart />}
-						{value === 1 && <ComposedTwoAreasChart />}
-						{value === 2 && <ComposedTwoAreasChart />}
-						{value === 3 && <ComposedTwoAreasChart />}
+  const handleChange = (event: any, newValue: number) => {
+    setValue(newValue);
+  };
+  // style to be changed later, css help please
+  return (
+    <Container>
+      <Stack direction="column" spacing={4}>
+        <Stack direction="row" spacing={2}>
+          <Paper style={{ width: 650 }}>
+            <Tabs
+              value={value}
+              onChange={handleChange}
+              variant="scrollable"
+              scrollButtons="auto"
+              // style={{ marginBottom: 20, marginTop: 20, background: '#a2fb1b' }}
+            >
+              <Tab label="bitrate/fps" style={{ marginRight: 12 }} />
+              <Tab label="modem one bandwidth" style={{ marginRight: 12 }} />
+              <Tab label="modem Two bandwidth" style={{ marginRight: 12 }} />
+              <Tab label="modem Three bandwidth" style={{ marginRight: 12 }} />
+            </Tabs>
+            {value === 0 && <ComposedTwoYAxisChart />}
+            {value === 1 && <ComposedTwoAreasChart />}
+            {value === 2 && <ComposedTwoAreasChart />}
+            {value === 3 && <ComposedTwoAreasChart />}
 
 						{/* mock data */}
 						<SimpleStatsTable rows={
@@ -51,8 +49,8 @@ export function Analytics() {
 					</Paper>
 				</Stack>
 
-				{/* Map */}
-				<Map />
+        {/* Map */}
+        <Map />
 
 				{/* Additional Information */}
 				<HardwareInformationTable
