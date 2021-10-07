@@ -37,12 +37,12 @@ export function Analytics() {
 						{value === 3 && <ComposedTwoAreasChart />}
 
 						{/* mock data */}
-						<SimpleStatsTable rows={
-							[
-								{ name: 'bitrate', min: 2, max: 3, avg: 4, mode: 5 },
-								{ name: 'fps', min: 1, max: 2, avg: 3, mode: 4 },
-							]
-						}></SimpleStatsTable>
+						<SimpleStatsTable
+							rows={[
+								{ name: "bitrate", min: 2, max: 3, avg: 4, mode: 5 },
+								{ name: "fps", min: 1, max: 2, avg: 3, mode: 4 },
+							]}
+						></SimpleStatsTable>
 					</Paper>
 					<Paper>
 						<StreamHealthTable />
@@ -62,10 +62,10 @@ export function Analytics() {
 						avgFramerate: 60,
 						avgAudioBitrate: 3000,
 						AVCLevel: 42,
-						keyframeInterval: 2
+						keyframeInterval: 2,
 					}}
 				/>
-			</Stack >
-		</Container >
-	)
+			</Stack>
+		</Container>
+	);
 }
