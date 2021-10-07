@@ -9,7 +9,7 @@ on:
       - main
 
 jobs:
-  run-linters:
+  lint:
     name: Run linters
     runs-on: ubuntu-latest
 
@@ -25,8 +25,8 @@ jobs:
       - name: Install Node.js dependencies
         run: npm ci
 
-      - name: Run linters
-        uses: wearerequired/lint-action@v1
-        with:
-          eslint: true
-          prettier: true
+      - name: Run prettier
+        run: npx prettier --check src
+
+      - name: Run eslint
+        run: npx eslint src
