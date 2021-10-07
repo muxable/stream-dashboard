@@ -2,6 +2,7 @@ import { Container, Paper, Tab, Tabs, Stack } from "@mui/material";
 import { useState } from "react";
 import { ComposedTwoAreasChart } from "../component/ComposedTwoAreasChart";
 import { ComposedTwoYAxisChart } from "../component/ComposedTwoYAxisChart";
+import { HardwareInformationTable } from "../component/HardwareInformationTable";
 import { Map } from "../component/Map";
 import { SimpleStatsTable } from "../component/SimpleStatsTable";
 import { StreamHealthTable } from "../component/StreamHealthTable";
@@ -47,17 +48,25 @@ export function Analytics() {
 					</Paper>
 					<Paper>
 						<StreamHealthTable />
-						{/* <p> hardware info/stuff or another table view stufffffffff </p> */}
 					</Paper>
 				</Stack>
 
 				{/* Map */}
 				<Map />
 
-				{/* card stuff */}
-				<Container style={{ backgroundColor: '#3fab12', minHeight: 400 }}>
-					<p> Card Stuff </p>
-				</Container>
+				{/* Additional Information */}
+				<HardwareInformationTable
+					hardwareInfo={{
+						audioCodec: "mp4a.40.2",
+						videoCodec: "av1.64002A",
+						videoResolution: "1920 x 1080",
+						avgBitrate: 3912,
+						avgFramerate: 60,
+						avgAudioBitrate: 3000,
+						AVCLevel: 42,
+						keyframeInterval: 2
+					}}
+				/>
 			</Stack >
 		</Container >
 	)
