@@ -6,9 +6,9 @@ export function Login() {
   return (
     
     <Container>
-      <Logo/>
+      <Logo />
       <p> Stream Dashboard by Muxable </p>
-      <Grid container spacing={3} direction='column' alignContent='center'>
+      <Grid container spacing={3} direction="column" alignContent="center">
         <Grid item>
           <Box width={350}>
             <TextField
@@ -34,23 +34,30 @@ export function Login() {
         </Grid>
         <Grid item>
           <Box width={350}>
-            <Button fullWidth size='medium' variant="outlined"> Login </Button>
+            <Button fullWidth size="medium" variant="outlined">
+              {" "}
+              Login{" "}
+            </Button>
           </Box>
         </Grid>
-        <Grid item textAlign='left'>
+        <Grid item textAlign="left">
           <Box width={350}>
-            <Button fullWidth size='medium' variant="outlined"> Forgot password? </Button>
+            <Button fullWidth size="medium" variant="outlined">
+              {" "}
+              Forgot password?{" "}
+            </Button>
           </Box>
         </Grid>
         <Grid item>
           <Box width={350} textAlign='left'>
-            <Typography variant="subtitle1"> Don't have an account?
+            <Typography variant="subtitle1">
+              {" "}
+              Don't have an account?
               <Link to="/sign-up" style={{textDecoration: 'none'}}> Sign up </Link>
             </Typography>
           </Box>
         </Grid>
       </Grid>
     </Container >
-
   )
 }
