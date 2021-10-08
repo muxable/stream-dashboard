@@ -27,7 +27,7 @@ function HardwareInformationStack({
   return (
     <Stack direction="column">
       <h3> {title} </h3>
-      <text> {value} </text>
+      {value}
     </Stack>
   );
 }
