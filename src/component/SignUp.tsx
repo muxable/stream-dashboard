@@ -1,13 +1,13 @@
 import { Container, Box, Button, Grid, TextField } from "@mui/material";
 import { Link } from "react-router-dom";
-import  Logo from './Logo';
+import Logo from "./Logo";
 
 export function SignUp() {
   return (
     <Container>
-      <Logo/>
+      <Logo />
       <p> Stream Dashboard by Muxable </p>
-      <Grid container spacing={3} direction='column' alignContent='center'>
+      <Grid container spacing={3} direction="column" alignContent="center">
         <Grid item>
           <Box width={350}>
             <TextField
@@ -45,17 +45,22 @@ export function SignUp() {
         </Grid>
         <Grid item>
           <Box width={350}>
-            <Button fullWidth size='medium' variant="outlined"> Create Account </Button>
+            <Button fullWidth size="medium" variant="outlined">
+              {" "}
+              Create Account{" "}
+            </Button>
           </Box>
         </Grid>
         <Grid item>
-          <Box width={350} textAlign='left'>
-            <p> Have an account?
+          <Box width={350} textAlign="left">
+            <p>
+              {" "}
+              Have an account?
               <Link to="/login"> Login </Link>
             </p>
           </Box>
         </Grid>
       </Grid>
-    </Container >
-  )
+    </Container>
+  );
 }
