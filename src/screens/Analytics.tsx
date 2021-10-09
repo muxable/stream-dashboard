@@ -5,6 +5,7 @@ import { ComposedTwoYAxisChart } from "../component/ComposedTwoYAxisChart";
 import { HardwareInformationTable } from "../component/HardwareInformationTable";
 import { Map } from "../component/Map";
 import { SimpleStatsTable } from "../component/SimpleStatsTable";
+import { StackAreasChart } from "../component/StackAreasChart";
 import { StreamHealthTable } from "../component/StreamHealthTable";
 
 export function Analytics() {
@@ -24,17 +25,21 @@ export function Analytics() {
               onChange={handleChange}
               variant="scrollable"
               scrollButtons="auto"
-              // style={{ marginBottom: 20, marginTop: 20, background: '#a2fb1b' }}
+            // style={{ marginBottom: 20, marginTop: 20, background: '#a2fb1b' }}
             >
               <Tab label="bitrate/fps" style={{ marginRight: 12 }} />
               <Tab label="modem one bandwidth" style={{ marginRight: 12 }} />
               <Tab label="modem Two bandwidth" style={{ marginRight: 12 }} />
               <Tab label="modem Three bandwidth" style={{ marginRight: 12 }} />
+              <Tab label="Aggregate upstream" style={{ marginRight: 12 }} />
+              <Tab label="Aggregate downstream" style={{ marginRight: 12 }} />
             </Tabs>
             {value === 0 && <ComposedTwoYAxisChart />}
             {value === 1 && <ComposedTwoAreasChart />}
             {value === 2 && <ComposedTwoAreasChart />}
             {value === 3 && <ComposedTwoAreasChart />}
+            {value === 4 && <StackAreasChart />}
+            {value === 5 && <StackAreasChart />}
 
             {/* mock data */}
             <SimpleStatsTable
