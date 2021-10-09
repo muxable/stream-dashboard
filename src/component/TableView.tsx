@@ -1,64 +1,64 @@
-import { DataGrid, GridColDef } from '@mui/x-data-grid';
-import { IconButton } from '@mui/material';
-import Tooltip from '@mui/material/Tooltip';
-import AnalyticsIcon from '@mui/icons-material/Analytics';
-import Navbar from './Navbar';
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { IconButton } from "@mui/material";
+import Tooltip from "@mui/material/Tooltip";
+import AnalyticsIcon from "@mui/icons-material/Analytics";
+import Navbar from "./Navbar";
 
 const columns: GridColDef[] = [
-	{ field: 'id', headerName: 'ID', width: 100, },
-	{
-		field: 'duration',
-		headerName: 'Duration',
-		width: 130,
-	},
-	{
-		field: 'startDate',
-		headerName: 'Start Date',
-		width: 130,
-	},
-	{
-		field: 'endDate',
-		headerName: 'End Date',
-		width: 130,
-	},
-	{
-		field: 'modemCount',
-		headerName: 'Modem Count',
-		width: 100,
-	},
-	{
-		field: 'unstableEvents',
-		headerName: 'Unstable Events',
-		width: 100,
-	},
-	{
-		field: 'server',
-		headerName: 'Server',
-		width: 130,
-		hideSortIcons: true,
-	},
-	{
-		field: 'location',
-		headerName: 'Location',
-		width: 130,
-	},
-	{
-		field: 'action',
-		headerName: 'Action',
-		width: 100,
-		hideSortIcons: true,
-		sortable: false,
-		filterable: false,
-		renderCell: (params) => {
-			return (
-				<Tooltip title="Learn more" placement="right">
-					<IconButton>
-						<AnalyticsIcon />
-					</IconButton>
-				</Tooltip>
-			);
-		}
-	},
+  { field: "id", headerName: "ID", width: 100 },
+  {
+    field: "duration",
+    headerName: "Duration",
+    width: 130,
+  },
+  {
+    field: "startDate",
+    headerName: "Start Date",
+    width: 130,
+  },
+  {
+    field: "endDate",
+    headerName: "End Date",
+    width: 130,
+  },
+  {
+    field: "modemCount",
+    headerName: "Modem Count",
+    width: 100,
+  },
+  {
+    field: "unstableEvents",
+    headerName: "Unstable Events",
+    width: 100,
+  },
+  {
+    field: "server",
+    headerName: "Server",
+    width: 130,
+    hideSortIcons: true,
+  },
+  {
+    field: "location",
+    headerName: "Location",
+    width: 130,
+  },
+  {
+    field: "action",
+    headerName: "Action",
+    width: 100,
+    hideSortIcons: true,
+    sortable: false,
+    filterable: false,
+    renderCell: (params) => {
+      return (
+        <Tooltip title="Learn more" placement="right">
+          <IconButton>
+            <AnalyticsIcon />
+          </IconButton>
+        </Tooltip>
+      );
+    },
+  },
 ];
 
 const rows = [
@@ -155,21 +155,20 @@ const rows = [
 ];
 
 export default function DataGridDemo() {
-	return (
-		<>
-		<Navbar />
+  return (
+    <>
+      <Navbar />
 
-		<div style={{ height: 400, width: '1100px' }}>
-			<DataGrid
-				rows={rows}
-				columns={columns}
-				pageSize={5}
-				rowsPerPageOptions={[5]}
-				checkboxSelection
-				disableSelectionOnClick
-			/>
-		</div>
-
-		</>
-	);
+      <div style={{ height: 400, width: "1100px" }}>
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          pageSize={5}
+          rowsPerPageOptions={[5]}
+          checkboxSelection
+          disableSelectionOnClick
+        />
+      </div>
+    </>
+  );
 }

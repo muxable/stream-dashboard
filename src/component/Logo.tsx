@@ -1,7 +1,7 @@
-import logo from '../assets/muxlogoR.png'
+import logo from "../assets/muxlogoR.png";
 
 const Logo = () => {
-  return <img src={logo} alt="muxLogo"/>
+  return <img src={logo} alt="muxLogo" />;
 };
 
-export default Logo
+export default Logo;
