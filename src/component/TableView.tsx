@@ -1,6 +1,8 @@
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { IconButton } from "@mui/material";
+import Tooltip from "@mui/material/Tooltip";
 import AnalyticsIcon from "@mui/icons-material/Analytics";
+import Navbar from "./Navbar";
 
 const columns: GridColDef[] = [
   { field: "id", headerName: "ID", width: 100 },
@@ -49,9 +51,11 @@ const columns: GridColDef[] = [
     filterable: false,
     renderCell: (params) => {
       return (
-        <IconButton>
-          <AnalyticsIcon />
-        </IconButton>
+        <Tooltip title="Learn more" placement="right">
+          <IconButton>
+            <AnalyticsIcon />
+          </IconButton>
+        </Tooltip>
       );
     },
   },
@@ -152,15 +156,19 @@ const rows = [
 
 export default function DataGridDemo() {
   return (
-    <div style={{ height: 400, width: "1100px" }}>
-      <DataGrid
-        rows={rows}
-        columns={columns}
-        pageSize={5}
-        rowsPerPageOptions={[5]}
-        checkboxSelection
-        disableSelectionOnClick
-      />
-    </div>
+    <>
+      <Navbar />
+
+      <div style={{ height: 400, width: "1100px" }}>
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          pageSize={5}
+          rowsPerPageOptions={[5]}
+          checkboxSelection
+          disableSelectionOnClick
+        />
+      </div>
+    </>
   );
 }

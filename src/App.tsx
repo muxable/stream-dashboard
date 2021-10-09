@@ -23,7 +23,8 @@ function App() {
               <Analytics />
             </Route>
             <Route path="/">
-              <p> Stream Dashboard by Muxable </p>
+              {/* "Your past streams" could be replaced with {regular or twitch username}'s past streams */}
+              <p>Your past streams</p>
               <DataGridDemo />
             </Route>
           </Switch>

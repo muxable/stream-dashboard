@@ -1,4 +1,11 @@
-import { Container, Box, Button, Grid, TextField } from "@mui/material";
+import {
+  Typography,
+  Container,
+  Box,
+  Button,
+  Grid,
+  TextField,
+} from "@mui/material";
 import { Link } from "react-router-dom";
 import Logo from "./Logo";
 
@@ -53,11 +60,14 @@ export function SignUp() {
         </Grid>
         <Grid item>
           <Box width={350} textAlign="left">
-            <p>
+            <Typography variant="subtitle1">
               {" "}
               Have an account?
-              <Link to="/login"> Login </Link>
-            </p>
+              <Link to="/login" style={{ textDecoration: "none" }}>
+                {" "}
+                Login{" "}
+              </Link>
+            </Typography>
           </Box>
         </Grid>
       </Grid>
