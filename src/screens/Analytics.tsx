@@ -25,7 +25,7 @@ export function Analytics() {
               onChange={handleChange}
               variant="scrollable"
               scrollButtons="auto"
-            // style={{ marginBottom: 20, marginTop: 20, background: '#a2fb1b' }}
+              // style={{ marginBottom: 20, marginTop: 20, background: '#a2fb1b' }}
             >
               <Tab label="bitrate/fps" style={{ marginRight: 12 }} />
               <Tab label="modem one bandwidth" style={{ marginRight: 12 }} />
