@@ -7,8 +7,8 @@ import { getAuth, createUserWithEmailAndPassword, UserCredential } from "firebas
 
 type User = FirebaseAuthUser | null;
 interface ValuesProps{
-  currentUser: Partial<User>,
-  signup: Promise<void>
+  currentUser: User,
+  signup: (email: string, password: string) => Promise<UserCredential>
 }
 
 export const AuthContext = React.createContext<FirebaseAuthUser | null>(null);
@@ -21,21 +21,11 @@ export function AuthProvider({ children }: React.PropsWithChildren<{}>) {
   const [currentUser, setCurrentUser] = useState<User>(null);
 
   async function signup(email:string,password:string):Promise<UserCredential>{
-    // return auth.createUserWithEmailAndPassword(email,password)
     const signupAuth = getAuth();
     const signupAccount = await createUserWithEmailAndPassword(signupAuth, email, password)
 
     return signupAccount
   }
-  //   // try{
-  //   // const signupAuth = getAuth();
-  //   // return createUserWithEmailAndPassword(signupAuth, email, password)
-  //   // }
-  //   // catch(error){
-  //   //   console.error(error)
-  //   // }
-  // }
-
 
   auth.onAuthStateChanged((user) => {
     setCurrentUser(user);
@@ -46,7 +36,6 @@ export function AuthProvider({ children }: React.PropsWithChildren<{}>) {
       setCurrentUser(firebaseUser);
     });
     return unsubcribe;
-    // auth.onAuthStateChanged(setCurrentUser)
   }, []);
 
   const values:ValuesProps = {
