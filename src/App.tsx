@@ -15,7 +15,7 @@ function App() {
         <AuthProvider>
           <Router>
             <Switch>
-              <Route path="/sign-up">
+              <Route path="/signup">
                 <SignUp />
               </Route>
               <Route path="/login">
