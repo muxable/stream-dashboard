@@ -9,29 +9,33 @@ import {
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import Logo from "./Logo";
-import React, {useState, useRef} from "react";
+import React, { useState, useRef } from "react";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
 export function SignUp() {
-  const [error, setError] = useState<string>("")
+  const [error, setError] = useState<string>("");
   // const [loading, setLoading] = useState<boolean>(false)
-  const emailRef = useRef<HTMLInputElement|null>(null)
-  const passwordRef = useRef<HTMLInputElement|null>(null)
-  const passwordConfirmRef = useRef<HTMLInputElement|null>(null)
+  const emailRef = useRef<HTMLInputElement | null>(null);
+  const passwordRef = useRef<HTMLInputElement | null>(null);
+  const passwordConfirmRef = useRef<HTMLInputElement | null>(null);
 
-  const signup = async (event:any) =>{
-    event.preventDefault()
+  const signup = async (event: any) => {
+    event.preventDefault();
     const signupAuth = getAuth();
 
-    if (passwordRef?.current?.value !== passwordConfirmRef?.current?.value){
-      setError("Password doesn't match")
-      console.log("password no match")
+    if (passwordRef?.current?.value !== passwordConfirmRef?.current?.value) {
+      setError("Password doesn't match");
+      console.log("password no match");
     }
 
-    try{
-      await createUserWithEmailAndPassword(signupAuth, emailRef.current!.value, passwordRef.current!.value)
+    try {
+      await createUserWithEmailAndPassword(
+        signupAuth,
+        emailRef.current!.value,
+        passwordRef.current!.value
+      );
       // .then((userCredential) => {
-      //   // Signed in 
+      //   // Signed in
       //   const user = userCredential.user;
       //   console.log(user)
       // })
@@ -40,13 +44,11 @@ export function SignUp() {
       //   const errorMessage = error.message;
       //   console.log('errorcode', errorCode, errorMessage)
       // });
-    }
-    catch (error){
+    } catch (error) {
       // setError(error)
-      console.error(error)
+      console.error(error);
     }
-  }
-
+  };
 
   return (
     <Container>
@@ -54,52 +56,52 @@ export function SignUp() {
       <p> Stream Dashboard by Muxable </p>
       <Grid container spacing={3} direction="column" alignContent="center">
         {error && <Alert severity="error">{error}</Alert>}
-          <Grid item>
-            <Box width={350}>
-              <TextField
-                fullWidth
-                label="Email"
-                name="email"
-                size="small"
-                variant="standard"
-                inputRef={emailRef}
-              />
-            </Box>
-          </Grid>
-          <Grid item>
-            <Box width={350}>
-              <TextField
-                fullWidth
-                label="Password"
-                name="password"
-                size="small"
-                type="password"
-                variant="standard"
-                inputRef={passwordRef}
-              />
-            </Box>
-          </Grid>
-          <Grid item>
-            <Box width={350}>
-              <TextField
-                fullWidth
-                label="Confirm password"
-                name="Confirm password"
-                size="small"
-                type="password"
-                variant="standard"
-                inputRef={passwordConfirmRef}
-              />
-            </Box>
-          </Grid>
-          <Grid item>
-            <Box width={350}>
-              <Button fullWidth size="medium" variant="outlined" onClick={signup}>
-                {" "}
-                Create Account{" "}
-              </Button>
-            </Box>
-          </Grid>
+        <Grid item>
+          <Box width={350}>
+            <TextField
+              fullWidth
+              label="Email"
+              name="email"
+              size="small"
+              variant="standard"
+              inputRef={emailRef}
+            />
+          </Box>
+        </Grid>
+        <Grid item>
+          <Box width={350}>
+            <TextField
+              fullWidth
+              label="Password"
+              name="password"
+              size="small"
+              type="password"
+              variant="standard"
+              inputRef={passwordRef}
+            />
+          </Box>
+        </Grid>
+        <Grid item>
+          <Box width={350}>
+            <TextField
+              fullWidth
+              label="Confirm password"
+              name="Confirm password"
+              size="small"
+              type="password"
+              variant="standard"
+              inputRef={passwordConfirmRef}
+            />
+          </Box>
+        </Grid>
+        <Grid item>
+          <Box width={350}>
+            <Button fullWidth size="medium" variant="outlined" onClick={signup}>
+              {" "}
+              Create Account{" "}
+            </Button>
+          </Box>
+        </Grid>
         <Grid item>
           <Box width={350} textAlign="left">
             <Typography variant="subtitle1">

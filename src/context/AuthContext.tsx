@@ -4,7 +4,6 @@ import { auth } from "../firebaseSetup";
 import { User as FirebaseAuthUser } from "firebase/auth";
 // import { getAuth, createUserWithEmailAndPassword, UserCredential } from "firebase/auth";
 
-
 type User = FirebaseAuthUser | null;
 
 export const AuthContext = createContext<FirebaseAuthUser | null>(null);
