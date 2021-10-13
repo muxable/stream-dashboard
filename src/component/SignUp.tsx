@@ -1,20 +1,62 @@
 import {
-  Typography,
-  Container,
+  Alert,
   Box,
   Button,
+  Container,
   Grid,
   TextField,
+  Typography,
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import Logo from "./Logo";
+import React, { useState, useRef } from "react";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
 export function SignUp() {
+  const [error, setError] = useState<string>("");
+  // const [loading, setLoading] = useState<boolean>(false)
+  const emailRef = useRef<HTMLInputElement | null>(null);
+  const passwordRef = useRef<HTMLInputElement | null>(null);
+  const passwordConfirmRef = useRef<HTMLInputElement | null>(null);
+
+  const signup = async (event: any) => {
+    event.preventDefault();
+    const signupAuth = getAuth();
+
+    if (passwordRef?.current?.value !== passwordConfirmRef?.current?.value) {
+      setError("Password doesn't match");
+      console.log("password no match");
+    }
+
+    try {
+      await createUserWithEmailAndPassword(
+        signupAuth,
+        emailRef.current!.value,
+        passwordRef.current!.value
+      );
+      // TODO: Check to see if we need to promise chain scenarios
+      // .then((userCredential) => {
+      //   // Signed in
+      //   const user = userCredential.user;
+      //   console.log(user)
+      // })
+      // .catch((error) => {
+      //   const errorCode = error.code;
+      //   const errorMessage = error.message;
+      //   console.log('errorcode', errorCode, errorMessage)
+      // });
+    } catch (error) {
+      // setError(error)
+      console.error(error);
+    }
+  };
+
   return (
     <Container>
       <Logo />
       <p> Stream Dashboard by Muxable </p>
       <Grid container spacing={3} direction="column" alignContent="center">
+        {error && <Alert severity="error">{error}</Alert>}
         <Grid item>
           <Box width={350}>
             <TextField
@@ -23,6 +65,7 @@ export function SignUp() {
               name="email"
               size="small"
               variant="standard"
+              inputRef={emailRef}
             />
           </Box>
         </Grid>
@@ -35,6 +78,7 @@ export function SignUp() {
               size="small"
               type="password"
               variant="standard"
+              inputRef={passwordRef}
             />
           </Box>
         </Grid>
@@ -47,12 +91,13 @@ export function SignUp() {
               size="small"
               type="password"
               variant="standard"
+              inputRef={passwordConfirmRef}
             />
           </Box>
         </Grid>
         <Grid item>
           <Box width={350}>
-            <Button fullWidth size="medium" variant="outlined">
+            <Button fullWidth size="medium" variant="outlined" onClick={signup}>
               {" "}
               Create Account{" "}
             </Button>
