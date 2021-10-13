@@ -1,4 +1,3 @@
-import { initializeApp } from "firebase/app";
 import { StreamDatapointModel } from "../models/stream_datepoint";
 import {
   getFirestore,
@@ -8,21 +7,6 @@ import {
   getDocs,
   orderBy,
 } from "@firebase/firestore";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyDZ7_3bd2CYP2FjWvxCNsNo8o4wy8V6F7Y",
-  authDomain: "mediatunnel-325914.firebaseapp.com",
-  databaseURL: "https://mediatunnel-325914-default-rtdb.firebaseio.com",
-  projectId: "mediatunnel-325914",
-  storageBucket: "mediatunnel-325914.appspot.com",
-  messagingSenderId: "756529949727",
-  appId: "1:756529949727:web:b180c3ddebaa46c52e792a",
-  measurementId: "G-MLWZFWT6D9",
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-export default app;
 
 const db = getFirestore();
 
