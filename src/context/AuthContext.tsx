@@ -1,8 +1,6 @@
 import React, { useContext, useState, useEffect, createContext } from "react";
-// import firebase from "firebase/app";
 import { auth } from "../firebaseSetup";
 import { User as FirebaseAuthUser } from "firebase/auth";
-// import { getAuth, createUserWithEmailAndPassword, UserCredential } from "firebase/auth";
 
 type User = FirebaseAuthUser | null;
 
@@ -16,12 +14,11 @@ export function AuthProvider({ children }: React.PropsWithChildren<{}>) {
   const [currentUser, setCurrentUser] = useState<User>(null);
 
   useEffect(() => {
-    const unsubcribe = auth.onAuthStateChanged((firebaseUser) => {
-      setCurrentUser(firebaseUser);
-    });
-    return unsubcribe;
+    // Observer to check if user is changed/validated
+    auth.onAuthStateChanged(setCurrentUser);
   }, []);
 
+  // Use context to track what is our user in app
   return (
     <AuthContext.Provider value={currentUser}>{children}</AuthContext.Provider>
   );

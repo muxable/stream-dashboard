@@ -1,11 +1,11 @@
 import {
   Alert,
-  Typography,
-  Container,
   Box,
   Button,
+  Container,
   Grid,
   TextField,
+  Typography,
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import Logo from "./Logo";
@@ -34,6 +34,7 @@ export function SignUp() {
         emailRef.current!.value,
         passwordRef.current!.value
       );
+      // TODO: Check to see if we need to promise chain scenarios
       // .then((userCredential) => {
       //   // Signed in
       //   const user = userCredential.user;
