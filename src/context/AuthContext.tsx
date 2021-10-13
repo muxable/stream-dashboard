@@ -14,7 +14,8 @@ export function AuthProvider({ children }: React.PropsWithChildren<{}>) {
   const [currentUser, setCurrentUser] = useState<User>(null);
 
   useEffect(() => {
-    // Observer to check if user is changed/validated
+    // Observer to check if user is changed/validated with setCurrentUser callback
+    // Returns unsubscribe object, may need to adjust this logic in future to be more explicit
     auth.onAuthStateChanged(setCurrentUser);
   }, []);
 
