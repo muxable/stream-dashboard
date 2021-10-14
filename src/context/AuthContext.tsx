@@ -1,6 +1,6 @@
-import React, { useContext, useState, useEffect, createContext } from "react";
-import { auth } from "../firebaseSetup";
 import { User as FirebaseAuthUser } from "firebase/auth";
+import React, { createContext, useContext, useEffect, useState } from "react";
+import { auth } from "../firebaseSetup";
 
 type User = FirebaseAuthUser | null;
 

@@ -1,19 +1,27 @@
 import {
-  Typography,
-  Container,
   Box,
   Button,
+  Container,
   Grid,
   TextField,
+  Typography,
 } from "@mui/material";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { Link } from "react-router-dom";
+import { auth } from "../firebaseSetup";
 import Logo from "./Logo";
 
+const provider = new GoogleAuthProvider();
+
 export function Login() {
+  function logInWithGoogle() {
+    signInWithPopup(auth, provider);
+  }
+
   return (
     <Container>
       <Logo />
-      <p> Stream Dashboard by Muxable </p>
+      <p> Stream Dashboard by Muxable</p>
       <Grid container spacing={3} direction="column" alignContent="center">
         <Grid item>
           <Box width={350}>
@@ -46,6 +54,18 @@ export function Login() {
             </Button>
           </Box>
         </Grid>
+        <Grid item>
+          <Box width={350}>
+            <Button
+              fullWidth
+              size="medium"
+              variant="outlined"
+              onClick={logInWithGoogle}
+            >
+              Continue with Google
+            </Button>
+          </Box>
+        </Grid>
         <Grid item textAlign="left">
           <Box width={350}>
             <Button fullWidth size="medium" variant="outlined">
@@ -59,7 +79,7 @@ export function Login() {
             <Typography variant="subtitle1">
               {" "}
               Don't have an account?
-              <Link to="/sign-up" style={{ textDecoration: "none" }}>
+              <Link to="/signup" style={{ textDecoration: "none" }}>
                 {" "}
                 Sign up{" "}
               </Link>
