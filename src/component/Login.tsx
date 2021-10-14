@@ -79,7 +79,7 @@ export function Login() {
             <Typography variant="subtitle1">
               {" "}
               Don't have an account?
-              <Link to="/sign-up" style={{ textDecoration: "none" }}>
+              <Link to="/signup" style={{ textDecoration: "none" }}>
                 {" "}
                 Sign up{" "}
               </Link>
