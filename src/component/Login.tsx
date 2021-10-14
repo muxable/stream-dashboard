@@ -62,7 +62,7 @@ export function Login() {
               variant="outlined"
               onClick={logInWithGoogle}
             >
-              Sign Up with Google
+              Continue with Google
             </Button>
           </Box>
         </Grid>
