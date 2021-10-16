@@ -36,9 +36,7 @@ export function ProfilePage(){
                     <Paper className={classes.paper}> 
 
                     <IconButton disableRipple = {true} >
-                        <Avatar style = {{margin: "1px", width: "100px", height: "100px"}} />
-
-                        
+                        <Avatar style = {{margin: "1px", width: "100px", height: "100px"}} />  
                     </IconButton>
 
                     <br/>
