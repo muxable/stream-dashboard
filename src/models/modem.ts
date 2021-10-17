@@ -1,3 +1,5 @@
+import { DocumentData } from "@firebase/firestore";
+
 export class ModemModel {
   readonly name: string;
   readonly temperature: number;
@@ -35,7 +37,7 @@ export class ModemModel {
     };
   }
 
-  static fromJson(snapshot: any) {
+  static fromJson(snapshot: DocumentData) {
     return new ModemModel(
       snapshot.name,
       snapshot.temperature,

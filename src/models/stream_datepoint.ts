@@ -1,4 +1,5 @@
 import { ModemModel } from "./modem";
+import { DocumentData } from "@firebase/firestore";
 
 export class StreamDatapointModel {
   readonly userId: string;
@@ -45,7 +46,7 @@ export class StreamDatapointModel {
     this.timestamp = timestamp;
   }
 
-  static fromJson(snapshot: any) {
+  static fromJson(snapshot: DocumentData) {
     const modems = snapshot["modems"];
     const modemList = [];
     for (let i = 0; i < modems.length; i++) {
