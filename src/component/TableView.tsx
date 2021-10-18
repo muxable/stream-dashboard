@@ -65,7 +65,6 @@ const columns: GridColDef[] = [
 ];
 
 export function StreamsTableView({ userId }: { userId: string }) {
-
   const [rows, setRows] = useState<
     {
       userId: string;
@@ -78,26 +77,26 @@ export function StreamsTableView({ userId }: { userId: string }) {
       unstableEvents: number;
       startDate: Date;
       endDate: Date;
-    }[]>([]);
+    }[]
+  >([]);
 
   async function loadStreams(userId: string) {
     const streams: StreamModel[] = await filterByUserId(userId);
     const formattedStreams = streams.map((streamModel, index) => {
-      const formattedStartDate = streamModel.startDate.toLocaleString()
-      const formattedEndDate = streamModel.endDate.toLocaleString()
+      const formattedStartDate = streamModel.startDate.toLocaleString();
+      const formattedEndDate = streamModel.endDate.toLocaleString();
       return {
         ...streamModel,
         id: index,
         formattedStartDate: formattedStartDate,
-        formattedEndDate: formattedEndDate
-      }
-    })
-    setRows(formattedStreams)
+        formattedEndDate: formattedEndDate,
+      };
+    });
+    setRows(formattedStreams);
   }
 
   useEffect(() => {
-    loadStreams(userId)
-
+    loadStreams(userId);
   }, []);
 
   return (

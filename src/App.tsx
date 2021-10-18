@@ -27,7 +27,7 @@ function App() {
               <Route path="/">
                 {/* "Your past streams" could be replaced with {regular or twitch username}'s past streams */}
                 <p>Your past streams</p>
-                <StreamsTableView userId='rippyae' />
+                <StreamsTableView userId="rippyae" />
               </Route>
             </Switch>
           </Router>
