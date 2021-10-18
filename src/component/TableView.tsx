@@ -3,6 +3,9 @@ import { IconButton } from "@mui/material";
 import Tooltip from "@mui/material/Tooltip";
 import AnalyticsIcon from "@mui/icons-material/Analytics";
 import Navbar from "./Navbar";
+import { StreamModel } from "../models/stream_sessions";
+import { filterByUserId } from "../adapters/stream_sessions";
+import { useEffect, useState } from "react";
 
 const columns: GridColDef[] = [
   { field: "id", headerName: "ID", width: 100 },
@@ -12,14 +15,14 @@ const columns: GridColDef[] = [
     width: 130,
   },
   {
-    field: "startDate",
+    field: "formattedStartDate",
     headerName: "Start Date",
-    width: 130,
+    width: 200,
   },
   {
-    field: "endDate",
+    field: "formattedEndDate",
     headerName: "End Date",
-    width: 130,
+    width: 200,
   },
   {
     field: "modemCount",
@@ -61,100 +64,42 @@ const columns: GridColDef[] = [
   },
 ];
 
-const rows = [
-  {
-    id: 1,
-    duration: "33",
-    startDate: Date(),
-    endDate: Date(),
-    modemCount: 3,
-    unstableEvents: 4,
-    server: "A",
-    location: "Brooklyn, NY",
-  },
-  {
-    id: 2,
-    duration: "322",
-    startDate: Date(),
-    endDate: Date(),
-    modemCount: 4,
-    unstableEvents: 4,
-    server: "B",
-    location: "Queens, NY",
-  },
-  {
-    id: 3,
-    duration: "33",
-    startDate: Date(),
-    endDate: Date(),
-    modemCount: 1,
-    unstableEvents: 4,
-    server: "C",
-    location: "Brooklyn, NY",
-  },
-  {
-    id: 4,
-    duration: "54",
-    startDate: Date(),
-    endDate: Date(),
-    modemCount: 2,
-    unstableEvents: 4,
-    server: "C",
-    location: "Rochester, NY",
-  },
-  {
-    id: 5,
-    duration: "1234",
-    startDate: Date(),
-    endDate: Date(),
-    modemCount: 1,
-    unstableEvents: 4,
-    server: "A",
-    location: "Stony Brook, NY",
-  },
-  {
-    id: 6,
-    duration: "123",
-    startDate: Date(),
-    endDate: Date(),
-    modemCount: 1,
-    unstableEvents: 4,
-    server: "D",
-    location: "Staten Islands, NY",
-  },
-  {
-    id: 7,
-    duration: "43",
-    startDate: Date(),
-    endDate: Date(),
-    modemCount: 3,
-    unstableEvents: 4,
-    server: "E",
-    location: "Bronx, NY",
-  },
-  {
-    id: 8,
-    duration: "22",
-    startDate: Date(),
-    endDate: Date(),
-    modemCount: 2,
-    unstableEvents: 4,
-    server: "F",
-    location: "Syracuse, NY",
-  },
-  {
-    id: 9,
-    duration: "22",
-    startDate: Date(),
-    endDate: Date(),
-    modemCount: 3,
-    unstableEvents: 4,
-    server: "A",
-    location: "Yonkers, NY",
-  },
-];
+export function StreamsTableView({ userId }: { userId: string }) {
 
-export default function DataGridDemo() {
+  const [rows, setRows] = useState<
+    {
+      userId: string;
+      streamId: string;
+      videoCodec: string;
+      audioCodec: string;
+      videoResolution: string;
+      duration: number;
+      modemCount: number;
+      unstableEvents: number;
+      startDate: Date;
+      endDate: Date;
+    }[]>([]);
+
+  async function loadStreams(userId: string) {
+    const streams: StreamModel[] = await filterByUserId(userId);
+    const formattedStreams = streams.map((streamModel, index) => {
+      const formattedStartDate = streamModel.startDate.toLocaleString()
+      const formattedEndDate = streamModel.endDate.toLocaleString()
+      return {
+        ...streamModel,
+        id: index,
+        formattedStartDate: formattedStartDate,
+        formattedEndDate: formattedEndDate
+      }
+    })
+    setRows(formattedStreams)
+  }
+
+  useEffect(() => {
+    loadStreams(userId)
+
+  }, []);
+
   return (
     <>
       <Navbar />
@@ -165,7 +110,6 @@ export default function DataGridDemo() {
           columns={columns}
           pageSize={5}
           rowsPerPageOptions={[5]}
-          checkboxSelection
           disableSelectionOnClick
         />
       </div>

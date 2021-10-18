@@ -4,7 +4,7 @@ import { Login } from "./component/Login";
 import { SignUp } from "./component/SignUp";
 
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import DataGridDemo from "./component/TableView";
+import { StreamsTableView } from "./component/TableView";
 import { Analytics } from "./screens/Analytics";
 import { AuthProvider } from "./context/AuthContext";
 
@@ -27,7 +27,7 @@ function App() {
               <Route path="/">
                 {/* "Your past streams" could be replaced with {regular or twitch username}'s past streams */}
                 <p>Your past streams</p>
-                <DataGridDemo />
+                <StreamsTableView userId='rippyae' />
               </Route>
             </Switch>
           </Router>
