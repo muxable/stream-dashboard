@@ -1,25 +1,13 @@
-import { DocumentData } from "@firebase/firestore";
+import { DocumentData, QueryDocumentSnapshot } from "@firebase/firestore";
 
 export class ModemModel {
-  readonly name: string;
-  readonly temperature: number;
-  readonly upstreamBandwidth: number;
-  readonly downstreamBandwidth: number;
-  readonly type: string;
-
   constructor(
-    name: string,
-    temperature: number,
-    upstreamBandwidth: number,
-    downstreamBandwidth: number,
-    type: string
-  ) {
-    this.name = name;
-    this.temperature = temperature;
-    this.upstreamBandwidth = upstreamBandwidth;
-    this.downstreamBandwidth = downstreamBandwidth;
-    this.type = type;
-  }
+    readonly name: string,
+    readonly temperature: number,
+    readonly upstreamBandwidth: number,
+    readonly downstreamBandwidth: number,
+    readonly type: string
+  ) {}
 
   toJson(): {
     name: string;
@@ -47,3 +35,20 @@ export class ModemModel {
     );
   }
 }
+
+// not used at the moment
+export const modemModelConverter = {
+  toFirestore(modemModel: ModemModel): DocumentData {
+    return modemModel.toJson();
+  },
+  fromFirestore(snapshot: QueryDocumentSnapshot): ModemModel {
+    const data = snapshot.data()!;
+    return new ModemModel(
+      data.name,
+      data.temperature,
+      data.upstreamBandwidth,
+      data.downstreamBandwidth,
+      data.type
+    );
+  },
+};

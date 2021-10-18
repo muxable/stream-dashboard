@@ -1,4 +1,7 @@
-import { StreamDatapointModel } from "../models/stream_datepoint";
+import {
+  StreamDatapointModel,
+  streamDatapointModelConverter,
+} from "../models/stream_datepoint";
 import {
   getFirestore,
   collection,
@@ -15,25 +18,27 @@ export async function filterByStreamId(streamId: string) {
     collection(db, "streams"),
     where("streamId", "==", streamId),
     orderBy("timestamp")
-  );
+  ).withConverter(streamDatapointModelConverter);
 
   const querySnapshot = await getDocs(q);
   const datapoints: StreamDatapointModel[] = [];
   querySnapshot.forEach((doc) => {
-    datapoints.push(StreamDatapointModel.fromJson(doc.data()));
-    console.log(doc.id, " => ", doc.data());
+    datapoints.push(doc.data());
+    // console.log(doc.id, " => ", doc.data());
   });
   return datapoints;
 }
 
 export async function filterByUserId(userId: string) {
-  const q = query(collection(db, "streams"), where("userId", "==", userId));
+  const q = query(
+    collection(db, "streams"),
+    where("userId", "==", userId)
+  ).withConverter(streamDatapointModelConverter);
 
   const querySnapshot = await getDocs(q);
   const datapoints: StreamDatapointModel[] = [];
   querySnapshot.forEach((doc) => {
-    datapoints.push(StreamDatapointModel.fromJson(doc.data()));
-    console.log(doc.id, " => ", doc.data());
+    datapoints.push(doc.data());
   });
   return datapoints;
 }
