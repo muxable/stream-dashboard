@@ -97,7 +97,7 @@ export function StreamsTableView({ userId }: { userId: string }) {
 
   useEffect(() => {
     loadStreams(userId);
-  }, []);
+  }, [userId]);
 
   return (
     <>
