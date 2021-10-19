@@ -102,7 +102,7 @@ export function Login() {
               variant="outlined"
               onClick={loginSubmit}
             >
-              Login{" "}
+              Login
             </Button>
           </Box>
         </Grid>
@@ -121,19 +121,16 @@ export function Login() {
         <Grid item textAlign="left">
           <Box width={350}>
             <Button fullWidth size="medium" variant="outlined">
-              {" "}
-              Forgot password?{" "}
+              Forgot password?
             </Button>
           </Box>
         </Grid>
         <Grid item>
           <Box width={350} textAlign="left">
             <Typography variant="subtitle1">
-              {" "}
               Don't have an account?
               <Link to="/signup" style={{ textDecoration: "none" }}>
-                {" "}
-                Sign up{" "}
+                Sign up
               </Link>
             </Typography>
           </Box>
