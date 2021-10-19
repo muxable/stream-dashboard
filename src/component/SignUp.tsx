@@ -23,16 +23,22 @@ export function SignUp() {
     event.preventDefault();
     const signupAuth = getAuth();
 
-    if (passwordRef?.current?.value !== passwordConfirmRef?.current?.value) {
+    if (
+      passwordRef.current === null ||
+      emailRef.current === null ||
+      passwordConfirmRef.current === null
+    )
+      return;
+
+    if (passwordRef.current.value !== passwordConfirmRef.current.value) {
       setError("Password doesn't match");
-      console.log("password no match");
     }
 
     try {
       await createUserWithEmailAndPassword(
         signupAuth,
-        emailRef.current!.value,
-        passwordRef.current!.value
+        emailRef.current.value,
+        passwordRef.current.value
       );
       // TODO: Check to see if we need to promise chain scenarios
       // .then((userCredential) => {
@@ -98,19 +104,16 @@ export function SignUp() {
         <Grid item>
           <Box width={350}>
             <Button fullWidth size="medium" variant="outlined" onClick={signup}>
-              {" "}
-              Create Account{" "}
+              Create Account
             </Button>
           </Box>
         </Grid>
         <Grid item>
           <Box width={350} textAlign="left">
             <Typography variant="subtitle1">
-              {" "}
               Have an account?
               <Link to="/login" style={{ textDecoration: "none" }}>
-                {" "}
-                Login{" "}
+                Login
               </Link>
             </Typography>
           </Box>
