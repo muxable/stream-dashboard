@@ -10,7 +10,14 @@ import {
 import { Link } from "react-router-dom";
 import Logo from "./Logo";
 import React, { useState, useRef } from "react";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithPopup,
+} from "firebase/auth";
+
+const provider = new GoogleAuthProvider();
 
 export function SignUp() {
   const [error, setError] = useState<string>("");
@@ -56,6 +63,10 @@ export function SignUp() {
       console.error(error);
     }
   };
+
+  function signInWithGoogle() {
+    signInWithPopup(getAuth(), provider);
+  }
 
   return (
     <Container>
@@ -105,6 +116,18 @@ export function SignUp() {
           <Box width={350}>
             <Button fullWidth size="medium" variant="outlined" onClick={signup}>
               Create Account
+            </Button>
+          </Box>
+        </Grid>
+        <Grid item>
+          <Box width={350}>
+            <Button
+              fullWidth
+              size="medium"
+              variant="outlined"
+              onClick={signInWithGoogle}
+            >
+              Sign up with Google
             </Button>
           </Box>
         </Grid>
