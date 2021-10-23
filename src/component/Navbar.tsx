@@ -1,16 +1,36 @@
 import React from "react";
 import { CssBaseline, AppBar, Toolbar, Typography } from "@material-ui/core";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import Menu from "@material-ui/core/Menu";
-import { MenuList } from "@mui/material";
-import { MenuItem } from "@mui/material";
-import { IconButton } from "@mui/material";
+import { Menu, MenuList, MenuItem, IconButton, Avatar } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import LogoutIcon from "@mui/icons-material/Logout";
+import SettingsIcon from '@mui/icons-material/Settings';
 import Divider from "@mui/material/Divider";
 import Tooltip from "@mui/material/Tooltip";
+import InputBase from '@material-ui/core/InputBase';
+import { makeStyles, alpha } from '@material-ui/core/styles';
+
+const useStyles = makeStyles ( (theme) => ({
+
+  searchBox: {
+    display:"flex",
+    backgroundColor: alpha(theme.palette.common.white, 0.30),
+    marginLeft: "20px",
+  },
+
+  searchField:{
+    width:"200px",
+    border: 5,
+    padding: "18px",
+    fontSize: "12px",
+    height: "20px",
+  },
+
+}));
 
 const Navbar = () => {
+  const classes = useStyles();
+
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const openMenu = (event: any) => {
@@ -29,9 +49,9 @@ const Navbar = () => {
         <Toolbar>
           <Typography variant="overline">Stream Dashboard</Typography>
 
-          <IconButton color="inherit" size="large">
-            <SearchIcon />
-          </IconButton>
+            <div className={classes.searchBox}>
+              <InputBase type="text" placeholder="Search" className={classes.searchField} endAdornment = { <IconButton> <SearchIcon /> </IconButton> } />
+            </div>
 
           {/*Profile icon if ever decided to show a profile page*/}
           <Tooltip title="Your account">
@@ -42,7 +62,7 @@ const Navbar = () => {
               onClick={openMenu}
               aria-controls="iconMenu"
             >
-              <AccountCircleIcon />
+              <Avatar style={{height:'25px', width:'25px'}}/>
             </IconButton>
           </Tooltip>
         </Toolbar>
@@ -53,25 +73,22 @@ const Navbar = () => {
         onClose={closeMenu}
         id="iconMenu"
         anchorEl={anchorEl}
-        style={{ marginTop: "50px" }}
+        style={{ marginTop: "25px" }}
       >
         {/*Menu that pops up when pressing the profile icon*/}
         <MenuList>
-          <MenuItem onClick={closeMenu}>View profile</MenuItem>
+          <MenuItem onClick={closeMenu}>
+            <AccountCircleIcon color = "primary" style={{paddingRight:"2%"}}/> View profile
+            </MenuItem>
+
+          <MenuItem onClick={closeMenu}>
+              <SettingsIcon style={{paddingRight:"2%"}}/> Settings
+          </MenuItem>
 
           <Divider />
 
           <MenuItem onClick={closeMenu}>
-            <IconButton
-              color="info"
-              size="small"
-              disabled={false}
-              disableRipple={true}
-              disableFocusRipple={true}
-            >
-              <LogoutIcon />
-            </IconButton>
-            Logout
+              <LogoutIcon color="primary" style = {{padding:"2%"}}/> Logout
           </MenuItem>
         </MenuList>
       </Menu>
