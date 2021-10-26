@@ -25,7 +25,7 @@ export function SignUp() {
   const emailRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
   const passwordConfirmRef = useRef<HTMLInputElement | null>(null);
-
+// TODO Improve typing
   const signup = async (event: any) => {
     event.preventDefault();
     const signupAuth = getAuth();
@@ -46,26 +46,35 @@ export function SignUp() {
         signupAuth,
         emailRef.current.value,
         passwordRef.current.value
-      );
-      // TODO: Check to see if we need to promise chain scenarios
-      // .then((userCredential) => {
-      //   // Signed in
-      //   const user = userCredential.user;
-      //   console.log(user)
-      // })
-      // .catch((error) => {
-      //   const errorCode = error.code;
-      //   const errorMessage = error.message;
-      //   console.log('errorcode', errorCode, errorMessage)
-      // });
-    } catch (error) {
-      // setError(error)
-      console.error(error);
+      )
+    }
+    // TODO improve typing of error 
+    catch (error: any) {
+      if (error.code === "auth/email-already-in-use")
+        setError("Email already used");
+      if (error.code === "auth/invalid-email")
+        setError("Invalid email provided");
+      if (error.code === "auth/weak-password")
+        setError("Please use a stronger password");
+      if (error.code === "auth/operation-not-allowed")
+        setError("Please ensure email registration is enabled");
     }
   };
 
+  // These are only some of the popup errors handled
   function signInWithGoogle() {
-    signInWithPopup(getAuth(), provider);
+    signInWithPopup(getAuth(), provider).catch((error) => {
+      if (error.code === "auth/popup-closed-by-user")
+        setError("Popup closed by user, try again");
+      if (error.code === "auth/account-exists-with-different-credential")
+        setError("Email already in use");
+      if (error.code === "auth/auth-domain-config-required")
+        setError("Notify admin, domain config required");
+      if (error.code === "auth/cancelled-popup-request")
+        setError("Only one popup request at a time");
+      if (error.code === "auth/operation-not-allowed")
+        setError("Account type cannot use this auth method");
+    });
   }
 
   return (
