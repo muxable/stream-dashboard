@@ -25,7 +25,7 @@ export function SignUp() {
   const emailRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
   const passwordConfirmRef = useRef<HTMLInputElement | null>(null);
-// TODO Improve typing
+  // TODO Improve typing
   const signup = async (event: any) => {
     event.preventDefault();
     const signupAuth = getAuth();
@@ -46,10 +46,9 @@ export function SignUp() {
         signupAuth,
         emailRef.current.value,
         passwordRef.current.value
-      )
-    }
-    // TODO improve typing of error 
-    catch (error: any) {
+      );
+    } catch (error: any) {
+      // TODO improve typing of error
       if (error.code === "auth/email-already-in-use")
         setError("Email already used");
       if (error.code === "auth/invalid-email")
@@ -74,6 +73,7 @@ export function SignUp() {
         setError("Only one popup request at a time");
       if (error.code === "auth/operation-not-allowed")
         setError("Account type cannot use this auth method");
+      if (error.code === "auth/popup-blocked") setError("Popup is blocked");
     });
   }
 

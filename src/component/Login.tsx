@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { Link, useHistory } from "react-router-dom";
-import { auth } from "../firebaseSetup";
+// import { auth } from "../firebaseSetup";
 import Logo from "./Logo";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
@@ -18,7 +18,16 @@ const provider = new GoogleAuthProvider();
 
 export function Login() {
   function logInWithGoogle() {
-    signInWithPopup(auth, provider);
+    // signInWithPopup(auth, provider);
+    signInWithPopup(getAuth(), provider).catch((error) => {
+      if (error.code === "auth/popup-closed-by-user")
+        setError("Popup closed by user, try again");
+      if (error.code === "auth/cancelled-popup-request")
+        setError("Only one popup request at a time");
+      if (error.code === "auth/operation-not-allowed")
+        setError("Account type cannot use this auth method");
+      if (error.code === "auth/popup-blocked") setError("Popup is blocked");
+    });
   }
 
   const [error, setError] = useState<string>("");
@@ -40,13 +49,8 @@ export function Login() {
       return;
     }
 
-    if (!passwordRef.current.value) {
-      setError("Password field is empty");
-      return;
-    }
-
     if (passwordRef.current.value.length < 6) {
-      setError("Password must be at least 6 characters");
+      setError("Please check your password length");
       return;
     }
 
@@ -57,9 +61,15 @@ export function Login() {
         passwordRef.current.value
       );
       history.push("/");
-    } catch (error) {
-      setError("Failed to login.");
-      console.error(error);
+    } catch (error: any) {
+      // TO DO: improve error type
+      if (error.code === "auth/invalid-email")
+        setError("Invalid email provided");
+      if (error.code === "auth/wrong-password") setError("Invalid Password");
+      if (error.code === "auth/too-many-requests")
+        setError("Too many attempts, try later");
+      if (error.code === "auth/internal-error") setError("Internal Error");
+      console.error(error.code);
     }
   };
 
