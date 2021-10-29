@@ -9,19 +9,22 @@ import {
 } from "recharts";
 import { StreamDatapointModel } from "../models/stream_datepoint";
 
-
 function formatData(data: StreamDatapointModel[]) {
   const formatted = data.map((d, index) => {
     return {
       bitrate: d.bitrate,
-      framerate: d.fps
-    }
+      framerate: d.fps,
+    };
   });
-  return formatted
+  return formatted;
 }
 
-export function ComposedTwoYAxisChart({ data }: { data: StreamDatapointModel[] }) {
-  const formattedData: any = formatData(data)
+export function ComposedTwoYAxisChart({
+  data,
+}: {
+  data: StreamDatapointModel[];
+}) {
+  const formattedData: any = formatData(data);
   return (
     <ComposedChart
       width={600}
@@ -51,7 +54,12 @@ export function ComposedTwoYAxisChart({ data }: { data: StreamDatapointModel[] }
       <Brush>
         <ComposedChart>
           <Line yAxisId="left" dot={false} dataKey="bitrate" stroke="#8884d8" />
-          <Line yAxisId="right" dot={false} dataKey="framerate" stroke="#82ca9d" />
+          <Line
+            yAxisId="right"
+            dot={false}
+            dataKey="framerate"
+            stroke="#82ca9d"
+          />
         </ComposedChart>
       </Brush>
     </ComposedChart>

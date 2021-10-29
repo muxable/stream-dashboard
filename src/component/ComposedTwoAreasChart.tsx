@@ -8,14 +8,13 @@ import {
   Legend,
 } from "recharts";
 
-
 type ComposedTwoAreasChartFormat = {
-  xAxisDataKey: string
-  dataKeyOne: string
-  dataKeyTwo: string
-  data: any[]
-  yAxisUnit: string
-}
+  xAxisDataKey: string;
+  dataKeyOne: string;
+  dataKeyTwo: string;
+  data: any[];
+  yAxisUnit: string;
+};
 
 // function getRandomArbitrary(min: number, max: number) {
 //   return Math.ceil(Math.random() * (max - min) + min);
@@ -30,14 +29,12 @@ type ComposedTwoAreasChartFormat = {
 //   data.push(d);
 // }
 
-export function ComposedTwoAreasChart({ format }: { format: ComposedTwoAreasChartFormat }) {
-  const {
-    xAxisDataKey,
-    dataKeyOne,
-    dataKeyTwo,
-    data,
-    yAxisUnit,
-  } = format
+export function ComposedTwoAreasChart({
+  format,
+}: {
+  format: ComposedTwoAreasChartFormat;
+}) {
+  const { xAxisDataKey, dataKeyOne, dataKeyTwo, data, yAxisUnit } = format;
 
   return (
     <ComposedChart
@@ -52,7 +49,9 @@ export function ComposedTwoAreasChart({ format }: { format: ComposedTwoAreasChar
       }}
     >
       <XAxis dataKey="name" tick={false} />
-      <YAxis label={{ value: { yAxisUnit }, angle: -90, position: "insideLeft" }} />
+      <YAxis
+        label={{ value: { yAxisUnit }, angle: -90, position: "insideLeft" }}
+      />
       <Tooltip />
       <Legend />
       <Area dot={false} dataKey={dataKeyOne} fill="#8884d8" stroke="#8884d8" />

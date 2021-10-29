@@ -9,22 +9,17 @@ import {
 } from "recharts";
 
 type StackAreasDataFormat = {
-  xAxisDataKey: string
-  dataKeys: string[]
-  data: any[]
-  yAxisUnit: string
-}
+  xAxisDataKey: string;
+  dataKeys: string[];
+  data: any[];
+  yAxisUnit: string;
+};
 
 const colors = ["#8884d8", "#3474eb", "#34eb77", "#e3406b", "#e3cc66"];
 
 export function StackAreasChart({ format }: { format: StackAreasDataFormat }) {
-  const {
-    xAxisDataKey,
-    dataKeys,
-    data,
-    yAxisUnit,
-  } = format
-  console.log(data)
+  const { xAxisDataKey, dataKeys, data, yAxisUnit } = format;
+  console.log(data);
   return (
     <AreaChart
       width={600}

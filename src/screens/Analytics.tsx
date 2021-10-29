@@ -12,19 +12,18 @@ import { StreamHealthTable } from "../component/StreamHealthTable";
 import { StreamDatapointModel } from "../models/stream_datepoint";
 import { StreamModel } from "../models/stream_sessions";
 
-
 export function Analytics() {
   const [value, setValue] = useState(0);
 
-  const { streamId }: { streamId: string } = useParams()
-  const location = useLocation()
-  const streamModel = location.state as StreamModel
-  const videoCodec = streamModel.videoCodec
-  const audioCodec = streamModel.audioCodec
-  const modemCount = streamModel.modemCount
-  const videoResolution = streamModel.videoResolution
+  const { streamId }: { streamId: string } = useParams();
+  const location = useLocation();
+  const streamModel = location.state as StreamModel;
+  const videoCodec = streamModel.videoCodec;
+  const audioCodec = streamModel.audioCodec;
+  const modemCount = streamModel.modemCount;
+  const videoResolution = streamModel.videoResolution;
 
-  const [streamData, setStreamData] = useState<StreamDatapointModel[]>([])
+  const [streamData, setStreamData] = useState<StreamDatapointModel[]>([]);
   const [displayData, setDisplayData] = useState({
     minBitrate: 0,
     maxBitrate: 0,
@@ -38,8 +37,7 @@ export function Analytics() {
     modemKeys: [""],
     aggregateUpstreamData: [],
     aggregateDownstreamData: [],
-
-  })
+  });
   // const [minBitrate, setMinBitrate] = useState(0)
   // const [maxBitrate, setMaxBitrate] = useState(0)
   // const [avgBitrate, setAvgBitrate] = useState(0)
@@ -58,45 +56,62 @@ export function Analytics() {
 
   useEffect(() => {
     async function loadStreamData(streamId: string) {
+      const streamData: StreamDatapointModel[] = await filterByStreamId(
+        streamId
+      );
+      const modemDatapoints = streamData.map((x) => x.modems);
 
-      const streamData: StreamDatapointModel[] = await filterByStreamId(streamId);
-      const modemDatapoints = streamData.map((x => x.modems))
-
-      const modemKeys = new Set<string>()
-      const aggregateUpstreamData: any = []
-      const aggregateDownstreamData: any = []
+      const modemKeys = new Set<string>();
+      const aggregateUpstreamData: any = [];
+      const aggregateDownstreamData: any = [];
       for (let i = 0; i < modemDatapoints.length; i++) {
-        const modems = modemDatapoints[i]
-        const aggregateDownstreamDatapoint: any = {}
-        const aggregateUpstreamDatapoint: any = {}
+        const modems = modemDatapoints[i];
+        const aggregateDownstreamDatapoint: any = {};
+        const aggregateUpstreamDatapoint: any = {};
         for (let j = 0; j < modems.length; j++) {
           const modem = modems[j];
-          modemKeys.add(`modem-${j}`)
-          aggregateDownstreamDatapoint[`modem-${j}`] = modem.downstreamBandwidth
-          aggregateUpstreamDatapoint[`modem-${j}`] = modem.upstreamBandwidth
-
+          modemKeys.add(`modem-${j}`);
+          aggregateDownstreamDatapoint[`modem-${j}`] =
+            modem.downstreamBandwidth;
+          aggregateUpstreamDatapoint[`modem-${j}`] = modem.upstreamBandwidth;
         }
-        aggregateDownstreamData.push(aggregateDownstreamDatapoint)
-        aggregateUpstreamData.push(aggregateUpstreamDatapoint)
+        aggregateDownstreamData.push(aggregateDownstreamDatapoint);
+        aggregateUpstreamData.push(aggregateUpstreamDatapoint);
       }
 
+      console.log(aggregateDownstreamData);
+      console.log(aggregateUpstreamData);
 
-      console.log(aggregateDownstreamData)
-      console.log(aggregateUpstreamData)
+      const minBitrate: number = streamData.reduce((acc, val) =>
+        acc.bitrate < val.bitrate ? acc : val
+      ).bitrate;
+      const maxBitrate: number = streamData.reduce((acc, val) =>
+        acc.bitrate > val.bitrate ? acc : val
+      ).bitrate;
+      const avgBitrate: number =
+        streamData.reduce((acc, val) => acc + val.bitrate, 0) /
+        streamData.length;
 
-      const minBitrate: number = streamData.reduce((acc, val) => acc.bitrate < val.bitrate ? acc : val).bitrate
-      const maxBitrate: number = streamData.reduce((acc, val) => acc.bitrate > val.bitrate ? acc : val).bitrate
-      const avgBitrate: number = streamData.reduce((acc, val) => acc + val.bitrate, 0) / streamData.length
+      const minFPS: number = streamData.reduce((acc, val) =>
+        acc.fps < val.fps ? acc : val
+      ).fps;
+      const maxFPS: number = streamData.reduce((acc, val) =>
+        acc.fps > val.fps ? acc : val
+      ).fps;
+      const avgFPS: number =
+        streamData.reduce((acc, val) => acc + val.fps, 0) / streamData.length;
 
-      const minFPS: number = streamData.reduce((acc, val) => acc.fps < val.fps ? acc : val).fps
-      const maxFPS: number = streamData.reduce((acc, val) => acc.fps > val.fps ? acc : val).fps
-      const avgFPS: number = streamData.reduce((acc, val) => acc + val.fps, 0) / streamData.length
+      const minAudioBitrate: number = streamData.reduce((acc, val) =>
+        acc.audioBitrate < val.audioBitrate ? acc : val
+      ).audioBitrate;
+      const maxAudioBitrate: number = streamData.reduce((acc, val) =>
+        acc.audioBitrate > val.audioBitrate ? acc : val
+      ).audioBitrate;
+      const avgAudioBitrate: number =
+        streamData.reduce((acc, val) => acc + val.audioBitrate, 0) /
+        streamData.length;
 
-      const minAudioBitrate: number = streamData.reduce((acc, val) => acc.audioBitrate < val.audioBitrate ? acc : val).audioBitrate
-      const maxAudioBitrate: number = streamData.reduce((acc, val) => acc.audioBitrate > val.audioBitrate ? acc : val).audioBitrate
-      const avgAudioBitrate: number = streamData.reduce((acc, val) => acc + val.audioBitrate, 0) / streamData.length
-
-      setStreamData(streamData)
+      setStreamData(streamData);
       setDisplayData({
         minBitrate: minBitrate,
         maxBitrate: maxBitrate,
@@ -114,14 +129,11 @@ export function Analytics() {
 
         aggregateUpstreamData: aggregateUpstreamData,
         aggregateDownstreamData: aggregateDownstreamData,
-      })
-
+      });
     }
 
-    loadStreamData(streamId)
-
-  }, [streamId])
-
+    loadStreamData(streamId);
+  }, [streamId]);
 
   const handleChange = (event: any, newValue: number) => {
     setValue(newValue);
@@ -139,10 +151,8 @@ export function Analytics() {
     avgAudioBitrate,
     modemKeys,
     aggregateUpstreamData,
-    aggregateDownstreamData
-
-  } = displayData
-
+    aggregateDownstreamData,
+  } = displayData;
 
   return (
     <Container>
@@ -154,7 +164,7 @@ export function Analytics() {
               onChange={handleChange}
               variant="scrollable"
               scrollButtons="auto"
-            // style={{ marginBottom: 20, marginTop: 20, background: '#a2fb1b' }}
+              // style={{ marginBottom: 20, marginTop: 20, background: '#a2fb1b' }}
             >
               <Tab label="bitrate/fps" style={{ marginRight: 12 }} />
               <Tab label="Aggregate upstream" style={{ marginRight: 12 }} />
@@ -162,11 +172,28 @@ export function Analytics() {
               <Tab label="modem one bandwidth" style={{ marginRight: 12 }} />
               <Tab label="modem Two bandwidth" style={{ marginRight: 12 }} />
               <Tab label="modem Three bandwidth" style={{ marginRight: 12 }} />
-
             </Tabs>
             {value === 0 && <ComposedTwoYAxisChart data={streamData} />}
-            {value === 1 && <StackAreasChart format={{ data: aggregateUpstreamData, yAxisUnit: "Mbps", xAxisDataKey: 'timestamp', dataKeys: modemKeys }} />}
-            {value === 2 && <StackAreasChart format={{ data: aggregateDownstreamData, yAxisUnit: "Mbps", xAxisDataKey: 'timestamp', dataKeys: modemKeys }} />}
+            {value === 1 && (
+              <StackAreasChart
+                format={{
+                  data: aggregateUpstreamData,
+                  yAxisUnit: "Mbps",
+                  xAxisDataKey: "timestamp",
+                  dataKeys: modemKeys,
+                }}
+              />
+            )}
+            {value === 2 && (
+              <StackAreasChart
+                format={{
+                  data: aggregateDownstreamData,
+                  yAxisUnit: "Mbps",
+                  xAxisDataKey: "timestamp",
+                  dataKeys: modemKeys,
+                }}
+              />
+            )}
             {/* {value === 3 && <ComposedTwoAreasChart />}
             {value === 4 && <ComposedTwoAreasChart />}
             {value === 5 && <ComposedTwoAreasChart />} */}
@@ -174,7 +201,12 @@ export function Analytics() {
             {/* mock data */}
             <SimpleStatsTable
               rows={[
-                { name: "bitrate", min: minBitrate, max: maxBitrate, avg: avgBitrate },
+                {
+                  name: "bitrate",
+                  min: minBitrate,
+                  max: maxBitrate,
+                  avg: avgBitrate,
+                },
                 { name: "fps", min: minFPS, max: maxFPS, avg: avgFPS },
               ]}
             ></SimpleStatsTable>

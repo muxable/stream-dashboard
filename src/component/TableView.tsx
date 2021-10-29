@@ -8,7 +8,6 @@ import { filterByUserId } from "../adapters/stream_sessions";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-
 const columns: GridColDef[] = [
   { field: "id", headerName: "ID", width: 100 },
   {
@@ -55,18 +54,20 @@ const columns: GridColDef[] = [
     sortable: false,
     filterable: false,
     renderCell: (param) => {
-      const streamModel: StreamModel = param.value as StreamModel
+      const streamModel: StreamModel = param.value as StreamModel;
       return (
-        <Link to={{
-          pathname: `/analytic/${streamModel.streamId}`,
-          state: streamModel
-        }}>
+        <Link
+          to={{
+            pathname: `/analytic/${streamModel.streamId}`,
+            state: streamModel,
+          }}
+        >
           <Tooltip title="Learn more" placement="right">
             <IconButton>
               <AnalyticsIcon />
             </IconButton>
           </Tooltip>
-        </Link >
+        </Link>
       );
     },
   },
@@ -98,7 +99,7 @@ export function StreamsTableView({ userId }: { userId: string }) {
         id: index,
         formattedStartDate: formattedStartDate,
         formattedEndDate: formattedEndDate,
-        action: streamModel
+        action: streamModel,
       };
     });
     setRows(formattedStreams);
