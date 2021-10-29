@@ -7,32 +7,26 @@ import {
   Legend,
   ComposedChart,
 } from "recharts";
+import { StreamDatapointModel } from "../models/stream_datepoint";
 
-function getRandomArbitrary(min: number, max: number) {
-  return Math.ceil(Math.random() * (max - min) + min);
+
+function formatData(data: StreamDatapointModel[]) {
+  const formatted = data.map((d, index) => {
+    return {
+      bitrate: d.bitrate,
+      framerate: d.fps
+    }
+  });
+  return formatted
 }
 
-var data: any[] = [];
-for (let i = 0; i < 2000; i++) {
-  let d = {
-    bitrate: getRandomArbitrary(3800, 4200),
-    framerate: getRandomArbitrary(59, 61),
-  };
-  data.push(d);
-}
-data[900]["bitrate"] = 2300;
-data[952]["bitrate"] = 2900;
-data[1000]["bitrate"] = 4500;
-data[1001]["bitrate"] = 4500;
-data[1022]["bitrate"] = 4300;
-data[1030]["bitrate"] = 4500;
-
-export function ComposedTwoYAxisChart() {
+export function ComposedTwoYAxisChart({ data }: { data: StreamDatapointModel[] }) {
+  const formattedData: any = formatData(data)
   return (
     <ComposedChart
       width={600}
       height={400}
-      data={data}
+      data={formattedData}
       margin={{
         top: 20,
         right: 20,
@@ -54,7 +48,12 @@ export function ComposedTwoYAxisChart() {
       <Legend />
       <Line yAxisId="left" dot={false} dataKey="bitrate" stroke="#8884d8" />
       <Line yAxisId="right" dot={false} dataKey="framerate" stroke="#82ca9d" />
-      <Brush />
+      <Brush>
+        <ComposedChart>
+          <Line yAxisId="left" dot={false} dataKey="bitrate" stroke="#8884d8" />
+          <Line yAxisId="right" dot={false} dataKey="framerate" stroke="#82ca9d" />
+        </ComposedChart>
+      </Brush>
     </ComposedChart>
   );
 }

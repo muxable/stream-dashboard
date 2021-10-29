@@ -11,7 +11,6 @@ type SimpleStatistic = {
   min: number;
   max: number;
   avg: number;
-  mode: number;
 };
 
 export function SimpleStatsTable({ rows }: { rows: SimpleStatistic[] }) {
@@ -24,7 +23,6 @@ export function SimpleStatsTable({ rows }: { rows: SimpleStatistic[] }) {
             <TableCell align="right"> min </TableCell>
             <TableCell align="right"> max </TableCell>
             <TableCell align="right"> avg </TableCell>
-            <TableCell align="right"> mode </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -36,7 +34,6 @@ export function SimpleStatsTable({ rows }: { rows: SimpleStatistic[] }) {
               <TableCell align="right">{row.min}</TableCell>
               <TableCell align="right">{row.max}</TableCell>
               <TableCell align="right">{row.avg}</TableCell>
-              <TableCell align="right">{row.mode}</TableCell>
             </TableRow>
           ))}
         </TableBody>
