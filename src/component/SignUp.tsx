@@ -49,13 +49,13 @@ export function SignUp() {
       );
     } catch (error: any) {
       // TODO improve typing of error
-      if (error.code === "auth/email-already-in-use")
-        setError("Email already used");
       if (error.code === "auth/invalid-email")
         setError("Invalid email provided");
-      if (error.code === "auth/weak-password")
+      else if (error.code === "auth/email-already-in-use")
+        setError("Email already used");
+      else if (error.code === "auth/weak-password")
         setError("Please use a stronger password");
-      if (error.code === "auth/operation-not-allowed")
+      else if (error.code === "auth/operation-not-allowed")
         setError("Please ensure email registration is enabled");
     }
   };
@@ -63,17 +63,18 @@ export function SignUp() {
   // These are only some of the popup errors handled
   function signInWithGoogle() {
     signInWithPopup(getAuth(), provider).catch((error) => {
-      if (error.code === "auth/popup-closed-by-user")
+      if (error.code === "auth/popup-blocked")
+        setError("Popup is blocked");
+      else if (error.code === "auth/popup-closed-by-user")
         setError("Popup closed by user, try again");
-      if (error.code === "auth/account-exists-with-different-credential")
-        setError("Email already in use");
-      if (error.code === "auth/auth-domain-config-required")
-        setError("Notify admin, domain config required");
-      if (error.code === "auth/cancelled-popup-request")
+      else if (error.code === "auth/cancelled-popup-request")
         setError("Only one popup request at a time");
-      if (error.code === "auth/operation-not-allowed")
+      else if (error.code === "auth/account-exists-with-different-credential")
+        setError("Email already in use");
+      else if (error.code === "auth/auth-domain-config-required")
+        setError("Notify admin, domain config required");
+      else if (error.code === "auth/operation-not-allowed")
         setError("Account type cannot use this auth method");
-      if (error.code === "auth/popup-blocked") setError("Popup is blocked");
     });
   }
 

@@ -22,11 +22,12 @@ export function Login() {
     signInWithPopup(getAuth(), provider).catch((error) => {
       if (error.code === "auth/popup-closed-by-user")
         setError("Popup closed by user, try again");
-      if (error.code === "auth/cancelled-popup-request")
+      else if (error.code === "auth/cancelled-popup-request")
         setError("Only one popup request at a time");
-      if (error.code === "auth/operation-not-allowed")
+      else if (error.code === "auth/operation-not-allowed")
         setError("Account type cannot use this auth method");
-      if (error.code === "auth/popup-blocked") setError("Popup is blocked");
+      else if (error.code === "auth/popup-blocked")
+        setError("Popup is blocked");
     });
   }
 
@@ -65,10 +66,10 @@ export function Login() {
       // TO DO: improve error type
       if (error.code === "auth/invalid-email")
         setError("Invalid email provided");
-      if (error.code === "auth/wrong-password") setError("Invalid Password");
-      if (error.code === "auth/too-many-requests")
+      else if (error.code === "auth/wrong-password") setError("Invalid Password");
+      else if (error.code === "auth/too-many-requests")
         setError("Too many attempts, try later");
-      if (error.code === "auth/internal-error") setError("Internal Error");
+      else if (error.code === "auth/internal-error") setError("Internal Error");
       console.error(error.code);
     }
   };
