@@ -66,7 +66,8 @@ export function Login() {
       // TO DO: improve error type
       if (error.code === "auth/invalid-email")
         setError("Invalid email provided");
-      else if (error.code === "auth/wrong-password") setError("Invalid Password");
+      else if (error.code === "auth/wrong-password")
+        setError("Invalid Password");
       else if (error.code === "auth/too-many-requests")
         setError("Too many attempts, try later");
       else if (error.code === "auth/internal-error") setError("Internal Error");

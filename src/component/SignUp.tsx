@@ -63,8 +63,7 @@ export function SignUp() {
   // These are only some of the popup errors handled
   function signInWithGoogle() {
     signInWithPopup(getAuth(), provider).catch((error) => {
-      if (error.code === "auth/popup-blocked")
-        setError("Popup is blocked");
+      if (error.code === "auth/popup-blocked") setError("Popup is blocked");
       else if (error.code === "auth/popup-closed-by-user")
         setError("Popup closed by user, try again");
       else if (error.code === "auth/cancelled-popup-request")
