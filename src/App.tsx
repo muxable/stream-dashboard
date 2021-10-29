@@ -4,6 +4,7 @@ import { Login } from "./component/Login";
 import { SignUp } from "./component/SignUp";
 import { ForgotPassword } from "./component/ForgotPassword";
 import { ProfilePage } from "./component/ProfilePage"
+import { Test } from "./component/Test"
 
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import DataGridDemo from "./component/TableView";
@@ -29,6 +30,10 @@ function App() {
             </Route>
             <Route path="/profile">
               <ProfilePage />
+            </Route>
+
+            <Route path="/test">
+              <Test />
             </Route>
             <Route path="/">
               {/* "Your past streams" could be replaced with {regular or twitch username}'s past streams */}
