@@ -36,7 +36,7 @@ export function ComposedTwoAreasChart({
     >
       <XAxis dataKey="name" tick={false} />
       <YAxis
-        label={{ value: { yAxisUnit }, angle: -90, position: "insideLeft" }}
+        label={{ value: yAxisUnit, angle: -90, position: "insideLeft" }}
       />
       <Tooltip />
       <Legend />
