@@ -47,9 +47,6 @@ export function Analytics() {
       );
       const modemDatapoints = streamData.map((x) => x.modems);
 
-      // transpose
-      const transpose: ModemModel[][] = [];
-
       const modemKeys = new Set<string>();
       const aggregateUpstreamData: any = [];
       const aggregateDownstreamData: any = [];
@@ -68,9 +65,11 @@ export function Analytics() {
         }
         aggregateDownstreamData.push(aggregateDownstreamDatapoint);
         aggregateUpstreamData.push(aggregateUpstreamDatapoint);
-        transpose.push(transposeCol);
       }
 
+      const transpose = modemDatapoints[0].map((col, c) =>
+        modemDatapoints.map((row, r) => modemDatapoints[r][c])
+      );
       const formattedIndivialModemData = [];
       for (let i = 0; i < transpose.length; i++) {
         const indivialModemData = transpose[i];
