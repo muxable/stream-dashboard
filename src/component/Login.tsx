@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { Link, useHistory } from "react-router-dom";
-import { auth } from "../firebaseSetup";
+// import { auth } from "../firebaseSetup";
 import Logo from "./Logo";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
@@ -18,7 +18,26 @@ const provider = new GoogleAuthProvider();
 
 export function Login() {
   function logInWithGoogle() {
-    signInWithPopup(auth, provider);
+    // signInWithPopup(auth, provider);
+    signInWithPopup(getAuth(), provider).catch((error) => {
+      switch (error.code) {
+        case "auth/internal-error":
+          setError("Internal Error, notify admin");
+          break;
+        case "auth/popup-blocked":
+          setError("Popup is blocked");
+          break;
+        case "auth/popup-closed-by-user":
+          setError("Popup closed by user, try again");
+          break;
+        case "auth/cancelled-popup-request":
+          setError("Only one popup request at a time");
+          break;
+        case "auth/operation-not-allowed":
+          setError("Account type cannot use this auth method");
+          break;
+      }
+    });
   }
 
   const [error, setError] = useState<string>("");
@@ -40,13 +59,8 @@ export function Login() {
       return;
     }
 
-    if (!passwordRef.current.value) {
-      setError("Password field is empty");
-      return;
-    }
-
     if (passwordRef.current.value.length < 6) {
-      setError("Password must be at least 6 characters");
+      setError("Please check your password length");
       return;
     }
 
@@ -57,9 +71,22 @@ export function Login() {
         passwordRef.current.value
       );
       history.push("/");
-    } catch (error) {
-      setError("Failed to login.");
-      console.error(error);
+    } catch (error: any) {
+      // TO DO: improve error type
+      switch (error.code) {
+        case "auth/invalid-email":
+          setError("Invalid email provided");
+          break;
+        case "auth/too-many-requests":
+          setError("Too many attempts, try later");
+          break;
+        case "auth/wrong-password":
+          setError("Invalid Password");
+          break;
+        case "auth/internal-error":
+          setError("Internal Error, notify admin");
+          break;
+      }
     }
   };
 
