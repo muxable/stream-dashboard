@@ -48,32 +48,52 @@ export function SignUp() {
         passwordRef.current.value
       );
     } catch (error: any) {
-      // TODO improve typing of error
-      if (error.code === "auth/invalid-email")
-        setError("Invalid email provided");
-      else if (error.code === "auth/email-already-in-use")
-        setError("Email already used");
-      else if (error.code === "auth/weak-password")
-        setError("Please use a stronger password");
-      else if (error.code === "auth/operation-not-allowed")
-        setError("Please ensure email registration is enabled");
+      switch (error.code) {
+        case "auth/invalid-email":
+          setError("Invalid email provided");
+          break;
+        case "auth/email-already-in-use":
+          setError("Email already used");
+          break;
+        case "auth/weak-password":
+          setError("Please use a stronger password");
+          break;
+        case "auth/operation-not-allowed":
+          setError("Please ensure email registration is enabled");
+          break;
+        case "auth/internal-error":
+          setError("Internal Error, notify admin");
+          break;
+      }
     }
   };
 
   // These are only some of the popup errors handled
   function signInWithGoogle() {
     signInWithPopup(getAuth(), provider).catch((error) => {
-      if (error.code === "auth/popup-blocked") setError("Popup is blocked");
-      else if (error.code === "auth/popup-closed-by-user")
-        setError("Popup closed by user, try again");
-      else if (error.code === "auth/cancelled-popup-request")
-        setError("Only one popup request at a time");
-      else if (error.code === "auth/account-exists-with-different-credential")
-        setError("Email already in use");
-      else if (error.code === "auth/auth-domain-config-required")
-        setError("Notify admin, domain config required");
-      else if (error.code === "auth/operation-not-allowed")
-        setError("Account type cannot use this auth method");
+      switch (error.code) {
+        case "auth/internal-error":
+          setError("Internal Error, notify admin");
+          break;
+        case "auth/popup-blocked":
+          setError("Popup is blocked");
+          break;
+        case "auth/popup-closed-by-user":
+          setError("Popup closed by user, try again");
+          break;
+        case "auth/cancelled-popup-request":
+          setError("Only one popup request at a time");
+          break;
+        case "auth/account-exists-with-different-credential":
+          setError("Email already in use");
+          break;
+        case "auth/auth-domain-config-required":
+          setError("Notify admin, domain config required");
+          break;
+        case "auth/operation-not-allowed":
+          setError("Account type cannot use this auth method");
+          break;
+      }
     });
   }
 

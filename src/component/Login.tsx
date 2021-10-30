@@ -20,14 +20,23 @@ export function Login() {
   function logInWithGoogle() {
     // signInWithPopup(auth, provider);
     signInWithPopup(getAuth(), provider).catch((error) => {
-      if (error.code === "auth/popup-closed-by-user")
-        setError("Popup closed by user, try again");
-      else if (error.code === "auth/cancelled-popup-request")
-        setError("Only one popup request at a time");
-      else if (error.code === "auth/operation-not-allowed")
-        setError("Account type cannot use this auth method");
-      else if (error.code === "auth/popup-blocked")
-        setError("Popup is blocked");
+      switch (error.code) {
+        case "auth/internal-error":
+          setError("Internal Error, notify admin");
+          break;
+        case "auth/popup-blocked":
+          setError("Popup is blocked");
+          break;
+        case "auth/popup-closed-by-user":
+          setError("Popup closed by user, try again");
+          break;
+        case "auth/cancelled-popup-request":
+          setError("Only one popup request at a time");
+          break;
+        case "auth/operation-not-allowed":
+          setError("Account type cannot use this auth method");
+          break;
+      }
     });
   }
 
@@ -64,14 +73,20 @@ export function Login() {
       history.push("/");
     } catch (error: any) {
       // TO DO: improve error type
-      if (error.code === "auth/invalid-email")
-        setError("Invalid email provided");
-      else if (error.code === "auth/wrong-password")
-        setError("Invalid Password");
-      else if (error.code === "auth/too-many-requests")
-        setError("Too many attempts, try later");
-      else if (error.code === "auth/internal-error") setError("Internal Error");
-      console.error(error.code);
+      switch (error.code) {
+        case "auth/invalid-email":
+          setError("Invalid email provided");
+          break;
+        case "auth/too-many-requests":
+          setError("Too many attempts, try later");
+          break;
+        case "auth/wrong-password":
+          setError("Invalid Password");
+          break;
+        case "auth/internal-error":
+          setError("Internal Error, notify admin");
+          break;
+      }
     }
   };
 
