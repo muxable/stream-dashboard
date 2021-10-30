@@ -9,32 +9,18 @@ import {
 } from "recharts";
 
 type ComposedTwoAreasChartFormat = {
-  xAxisDataKey: string;
   dataKeyOne: string;
   dataKeyTwo: string;
   data: any[];
   yAxisUnit: string;
 };
 
-// function getRandomArbitrary(min: number, max: number) {
-//   return Math.ceil(Math.random() * (max - min) + min);
-// }
-
-// var data: any[] = [];
-// for (let i = 0; i < 2000; i++) {
-//   let d = {
-//     upstream: getRandomArbitrary(0, 10),
-//     downstream: getRandomArbitrary(0, 30),
-//   };
-//   data.push(d);
-// }
-
 export function ComposedTwoAreasChart({
   format,
 }: {
   format: ComposedTwoAreasChartFormat;
 }) {
-  const { xAxisDataKey, dataKeyOne, dataKeyTwo, data, yAxisUnit } = format;
+  const { dataKeyOne, dataKeyTwo, data, yAxisUnit } = format;
 
   return (
     <ComposedChart
