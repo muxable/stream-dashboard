@@ -37,7 +37,7 @@ export function Analytics() {
     modemKeys: [""],
     aggregateUpstreamData: [],
     aggregateDownstreamData: [],
-    individualModemsData: [[{ upstream: 0, downstream: 0 }]]
+    individualModemsData: [[{ upstream: 0, downstream: 0 }]],
   });
 
   useEffect(() => {
@@ -48,7 +48,7 @@ export function Analytics() {
       const modemDatapoints = streamData.map((x) => x.modems);
 
       // transpose
-      const transpose: ModemModel[][] = []
+      const transpose: ModemModel[][] = [];
 
       const modemKeys = new Set<string>();
       const aggregateUpstreamData: any = [];
@@ -57,7 +57,7 @@ export function Analytics() {
         const modems = modemDatapoints[i];
         const aggregateDownstreamDatapoint: any = {};
         const aggregateUpstreamDatapoint: any = {};
-        const transposeCol = []
+        const transposeCol = [];
         for (let j = 0; j < modems.length; j++) {
           const modem = modems[j];
           modemKeys.add(`modem-${j}`);
@@ -68,16 +68,20 @@ export function Analytics() {
         }
         aggregateDownstreamData.push(aggregateDownstreamDatapoint);
         aggregateUpstreamData.push(aggregateUpstreamDatapoint);
-        transpose.push(transposeCol)
+        transpose.push(transposeCol);
       }
 
-      const formattedIndivialModemData = []
+      const formattedIndivialModemData = [];
       for (let i = 0; i < transpose.length; i++) {
         const indivialModemData = transpose[i];
-        const formatted = indivialModemData.map((m: ModemModel) => { return { upstream: m.upstreamBandwidth, downstream: m.downstreamBandwidth } })
-        formattedIndivialModemData.push(formatted)
+        const formatted = indivialModemData.map((m: ModemModel) => {
+          return {
+            upstream: m.upstreamBandwidth,
+            downstream: m.downstreamBandwidth,
+          };
+        });
+        formattedIndivialModemData.push(formatted);
       }
-
 
       const minBitrate: number = streamData.reduce((acc, val) =>
         acc.bitrate < val.bitrate ? acc : val
@@ -164,7 +168,7 @@ export function Analytics() {
               onChange={handleChange}
               variant="scrollable"
               scrollButtons="auto"
-            // style={{ marginBottom: 20, marginTop: 20, background: '#a2fb1b' }}
+              // style={{ marginBottom: 20, marginTop: 20, background: '#a2fb1b' }}
             >
               <Tab label="bitrate/fps" style={{ marginRight: 12 }} />
               <Tab label="Aggregate upstream" style={{ marginRight: 12 }} />
@@ -192,20 +196,19 @@ export function Analytics() {
                 }}
               />
             )}
-            {
-              value === 3 && individualModemsData.map((data, index) => {
+            {value === 3 &&
+              individualModemsData.map((data, index) => {
                 return (
-
                   <ComposedTwoAreasChart
                     format={{
                       data: data,
                       dataKeyOne: "downstream",
                       dataKeyTwo: "upstream",
-                      yAxisUnit: "Mbps"
-                    }} />
+                      yAxisUnit: "Mbps",
+                    }}
+                  />
                 );
-              })
-            }
+              })}
 
             {/* mock data */}
             <SimpleStatsTable
@@ -217,7 +220,12 @@ export function Analytics() {
                   avg: avgBitrate,
                 },
                 { name: "fps", min: minFPS, max: maxFPS, avg: avgFPS },
-                { name: "audio bitrate", min: minAudioBitrate, max: maxAudioBitrate, avg: avgAudioBitrate }
+                {
+                  name: "audio bitrate",
+                  min: minAudioBitrate,
+                  max: maxAudioBitrate,
+                  avg: avgAudioBitrate,
+                },
               ]}
             ></SimpleStatsTable>
           </Paper>
