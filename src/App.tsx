@@ -7,22 +7,24 @@ import { ProfilePage } from "./component/ProfilePage";
 import { Test } from "./component/Test";
 
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import DataGridDemo from "./component/TableView";
+import { StreamsTableView } from "./component/TableView";
 import { Analytics } from "./screens/Analytics";
+import { AuthProvider } from "./context/AuthContext";
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
+      <AuthProvider>
         <Router>
           <Switch>
-            <Route path="/sign-up">
+            <Route path="/signup">
               <SignUp />
             </Route>
             <Route path="/login">
               <Login />
             </Route>
-            <Route path="/forgot-password">
+            <Route path="/forgotpassword">
               <ForgotPassword />
             </Route>
             <Route path="/analytic">
@@ -38,10 +40,11 @@ function App() {
             <Route path="/">
               {/* "Your past streams" could be replaced with {regular or twitch username}'s past streams */}
               <p>Your past streams</p>
-              <DataGridDemo />
+              <StreamsTableView userId="rippyae" />
             </Route>
           </Switch>
         </Router>
+      </AuthProvider>
       </header>
     </div>
   );
