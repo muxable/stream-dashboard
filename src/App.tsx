@@ -15,36 +15,36 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-      <AuthProvider>
-        <Router>
-          <Switch>
-            <Route path="/signup">
-              <SignUp />
-            </Route>
-            <Route path="/login">
-              <Login />
-            </Route>
-            <Route path="/forgotpassword">
-              <ForgotPassword />
-            </Route>
-            <Route path="/analytic">
-              <Analytics />
-            </Route>
-            <Route path="/profile">
-              <ProfilePage />
-            </Route>
+        <AuthProvider>
+          <Router>
+            <Switch>
+              <Route path="/signup">
+                <SignUp />
+              </Route>
+              <Route path="/login">
+                <Login />
+              </Route>
+              <Route path="/forgotpassword">
+                <ForgotPassword />
+              </Route>
+              <Route path="/analytic">
+                <Analytics />
+              </Route>
+              <Route path="/profile">
+                <ProfilePage />
+              </Route>
 
-            <Route path="/test">
-              <Test />
-            </Route>
-            <Route path="/">
-              {/* "Your past streams" could be replaced with {regular or twitch username}'s past streams */}
-              <p>Your past streams</p>
-              <StreamsTableView userId="rippyae" />
-            </Route>
-          </Switch>
-        </Router>
-      </AuthProvider>
+              <Route path="/test">
+                <Test />
+              </Route>
+              <Route path="/">
+                {/* "Your past streams" could be replaced with {regular or twitch username}'s past streams */}
+                <p>Your past streams</p>
+                <StreamsTableView userId="rippyae" />
+              </Route>
+            </Switch>
+          </Router>
+        </AuthProvider>
       </header>
     </div>
   );
