@@ -3,8 +3,8 @@ import "./App.css";
 import { Login } from "./component/Login";
 import { SignUp } from "./component/SignUp";
 import { ForgotPassword } from "./component/ForgotPassword";
-import { ProfilePage } from "./component/ProfilePage"
-import { Test } from "./component/Test"
+import { ProfilePage } from "./component/ProfilePage";
+import { Test } from "./component/Test";
 
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import DataGridDemo from "./component/TableView";
