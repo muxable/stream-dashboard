@@ -2,11 +2,6 @@ import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { Chip, Container } from "@mui/material";
 import { LowAudioBitrateEvent, LowBitrateEvent } from "./Map";
 
-type HealthCellMetaData = {
-  isStable: boolean;
-  duration: number;
-};
-
 const columns: GridColDef[] = [
   {
     field: "id",
@@ -51,18 +46,6 @@ const columns: GridColDef[] = [
       );
     },
   },
-];
-
-const rows = [
-  { id: 1, timestamp: Date(), health: { isStable: true, duration: 12 } },
-  { id: 2, timestamp: Date(), health: { isStable: false, duration: 32 } },
-  { id: 3, timestamp: Date(), health: { isStable: false, duration: 22 } },
-  { id: 4, timestamp: Date(), health: { isStable: true, duration: 12 } },
-  { id: 5, timestamp: Date(), health: { isStable: false, duration: 42 } },
-  { id: 6, timestamp: Date(), health: { isStable: true, duration: 12 } },
-  { id: 7, timestamp: Date(), health: { isStable: true, duration: 12 } },
-  { id: 8, timestamp: Date(), health: { isStable: false, duration: 52 } },
-  { id: 9, timestamp: Date(), health: { isStable: true, duration: 12 } },
 ];
 
 export function StreamHealthTable({
