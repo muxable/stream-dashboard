@@ -5,7 +5,7 @@ import { filterByStreamId } from "../adapters/stream";
 import { ComposedTwoAreasChart } from "../component/ComposedTwoAreasChart";
 import { ComposedTwoYAxisChart } from "../component/ComposedTwoYAxisChart";
 import { HardwareInformationTable } from "../component/HardwareInformationTable";
-import { Map } from "../component/Map";
+import { LowAudioBitrateEvent, LowBitrateEvent, Map } from "../component/Map";
 import { SimpleStatsTable } from "../component/SimpleStatsTable";
 import { StackAreasChart } from "../component/StackAreasChart";
 import { StreamHealthTable } from "../component/StreamHealthTable";
@@ -38,6 +38,14 @@ export function Analytics() {
     aggregateUpstreamData: [],
     aggregateDownstreamData: [],
     individualModemsData: [[{ upstream: 0, downstream: 0 }]],
+    lowBitrateEvents: [{ x: 0, y: 0, bitrate: 0, timestamp: new Date() }],
+    lowAudioBitrateEvents: [
+      { x: 0, y: 0, audioBitrate: 0, timestamp: new Date() },
+    ],
+    healthCellMetaData: [
+      { x: 0, y: 0, bitrate: 0, timestamp: new Date() },
+      { x: 0, y: 0, audioBitrate: 0, timestamp: new Date() },
+    ],
   });
 
   useEffect(() => {
@@ -88,9 +96,10 @@ export function Analytics() {
       const maxBitrate: number = streamData.reduce((acc, val) =>
         acc.bitrate > val.bitrate ? acc : val
       ).bitrate;
-      const avgBitrate: number =
+      const avgBitrate: number = +(
         streamData.reduce((acc, val) => acc + val.bitrate, 0) /
-        streamData.length;
+        streamData.length
+      ).toFixed(2);
 
       const minFPS: number = streamData.reduce((acc, val) =>
         acc.fps < val.fps ? acc : val
@@ -98,8 +107,9 @@ export function Analytics() {
       const maxFPS: number = streamData.reduce((acc, val) =>
         acc.fps > val.fps ? acc : val
       ).fps;
-      const avgFPS: number =
-        streamData.reduce((acc, val) => acc + val.fps, 0) / streamData.length;
+      const avgFPS: number = +(
+        streamData.reduce((acc, val) => acc + val.fps, 0) / streamData.length
+      ).toFixed(2);
 
       const minAudioBitrate: number = streamData.reduce((acc, val) =>
         acc.audioBitrate < val.audioBitrate ? acc : val
@@ -107,10 +117,50 @@ export function Analytics() {
       const maxAudioBitrate: number = streamData.reduce((acc, val) =>
         acc.audioBitrate > val.audioBitrate ? acc : val
       ).audioBitrate;
-      const avgAudioBitrate: number =
+      const avgAudioBitrate: number = +(
         streamData.reduce((acc, val) => acc + val.audioBitrate, 0) /
-        streamData.length;
+        streamData.length
+      ).toFixed(2);
 
+      // find datapoints where bitrates fail to meet bitrate threshold
+      const bitrateThreshold = 1000;
+      const audiobitrateThreshold = 33;
+      const lowBitrates = streamData.filter(
+        (model: StreamDatapointModel, index) => {
+          return model.bitrate < bitrateThreshold;
+        }
+      );
+      const lowBitrateEvents: LowBitrateEvent[] = lowBitrates.map(
+        (model: StreamDatapointModel, index) => {
+          return {
+            x: model.longitude,
+            y: model.latitude,
+            bitrate: model.bitrate,
+            timestamp: model.timestamp,
+          };
+        }
+      );
+
+      const lowAudiobitrates = streamData.filter(
+        (model: StreamDatapointModel, index) => {
+          return model.audioBitrate < audiobitrateThreshold;
+        }
+      );
+      const lowAudioBitrateEvents: LowAudioBitrateEvent[] =
+        lowAudiobitrates.map((model: StreamDatapointModel, index) => {
+          return {
+            x: model.longitude,
+            y: model.latitude,
+            audioBitrate: model.audioBitrate,
+            timestamp: model.timestamp,
+          };
+        });
+
+      const healthCellMetaData = [
+        lowBitrateEvents,
+        lowAudioBitrateEvents,
+      ].flat();
+      console.log(streamData);
       setStreamData(streamData);
       setDisplayData({
         minBitrate: minBitrate,
@@ -131,6 +181,11 @@ export function Analytics() {
         aggregateDownstreamData: aggregateDownstreamData,
 
         individualModemsData: formattedIndivialModemData,
+
+        lowBitrateEvents: lowBitrateEvents,
+        lowAudioBitrateEvents: lowAudioBitrateEvents,
+
+        healthCellMetaData: healthCellMetaData,
       });
     }
 
@@ -155,6 +210,9 @@ export function Analytics() {
     aggregateUpstreamData,
     aggregateDownstreamData,
     individualModemsData,
+    lowBitrateEvents,
+    lowAudioBitrateEvents,
+    healthCellMetaData,
   } = displayData;
 
   return (
@@ -229,12 +287,17 @@ export function Analytics() {
             ></SimpleStatsTable>
           </Paper>
           <Paper>
-            <StreamHealthTable />
+            <StreamHealthTable healthCellMetaData={healthCellMetaData} />
           </Paper>
         </Stack>
 
         {/* Map */}
-        <Map />
+        <Map
+          unstableEvents={{
+            lowBitrateEvents: lowBitrateEvents,
+            lowAudiobitrateEvents: lowAudioBitrateEvents,
+          }}
+        />
 
         {/* Additional Information */}
         <HardwareInformationTable
