@@ -30,7 +30,7 @@ export function SignUp() {
   const signup = async (event: any) => {
     event.preventDefault();
     const signupAuth = getAuth();
-    setError("")
+    setError("");
     if (
       passwordRef.current === null ||
       emailRef.current === null ||
@@ -50,7 +50,7 @@ export function SignUp() {
         passwordRef.current.value
       );
       history.push("/");
-    } catch (error:any) {
+    } catch (error: any) {
       switch (error.code) {
         case "auth/invalid-email":
           setError("Invalid email provided");
@@ -73,10 +73,10 @@ export function SignUp() {
 
   // These are only some of the popup errors handled
   async function signInWithGoogle() {
-    try{
+    try {
       await signInWithPopup(getAuth(), provider);
-      history.push("/")
-    } catch(error:any){
+      history.push("/");
+    } catch (error: any) {
       switch (error.code) {
         case "auth/internal-error":
           setError("Internal Error, notify admin");
