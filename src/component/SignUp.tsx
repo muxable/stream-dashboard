@@ -49,7 +49,7 @@ export function SignUp() {
         emailRef.current.value,
         passwordRef.current.value
       );
-      history.push("/");
+      history.replace("/");
     } catch (error: any) {
       switch (error.code) {
         case "auth/invalid-email":
@@ -75,7 +75,7 @@ export function SignUp() {
   async function signInWithGoogle() {
     try {
       await signInWithPopup(getAuth(), provider);
-      history.push("/");
+      history.replace("/");
     } catch (error: any) {
       switch (error.code) {
         case "auth/internal-error":

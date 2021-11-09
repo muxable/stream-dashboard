@@ -20,7 +20,7 @@ export function Login() {
   async function logInWithGoogle() {
     try {
       await signInWithPopup(getAuth(), provider);
-      history.push("/");
+      history.replace("/");
     } catch (error: any) {
       switch (error.code) {
         case "auth/internal-error":
@@ -72,7 +72,7 @@ export function Login() {
         emailRef.current.value,
         passwordRef.current.value
       );
-      history.push("/");
+      history.replace("/");
     } catch (error: any) {
       // TO DO: improve error type
       switch (error.code) {
