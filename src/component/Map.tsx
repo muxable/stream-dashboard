@@ -40,8 +40,8 @@ export function Map({ unstableEvents }: { unstableEvents: UnstableEvents }) {
             radius={10}
           >
             <Popup>
-              x: {x} <br />
-              y: {y} <br />
+              longitude: {x} <br />
+              latitude: {y} <br />
               bitrate: {bitrate} <br />
               {timestamp.toLocaleString()} <br />
             </Popup>
@@ -56,9 +56,9 @@ export function Map({ unstableEvents }: { unstableEvents: UnstableEvents }) {
             radius={10}
           >
             <Popup>
-              x: {x} <br />
-              y: {y} <br />
-              audioBitrate: {audioBitrate} <br />
+              longitude: {x} <br />
+              latitude: {y} <br />
+              audio bitrate: {audioBitrate} <br />
               {timestamp.toLocaleString()} <br />
             </Popup>
           </CircleMarker>

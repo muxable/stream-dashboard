@@ -48,6 +48,84 @@ export function Analytics() {
     ],
   });
 
+  const findLowBitrateEvents = async (streamData: StreamDatapointModel[]) => {
+    const bitrateThreshold = 1000;
+    const lowBitrates = streamData.filter((model: StreamDatapointModel) => {
+      return model.bitrate < bitrateThreshold;
+    });
+    const lowBitrateEvents: LowBitrateEvent[] = lowBitrates.map(
+      (model: StreamDatapointModel) => {
+        return {
+          x: model.longitude,
+          y: model.latitude,
+          bitrate: model.bitrate,
+          timestamp: model.timestamp,
+        };
+      }
+    );
+    return lowBitrateEvents;
+  };
+
+  const findLowAudioBitrateEvents = async (
+    streamData: StreamDatapointModel[]
+  ) => {
+    const audiobitrateThreshold = 33;
+    const lowAudiobitrates = streamData.filter(
+      (model: StreamDatapointModel) => {
+        return model.audioBitrate < audiobitrateThreshold;
+      }
+    );
+    const lowAudioBitrateEvents: LowAudioBitrateEvent[] = lowAudiobitrates.map(
+      (model: StreamDatapointModel) => {
+        return {
+          x: model.longitude,
+          y: model.latitude,
+          audioBitrate: model.audioBitrate,
+          timestamp: model.timestamp,
+        };
+      }
+    );
+    return lowAudioBitrateEvents;
+  };
+
+  const formatAggregateModemData = async (modemDatapoints: ModemModel[][]) => {
+    const modemKeys = new Set<string>();
+    const aggregateUpstreamData: any = [];
+    const aggregateDownstreamData: any = [];
+    for (let i = 0; i < modemDatapoints.length; i++) {
+      const modems = modemDatapoints[i];
+      const aggregateDownstreamDatapoint: any = {};
+      const aggregateUpstreamDatapoint: any = {};
+      for (let j = 0; j < modems.length; j++) {
+        const modem = modems[j];
+        modemKeys.add(`modem-${j}`);
+        aggregateDownstreamDatapoint[`modem-${j}`] = modem.downstreamBandwidth;
+        aggregateUpstreamDatapoint[`modem-${j}`] = modem.upstreamBandwidth;
+      }
+      aggregateDownstreamData.push(aggregateDownstreamDatapoint);
+      aggregateUpstreamData.push(aggregateUpstreamDatapoint);
+    }
+    return [modemKeys, aggregateDownstreamData, aggregateUpstreamData];
+  };
+
+  const formatIndivialModemData = async (
+    transposeModemDatapoints: ModemModel[][]
+  ) => {
+    const formattedIndivialModemData = [];
+    for (let i = 0; i < transposeModemDatapoints.length; i++) {
+      const indivialModemData = transposeModemDatapoints[i];
+      const formatted = indivialModemData.map((m: ModemModel) => {
+        return {
+          upstream: m.upstreamBandwidth,
+          downstream: m.downstreamBandwidth,
+        };
+      });
+      formattedIndivialModemData.push(formatted);
+    }
+
+    return formattedIndivialModemData;
+  };
+
   useEffect(() => {
     async function loadStreamData(streamId: string) {
       const streamData: StreamDatapointModel[] = await filterByStreamId(
@@ -55,112 +133,91 @@ export function Analytics() {
       );
       const modemDatapoints = streamData.map((x) => x.modems);
 
-      const modemKeys = new Set<string>();
-      const aggregateUpstreamData: any = [];
-      const aggregateDownstreamData: any = [];
-      for (let i = 0; i < modemDatapoints.length; i++) {
-        const modems = modemDatapoints[i];
-        const aggregateDownstreamDatapoint: any = {};
-        const aggregateUpstreamDatapoint: any = {};
-        const transposeCol = [];
-        for (let j = 0; j < modems.length; j++) {
-          const modem = modems[j];
-          modemKeys.add(`modem-${j}`);
-          aggregateDownstreamDatapoint[`modem-${j}`] =
-            modem.downstreamBandwidth;
-          aggregateUpstreamDatapoint[`modem-${j}`] = modem.upstreamBandwidth;
-          transposeCol.push(modemDatapoints[j][i]);
-        }
-        aggregateDownstreamData.push(aggregateDownstreamDatapoint);
-        aggregateUpstreamData.push(aggregateUpstreamDatapoint);
-      }
+      // format modem datapoints to show them on a stack area graph
+      const aggregateData = await formatAggregateModemData(modemDatapoints);
+      const modemKeys = aggregateData[0];
+      const aggregateDownstreamData = aggregateData[1];
+      const aggregateUpstreamData = aggregateData[2];
 
+      // perform transpose, so each row has the data of a modem
       const transpose = modemDatapoints[0].map((col, c) =>
         modemDatapoints.map((row, r) => modemDatapoints[r][c])
       );
-      const formattedIndivialModemData = [];
-      for (let i = 0; i < transpose.length; i++) {
-        const indivialModemData = transpose[i];
-        const formatted = indivialModemData.map((m: ModemModel) => {
-          return {
-            upstream: m.upstreamBandwidth,
-            downstream: m.downstreamBandwidth,
-          };
-        });
-        formattedIndivialModemData.push(formatted);
-      }
+      const formattedIndivialModemData = await formatIndivialModemData(
+        transpose
+      );
 
-      const minBitrate: number = streamData.reduce((acc, val) =>
-        acc.bitrate < val.bitrate ? acc : val
-      ).bitrate;
-      const maxBitrate: number = streamData.reduce((acc, val) =>
-        acc.bitrate > val.bitrate ? acc : val
-      ).bitrate;
+      const minBitrateReducer = (
+        pre: StreamDatapointModel,
+        val: StreamDatapointModel
+      ) => (pre.bitrate < val.bitrate ? pre : val);
+
+      const maxBitrateReducer = (
+        pre: StreamDatapointModel,
+        val: StreamDatapointModel
+      ) => (pre.bitrate > val.bitrate ? pre : val);
+
+      const minFPSReducer = (
+        pre: StreamDatapointModel,
+        val: StreamDatapointModel
+      ) => (pre.fps < val.fps ? pre : val);
+
+      const maxFPSReducer = (
+        pre: StreamDatapointModel,
+        val: StreamDatapointModel
+      ) => (pre.fps > val.fps ? pre : val);
+
+      const minAudioBitrateReducer = (
+        pre: StreamDatapointModel,
+        val: StreamDatapointModel
+      ) => (pre.audioBitrate < val.audioBitrate ? pre : val);
+
+      const maxAudioBitrateReducer = (
+        pre: StreamDatapointModel,
+        val: StreamDatapointModel
+      ) => (pre.audioBitrate > val.audioBitrate ? pre : val);
+
+      const accBitrateReducer = (acc: number, val: StreamDatapointModel) =>
+        acc + val.bitrate;
+      const accFPSReducer = (acc: number, val: StreamDatapointModel) =>
+        acc + val.fps;
+      const accAudioBitrateReducer = (acc: number, val: StreamDatapointModel) =>
+        acc + val.audioBitrate;
+
+      const minBitrate: number = streamData.reduce(minBitrateReducer).bitrate;
+      const maxBitrate: number = streamData.reduce(maxBitrateReducer).bitrate;
       const avgBitrate: number = +(
-        streamData.reduce((acc, val) => acc + val.bitrate, 0) /
-        streamData.length
+        streamData.reduce(accBitrateReducer, 0) / streamData.length
       ).toFixed(2);
 
-      const minFPS: number = streamData.reduce((acc, val) =>
-        acc.fps < val.fps ? acc : val
-      ).fps;
-      const maxFPS: number = streamData.reduce((acc, val) =>
-        acc.fps > val.fps ? acc : val
-      ).fps;
+      const minFPS: number = streamData.reduce(minFPSReducer).fps;
+      const maxFPS: number = streamData.reduce(maxFPSReducer).fps;
       const avgFPS: number = +(
-        streamData.reduce((acc, val) => acc + val.fps, 0) / streamData.length
+        streamData.reduce(accFPSReducer, 0) / streamData.length
       ).toFixed(2);
 
-      const minAudioBitrate: number = streamData.reduce((acc, val) =>
-        acc.audioBitrate < val.audioBitrate ? acc : val
+      const minAudioBitrate: number = streamData.reduce(
+        minAudioBitrateReducer
       ).audioBitrate;
-      const maxAudioBitrate: number = streamData.reduce((acc, val) =>
-        acc.audioBitrate > val.audioBitrate ? acc : val
+      const maxAudioBitrate: number = streamData.reduce(
+        maxAudioBitrateReducer
       ).audioBitrate;
       const avgAudioBitrate: number = +(
-        streamData.reduce((acc, val) => acc + val.audioBitrate, 0) /
-        streamData.length
+        streamData.reduce(accAudioBitrateReducer, 0) / streamData.length
       ).toFixed(2);
 
       // find datapoints where bitrates fail to meet bitrate threshold
-      const bitrateThreshold = 1000;
-      const audiobitrateThreshold = 33;
-      const lowBitrates = streamData.filter(
-        (model: StreamDatapointModel, index) => {
-          return model.bitrate < bitrateThreshold;
-        }
-      );
-      const lowBitrateEvents: LowBitrateEvent[] = lowBitrates.map(
-        (model: StreamDatapointModel, index) => {
-          return {
-            x: model.longitude,
-            y: model.latitude,
-            bitrate: model.bitrate,
-            timestamp: model.timestamp,
-          };
-        }
-      );
+      const lowBitrateEvents = await findLowBitrateEvents(streamData);
 
-      const lowAudiobitrates = streamData.filter(
-        (model: StreamDatapointModel, index) => {
-          return model.audioBitrate < audiobitrateThreshold;
-        }
-      );
-      const lowAudioBitrateEvents: LowAudioBitrateEvent[] =
-        lowAudiobitrates.map((model: StreamDatapointModel, index) => {
-          return {
-            x: model.longitude,
-            y: model.latitude,
-            audioBitrate: model.audioBitrate,
-            timestamp: model.timestamp,
-          };
-        });
+      // find datapoints where bitrate fail to meet audiobitrate threshold
+      const lowAudioBitrateEvents = await findLowAudioBitrateEvents(streamData);
 
+      // combine them for display in side table
       const healthCellMetaData = [
         lowBitrateEvents,
         lowAudioBitrateEvents,
       ].flat();
-      console.log(streamData);
+
       setStreamData(streamData);
       setDisplayData({
         minBitrate: minBitrate,
