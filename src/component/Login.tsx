@@ -45,6 +45,10 @@ export function Login() {
   const passwordRef = useRef<HTMLInputElement | null>(null);
   const history = useHistory();
 
+  const toForgotPassword = () => { 
+    history.push("/forgotpassword");
+  }
+
   const loginSubmit = async (event: any) => {
     event.preventDefault();
     setError("");
@@ -95,7 +99,7 @@ export function Login() {
       <Logo />
       <p> Stream Dashboard by Muxable</p>
       <Grid container spacing={3} direction="column" alignContent="center">
-        {error && <Alert severity="error">{error}</Alert>}
+        {error && <Alert severity="error" style={{marginTop:"15px", marginLeft:"23px"}}>{error}</Alert>}
         <Grid item>
           <Box width={350}>
             <TextField
@@ -147,7 +151,7 @@ export function Login() {
         </Grid>
         <Grid item textAlign="left">
           <Box width={350}>
-            <Button fullWidth size="medium" variant="outlined">
+            <Button fullWidth size="medium" variant="outlined" onClick={toForgotPassword}>
               Forgot password?
             </Button>
           </Box>

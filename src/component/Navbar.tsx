@@ -9,6 +9,7 @@ import Divider from "@mui/material/Divider";
 import Tooltip from "@mui/material/Tooltip";
 import InputBase from "@material-ui/core/InputBase";
 import { makeStyles, alpha } from "@material-ui/core/styles";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   searchBox: {
@@ -29,6 +30,8 @@ const useStyles = makeStyles((theme) => ({
 const Navbar = () => {
   const classes = useStyles();
 
+  const history = useHistory();
+
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const openMenu = (event: any) => {
@@ -38,6 +41,11 @@ const Navbar = () => {
   const closeMenu = () => {
     setAnchorEl(null);
   };
+
+  
+  const toProfile = () =>{ 
+    history.push("/profile");
+  }
 
   return (
     <>
@@ -85,7 +93,7 @@ const Navbar = () => {
       >
         {/*Menu that pops up when pressing the profile icon*/}
         <MenuList>
-          <MenuItem onClick={closeMenu}>
+          <MenuItem onClick={toProfile}>
             <AccountCircleIcon color="primary" style={{ paddingRight: "2%" }} />{" "}
             View profile
           </MenuItem>

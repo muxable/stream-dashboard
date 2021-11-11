@@ -1,4 +1,3 @@
-import { Drawer, Typography } from "@mui/material";
 import {
   List,
   ListItem,
@@ -6,6 +5,9 @@ import {
   ListItemText,
   Switch,
   Paper,
+  Box,
+  Drawer,
+  Typography,
 } from "@mui/material";
 import { makeStyles } from "@material-ui/core";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
@@ -25,26 +27,23 @@ const useStyles = makeStyles({
     width: "240px",
   },
 
-  root: {
-    display: "flex",
-  },
+  
 });
 
 const Sidebar = () => {
   const classes = useStyles();
   return (
-    <div>
+    <Box style={{display:"flex"}} >
       <Drawer
         className={classes.drawer}
         variant="permanent"
         anchor="left"
         classes={{ paper: classes.drawerPaper }}
       >
-        <div className={classes.root}>
+        <div>
           <Typography
             variant="h6"
             align="center"
-            style={{ marginLeft: "22px" }}
           >
             Streamer Dashboard
           </Typography>
@@ -126,7 +125,7 @@ const Sidebar = () => {
           </ListItem>
         </List>
       </Drawer>
-    </div>
+    </Box>
   );
 };
 
