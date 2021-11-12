@@ -7,29 +7,20 @@ import {
   Legend,
   ComposedChart,
 } from "recharts";
-import { StreamDatapointModel } from "../models/stream_datepoint";
-
-function formatData(data: StreamDatapointModel[]) {
-  const formatted = data.map((d, index) => {
-    return {
-      bitrate: d.bitrate,
-      framerate: d.fps,
-    };
-  });
-  return formatted;
-}
 
 export function ComposedTwoYAxisChart({
   data,
 }: {
-  data: StreamDatapointModel[];
+  data: {
+    bitrate: number;
+    framerate: number;
+  }[];
 }) {
-  const formattedData: any = formatData(data);
   return (
     <ComposedChart
       width={600}
       height={400}
-      data={formattedData}
+      data={data}
       margin={{
         top: 20,
         right: 20,

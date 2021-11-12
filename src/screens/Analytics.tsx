@@ -1,11 +1,15 @@
 import { Container, Paper, Tab, Tabs, Stack } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLocation, useParams } from "react-router";
 import { filterByStreamId } from "../adapters/stream";
 import { ComposedTwoAreasChart } from "../component/ComposedTwoAreasChart";
 import { ComposedTwoYAxisChart } from "../component/ComposedTwoYAxisChart";
 import { HardwareInformationTable } from "../component/HardwareInformationTable";
-import { LowAudioBitrateEvent, LowBitrateEvent, Map } from "../component/Map";
+import {
+  LowAudioBitrateEvent,
+  LowBitrateEvent,
+  MapComponent,
+} from "../component/Map";
 import { SimpleStatsTable } from "../component/SimpleStatsTable";
 import { StackAreasChart } from "../component/StackAreasChart";
 import { StreamHealthTable } from "../component/StreamHealthTable";
@@ -13,6 +17,7 @@ import { ModemModel } from "../models/modem";
 import { StreamDatapointModel } from "../models/stream_datepoint";
 import { StreamModel } from "../models/stream_sessions";
 
+const cacheDisplayData = new Map<string, any>();
 export function Analytics() {
   const [value, setValue] = useState(0);
 
@@ -23,7 +28,7 @@ export function Analytics() {
   const audioCodec = streamModel.audioCodec;
   const videoResolution = streamModel.videoResolution;
 
-  const [streamData, setStreamData] = useState<StreamDatapointModel[]>([]);
+  // const [streamData, setStreamData] = useState<StreamDatapointModel[]>([]);
   const [displayData, setDisplayData] = useState({
     minBitrate: 0,
     maxBitrate: 0,
@@ -46,6 +51,7 @@ export function Analytics() {
       { x: 0, y: 0, bitrate: 0, timestamp: new Date() },
       { x: 0, y: 0, audioBitrate: 0, timestamp: new Date() },
     ],
+    bitrateFpsData: [{ bitrate: 0, framerate: 0 }],
   });
 
   const findLowBitrateEvents = async (streamData: StreamDatapointModel[]) => {
@@ -126,12 +132,29 @@ export function Analytics() {
     return formattedIndivialModemData;
   };
 
+  const formatBitrateFPSdata = async (data: StreamDatapointModel[]) => {
+    const formatted = data.map((d, index) => {
+      return {
+        bitrate: d.bitrate,
+        framerate: d.fps,
+      };
+    });
+    return formatted;
+  };
+
   useEffect(() => {
     async function loadStreamData(streamId: string) {
+      if (cacheDisplayData.get(streamId)) {
+        const cacheData = cacheDisplayData.get(streamId);
+        setDisplayData(cacheData);
+        return;
+      }
       const streamData: StreamDatapointModel[] = await filterByStreamId(
         streamId
       );
       const modemDatapoints = streamData.map((x) => x.modems);
+
+      const bitrateFpsData = await formatBitrateFPSdata(streamData);
 
       // format modem datapoints to show them on a stack area graph
       const aggregateData = await formatAggregateModemData(modemDatapoints);
@@ -218,7 +241,6 @@ export function Analytics() {
         lowAudioBitrateEvents,
       ].flat();
 
-      setStreamData(streamData);
       setDisplayData({
         minBitrate: minBitrate,
         maxBitrate: maxBitrate,
@@ -243,9 +265,37 @@ export function Analytics() {
         lowAudioBitrateEvents: lowAudioBitrateEvents,
 
         healthCellMetaData: healthCellMetaData,
+
+        bitrateFpsData: bitrateFpsData,
+      });
+      cacheDisplayData.set(streamId, {
+        minBitrate: minBitrate,
+        maxBitrate: maxBitrate,
+        avgBitrate: avgBitrate,
+
+        minFPS: minFPS,
+        maxFPS: maxFPS,
+        avgFPS: avgFPS,
+
+        minAudioBitrate: minAudioBitrate,
+        maxAudioBitrate: maxAudioBitrate,
+        avgAudioBitrate: avgAudioBitrate,
+
+        modemKeys: Array.from(modemKeys),
+
+        aggregateUpstreamData: aggregateUpstreamData,
+        aggregateDownstreamData: aggregateDownstreamData,
+
+        individualModemsData: formattedIndivialModemData,
+
+        lowBitrateEvents: lowBitrateEvents,
+        lowAudioBitrateEvents: lowAudioBitrateEvents,
+
+        healthCellMetaData: healthCellMetaData,
+
+        bitrateFpsData: bitrateFpsData,
       });
     }
-
     loadStreamData(streamId);
   }, [streamId]);
 
@@ -270,6 +320,7 @@ export function Analytics() {
     lowBitrateEvents,
     lowAudioBitrateEvents,
     healthCellMetaData,
+    bitrateFpsData,
   } = displayData;
 
   return (
@@ -289,7 +340,7 @@ export function Analytics() {
               <Tab label="Aggregate downstream" style={{ marginRight: 12 }} />
               <Tab label="Individual modems" style={{ marginRight: 12 }} />
             </Tabs>
-            {value === 0 && <ComposedTwoYAxisChart data={streamData} />}
+            {value === 0 && <ComposedTwoYAxisChart data={bitrateFpsData} />}
             {value === 1 && (
               <StackAreasChart
                 format={{
@@ -349,7 +400,7 @@ export function Analytics() {
         </Stack>
 
         {/* Map */}
-        <Map
+        <MapComponent
           unstableEvents={{
             lowBitrateEvents: lowBitrateEvents,
             lowAudiobitrateEvents: lowAudioBitrateEvents,
