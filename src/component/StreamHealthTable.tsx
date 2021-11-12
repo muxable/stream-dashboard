@@ -30,7 +30,7 @@ const columns: GridColDef[] = [
         <Container>
           {"bitrate" in healthMetaData && (
             <Chip
-              label={`low btirate ${healthMetaData.bitrate}`}
+              label={`low bitrate ${healthMetaData.bitrate}`}
               color="error"
               variant="outlined"
             />
