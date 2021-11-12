@@ -8,39 +8,18 @@ import {
   Legend,
 } from "recharts";
 
-// type StackAreasDataFormat = {
-// 	xAxisDataKey: string
-// 	dataKey: string
-// 	size: number
-// 	data: any[]
-// 	YAxisUnit: string
-// }
+type StackAreasDataFormat = {
+  xAxisDataKey: string;
+  dataKeys: string[];
+  data: any[];
+  yAxisUnit: string;
+};
 
-// hardcode example
-const YAxisUnit = "Mbps";
-const xAxisDataKey: string = "timestamp";
-const dataKey: string = "downstream";
-var dataKeys: string[] = [];
-const size = 5;
-for (let i = 1; i <= size; i++) {
-  dataKeys.push(`${dataKey}-${i}`);
-}
 const colors = ["#8884d8", "#3474eb", "#34eb77", "#e3406b", "#e3cc66"];
 
-function getRandomArbitrary(min: number, max: number) {
-  return Math.ceil(Math.random() * (max - min) + min);
-}
+export function StackAreasChart({ format }: { format: StackAreasDataFormat }) {
+  const { xAxisDataKey, dataKeys, data, yAxisUnit } = format;
 
-var data: any[] = [];
-for (let i = 0; i < 200; i++) {
-  let d: any = {};
-  for (let k = 1; k <= size; k++) {
-    d[`${dataKey}-${k}`] = getRandomArbitrary(0, 10);
-  }
-  data.push(d);
-}
-
-export function StackAreasChart() {
   return (
     <AreaChart
       width={600}
@@ -55,7 +34,7 @@ export function StackAreasChart() {
     >
       <XAxis dataKey={xAxisDataKey} tick={false} />
       <YAxis
-        label={{ value: `${YAxisUnit}`, angle: -90, position: "insideLeft" }}
+        label={{ value: `${yAxisUnit}`, angle: -90, position: "insideLeft" }}
       />
       <Legend />
       <Tooltip />

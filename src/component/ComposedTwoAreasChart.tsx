@@ -8,20 +8,20 @@ import {
   Legend,
 } from "recharts";
 
-function getRandomArbitrary(min: number, max: number) {
-  return Math.ceil(Math.random() * (max - min) + min);
-}
+type ComposedTwoAreasChartFormat = {
+  dataKeyOne: string;
+  dataKeyTwo: string;
+  data: any[];
+  yAxisUnit: string;
+};
 
-var data: any[] = [];
-for (let i = 0; i < 2000; i++) {
-  let d = {
-    upstream: getRandomArbitrary(0, 10),
-    downstream: getRandomArbitrary(0, 30),
-  };
-  data.push(d);
-}
+export function ComposedTwoAreasChart({
+  format,
+}: {
+  format: ComposedTwoAreasChartFormat;
+}) {
+  const { dataKeyOne, dataKeyTwo, data, yAxisUnit } = format;
 
-export function ComposedTwoAreasChart() {
   return (
     <ComposedChart
       width={600}
@@ -35,11 +35,11 @@ export function ComposedTwoAreasChart() {
       }}
     >
       <XAxis dataKey="name" tick={false} />
-      <YAxis label={{ value: "Mbps", angle: -90, position: "insideLeft" }} />
+      <YAxis label={{ value: yAxisUnit, angle: -90, position: "insideLeft" }} />
       <Tooltip />
       <Legend />
-      <Area dot={false} dataKey="downstream" fill="#8884d8" stroke="#8884d8" />
-      <Area dot={false} dataKey="upstream" fill="#f5426c" stroke="#f5426c" />
+      <Area dot={false} dataKey={dataKeyOne} fill="#8884d8" stroke="#8884d8" />
+      <Area dot={false} dataKey={dataKeyTwo} fill="#f5426c" stroke="#f5426c" />
       <Brush />
     </ComposedChart>
   );

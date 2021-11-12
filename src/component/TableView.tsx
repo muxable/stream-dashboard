@@ -6,6 +6,7 @@ import Navbar from "./Navbar";
 import { StreamModel } from "../models/stream_sessions";
 import { filterByUserId } from "../adapters/stream_sessions";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 const columns: GridColDef[] = [
   { field: "id", headerName: "ID", width: 100 },
@@ -52,13 +53,21 @@ const columns: GridColDef[] = [
     hideSortIcons: true,
     sortable: false,
     filterable: false,
-    renderCell: (params) => {
+    renderCell: (param) => {
+      const streamModel: StreamModel = param.value as StreamModel;
       return (
-        <Tooltip title="Learn more" placement="right">
-          <IconButton>
-            <AnalyticsIcon />
-          </IconButton>
-        </Tooltip>
+        <Link
+          to={{
+            pathname: `/analytic/${streamModel.streamId}`,
+            state: streamModel,
+          }}
+        >
+          <Tooltip title="Learn more" placement="right">
+            <IconButton>
+              <AnalyticsIcon />
+            </IconButton>
+          </Tooltip>
+        </Link>
       );
     },
   },
@@ -90,6 +99,7 @@ export function StreamsTableView({ userId }: { userId: string }) {
         id: index,
         formattedStartDate: formattedStartDate,
         formattedEndDate: formattedEndDate,
+        action: streamModel,
       };
     });
     setRows(formattedStreams);
