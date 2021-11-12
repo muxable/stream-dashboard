@@ -1,5 +1,5 @@
 import { Container, Paper, Tab, Tabs, Stack } from "@mui/material";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router";
 import { filterByStreamId } from "../adapters/stream";
 import { ComposedTwoAreasChart } from "../component/ComposedTwoAreasChart";
@@ -333,7 +333,7 @@ export function Analytics() {
               onChange={handleChange}
               variant="scrollable"
               scrollButtons="auto"
-              // style={{ marginBottom: 20, marginTop: 20, background: '#a2fb1b' }}
+            // style={{ marginBottom: 20, marginTop: 20, background: '#a2fb1b' }}
             >
               <Tab label="bitrate/fps" style={{ marginRight: 12 }} />
               <Tab label="Aggregate upstream" style={{ marginRight: 12 }} />
