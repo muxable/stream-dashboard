@@ -49,7 +49,7 @@ export function Analytics() {
   });
 
   const findLowBitrateEvents = async (streamData: StreamDatapointModel[]) => {
-    const bitrateThreshold = 1000;
+    const bitrateThreshold = 500;
     const lowBitrates = streamData.filter((model: StreamDatapointModel) => {
       return model.bitrate < bitrateThreshold;
     });
@@ -69,7 +69,7 @@ export function Analytics() {
   const findLowAudioBitrateEvents = async (
     streamData: StreamDatapointModel[]
   ) => {
-    const audiobitrateThreshold = 33;
+    const audiobitrateThreshold = 500;
     const lowAudiobitrates = streamData.filter(
       (model: StreamDatapointModel) => {
         return model.audioBitrate < audiobitrateThreshold;
@@ -282,7 +282,7 @@ export function Analytics() {
               onChange={handleChange}
               variant="scrollable"
               scrollButtons="auto"
-              // style={{ marginBottom: 20, marginTop: 20, background: '#a2fb1b' }}
+            // style={{ marginBottom: 20, marginTop: 20, background: '#a2fb1b' }}
             >
               <Tab label="bitrate/fps" style={{ marginRight: 12 }} />
               <Tab label="Aggregate upstream" style={{ marginRight: 12 }} />
