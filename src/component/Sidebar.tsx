@@ -26,14 +26,12 @@ const useStyles = makeStyles({
   drawerPaper: {
     width: "240px",
   },
-
-  
 });
 
 const Sidebar = () => {
   const classes = useStyles();
   return (
-    <Box style={{display:"flex"}} >
+    <Box style={{ display: "flex" }}>
       <Drawer
         className={classes.drawer}
         variant="permanent"
@@ -41,10 +39,7 @@ const Sidebar = () => {
         classes={{ paper: classes.drawerPaper }}
       >
         <div>
-          <Typography
-            variant="h6"
-            align="center"
-          >
+          <Typography variant="h6" align="center">
             Streamer Dashboard
           </Typography>
         </div>

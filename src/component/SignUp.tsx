@@ -102,7 +102,14 @@ export function SignUp() {
       <Logo />
       <p> Stream Dashboard by Muxable </p>
       <Grid container spacing={3} direction="column" alignContent="center">
-        {error && <Alert style={{marginTop:"15px", marginLeft:"23px"}} severity="error">{error}</Alert>}
+        {error && (
+          <Alert
+            style={{ marginTop: "15px", marginLeft: "23px" }}
+            severity="error"
+          >
+            {error}
+          </Alert>
+        )}
         <Grid item>
           <Box width={350}>
             <TextField

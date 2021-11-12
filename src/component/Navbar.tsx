@@ -42,10 +42,9 @@ const Navbar = () => {
     setAnchorEl(null);
   };
 
-  
-  const toProfile = () =>{ 
+  const toProfile = () => {
     history.push("/profile");
-  }
+  };
 
   return (
     <>
