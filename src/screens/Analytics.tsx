@@ -2,6 +2,7 @@ import { Container, Paper, Tab, Tabs, Stack } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router";
 import { filterByStreamId } from "../adapters/stream";
+import { BasicLineChart } from "../component/BasicLineChart";
 import { ComposedTwoAreasChart } from "../component/ComposedTwoAreasChart";
 import { ComposedTwoYAxisChart } from "../component/ComposedTwoYAxisChart";
 import { HardwareInformationTable } from "../component/HardwareInformationTable";
@@ -46,6 +47,7 @@ export function Analytics() {
       { x: 0, y: 0, bitrate: 0, timestamp: new Date() },
       { x: 0, y: 0, audioBitrate: 0, timestamp: new Date() },
     ],
+    temperatureData: [],
   });
 
   const findLowBitrateEvents = async (streamData: StreamDatapointModel[]) => {
@@ -126,6 +128,24 @@ export function Analytics() {
     return formattedIndivialModemData;
   };
 
+  const formatModemsTemperatureData = async (
+    modemDatapoints: ModemModel[][]
+  ) => {
+    const modemKeys = new Set<string>();
+    const temperatureData: any = [];
+    for (let i = 0; i < modemDatapoints.length; i++) {
+      const modems = modemDatapoints[i];
+      const temperatureDatapoint: any = {};
+      for (let j = 0; j < modems.length; j++) {
+        const modem = modems[j];
+        modemKeys.add(`modem-${j}`);
+        temperatureDatapoint[`modem-${j}`] = modem.temperature;
+      }
+      temperatureData.push(temperatureDatapoint);
+    }
+    return temperatureData;
+  };
+
   useEffect(() => {
     async function loadStreamData(streamId: string) {
       const streamData: StreamDatapointModel[] = await filterByStreamId(
@@ -139,10 +159,16 @@ export function Analytics() {
       const aggregateDownstreamData = aggregateData[1];
       const aggregateUpstreamData = aggregateData[2];
 
+      // modems temperature data
+      const temperatureData = await formatModemsTemperatureData(
+        modemDatapoints
+      );
+
       // perform transpose, so each row has the data of a modem
       const transpose = modemDatapoints[0].map((col, c) =>
         modemDatapoints.map((row, r) => modemDatapoints[r][c])
       );
+      // upstream and downstream data
       const formattedIndivialModemData = await formatIndivialModemData(
         transpose
       );
@@ -243,6 +269,8 @@ export function Analytics() {
         lowAudioBitrateEvents: lowAudioBitrateEvents,
 
         healthCellMetaData: healthCellMetaData,
+
+        temperatureData: temperatureData,
       });
     }
 
@@ -270,6 +298,7 @@ export function Analytics() {
     lowBitrateEvents,
     lowAudioBitrateEvents,
     healthCellMetaData,
+    temperatureData,
   } = displayData;
 
   return (
@@ -288,6 +317,7 @@ export function Analytics() {
               <Tab label="Aggregate upstream" style={{ marginRight: 12 }} />
               <Tab label="Aggregate downstream" style={{ marginRight: 12 }} />
               <Tab label="Individual modems" style={{ marginRight: 12 }} />
+              <Tab label="Modems Temperature" style={{ marginRight: 12 }} />
             </Tabs>
             {value === 0 && <ComposedTwoYAxisChart data={streamData} />}
             {value === 1 && (
@@ -323,6 +353,16 @@ export function Analytics() {
                   />
                 );
               })}
+            {value === 4 && (
+              <BasicLineChart
+                format={{
+                  xAxisDataKey: "timestamp",
+                  dataKeys: modemKeys,
+                  data: temperatureData,
+                  yAxisUnit: "Fahrenheit",
+                }}
+              />
+            )}
 
             {/* mock data */}
             <SimpleStatsTable
