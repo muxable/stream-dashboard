@@ -1,14 +1,14 @@
 import {
-  AreaChart,
-  Area,
   XAxis,
   YAxis,
   Tooltip,
   Brush,
   Legend,
+  LineChart,
+  Line,
 } from "recharts";
 
-type StackAreasDataFormat = {
+type BasicLinesDataFormat = {
   xAxisDataKey: string;
   dataKeys: string[];
   data: any[];
@@ -17,11 +17,11 @@ type StackAreasDataFormat = {
 
 const colors = ["#8884d8", "#3474eb", "#34eb77", "#e3406b", "#e3cc66"];
 
-export function StackAreasChart({ format }: { format: StackAreasDataFormat }) {
+export function BasicLineChart({ format }: { format: BasicLinesDataFormat }) {
   const { xAxisDataKey, dataKeys, data, yAxisUnit } = format;
 
   return (
-    <AreaChart
+    <LineChart
       width={600}
       height={400}
       data={data}
@@ -40,28 +40,28 @@ export function StackAreasChart({ format }: { format: StackAreasDataFormat }) {
       <Tooltip />
       {dataKeys.map((key, index) => {
         return (
-          <Area
+          <Line
             dataKey={key}
-            stackId="stackId"
             stroke={colors[index % colors.length]}
             fill={colors[index % colors.length]}
+            dot={false}
           />
         );
       })}
       <Brush>
-        <AreaChart>
+        <LineChart>
           {dataKeys.map((key, index) => {
             return (
-              <Area
+              <Line
                 dataKey={key}
-                stackId="stackId"
                 stroke={colors[index % colors.length]}
                 fill={colors[index % colors.length]}
+                dot={false}
               />
             );
           })}
-        </AreaChart>
+        </LineChart>
       </Brush>
-    </AreaChart>
+    </LineChart>
   );
 }

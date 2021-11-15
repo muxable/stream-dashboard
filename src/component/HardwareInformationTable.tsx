@@ -81,20 +81,6 @@ export function HardwareInformationTable({
               />
             </TableCell>
           </TableRow>
-          <TableRow>
-            <TableCell align="center">
-              <HardwareInformationStack
-                title={"AVC Level"}
-                value={`${hardwareInfo.AVCLevel}`}
-              />
-            </TableCell>
-            <TableCell align="center">
-              <HardwareInformationStack
-                title={"Keyframe Interval"}
-                value={`${hardwareInfo.keyframeInterval}`}
-              />
-            </TableCell>
-          </TableRow>
         </TableBody>
       </Table>
     </TableContainer>
