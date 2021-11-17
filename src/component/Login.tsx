@@ -17,9 +17,11 @@ import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 const provider = new GoogleAuthProvider();
 
 export function Login() {
-  function logInWithGoogle() {
-    // signInWithPopup(auth, provider);
-    signInWithPopup(getAuth(), provider).catch((error) => {
+  async function logInWithGoogle() {
+    try {
+      await signInWithPopup(getAuth(), provider);
+      history.replace("/");
+    } catch (error: any) {
       switch (error.code) {
         case "auth/internal-error":
           setError("Internal Error, notify admin");
@@ -37,7 +39,7 @@ export function Login() {
           setError("Account type cannot use this auth method");
           break;
       }
-    });
+    }
   }
 
   const [error, setError] = useState<string>("");
@@ -70,7 +72,7 @@ export function Login() {
         emailRef.current.value,
         passwordRef.current.value
       );
-      history.push("/");
+      history.replace("/");
     } catch (error: any) {
       // TO DO: improve error type
       switch (error.code) {
@@ -155,7 +157,7 @@ export function Login() {
         <Grid item>
           <Box width={350} textAlign="left">
             <Typography variant="subtitle1">
-              Don't have an account?
+              Don't have an account?&nbsp;
               <Link to="/signup" style={{ textDecoration: "none" }}>
                 Sign up
               </Link>
