@@ -3,12 +3,26 @@ import "./App.css";
 import { Login } from "./component/Login";
 import { SignUp } from "./component/SignUp";
 
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
 import { StreamsTableView } from "./component/TableView";
 import { Analytics } from "./screens/Analytics";
-import { AuthProvider } from "./context/AuthContext";
+import { AuthProvider, useAuthState } from "./context/AuthContext";
+
+  const AuthenticatedRoute = ({ component: C, ...props }) => {
+    const { isAuthenticated } = useAuthState();
+    console.log(`AuthenticatedRoute: ${isAuthenticated}`);
+    return (
+      <Route
+        {...props}
+        render={(routeProps) =>
+          isAuthenticated ? <C {...routeProps} /> : <Redirect to="/login" />
+        }
+      />
+    );
+  };
 
 function App() {
+
   return (
     <div className="App">
       <header className="App-header">
