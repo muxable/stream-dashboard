@@ -1,64 +1,26 @@
 import { CircleMarker, MapContainer, TileLayer, Popup } from "react-leaflet";
 
-const unstableEvents: UnstableEvent[] = [
-  {
-    x: 40.7831,
-    y: -73.9712,
-    fps: 60,
-    bitrate: 4000,
-    upstream: 0,
-    downstream: 0,
-    temperature: 88,
-  },
-  {
-    x: 40.7811,
-    y: -73.8712,
-    fps: 60,
-    bitrate: 4000,
-    upstream: 0,
-    downstream: 0,
-    temperature: 50,
-  },
-  {
-    x: 40.7531,
-    y: -73.9712,
-    fps: 59,
-    bitrate: 3000,
-    upstream: 2,
-    downstream: 0,
-    temperature: 55,
-  },
-  {
-    x: 40.7831,
-    y: -73.9733,
-    fps: 60,
-    bitrate: 4000,
-    upstream: 0,
-    downstream: 0,
-    temperature: 88,
-  },
-  {
-    x: 40.7631,
-    y: -73.9612,
-    fps: 60,
-    bitrate: 4000,
-    upstream: 0,
-    downstream: 0,
-    temperature: 88,
-  },
-];
-
-type UnstableEvent = {
-  x: number;
-  y: number;
-  fps: number;
-  bitrate: number;
-  upstream: number;
-  downstream: number;
-  temperature: number;
+type UnstableEvents = {
+  lowBitrateEvents: LowBitrateEvent[];
+  lowAudiobitrateEvents: LowAudioBitrateEvent[];
 };
 
-export function Map() {
+export type LowBitrateEvent = {
+  x: number;
+  y: number;
+  bitrate: number;
+  timestamp: Date;
+};
+
+export type LowAudioBitrateEvent = {
+  x: number;
+  y: number;
+  audioBitrate: number;
+  timestamp: Date;
+};
+
+export function Map({ unstableEvents }: { unstableEvents: UnstableEvents }) {
+  const { lowBitrateEvents, lowAudiobitrateEvents } = unstableEvents;
   return (
     <MapContainer
       center={[40.7831, -73.9712]}
@@ -70,25 +32,38 @@ export function Map() {
         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      {unstableEvents.map(
-        ({ x, y, fps, bitrate, upstream, downstream, temperature }, i) => {
-          return (
-            <CircleMarker
-              center={[x, y]}
-              pathOptions={{ color: "red" }}
-              radius={10}
-            >
-              <Popup>
-                bitrate: {bitrate} <br />
-                fps: {fps} <br />
-                upstream: {upstream} <br />
-                downstream: {downstream} <br />
-                temperature: {temperature} <br />
-              </Popup>
-            </CircleMarker>
-          );
-        }
-      )}
+      {lowBitrateEvents.map(({ x, y, bitrate, timestamp }, i) => {
+        return (
+          <CircleMarker
+            center={[x, y]}
+            pathOptions={{ color: "red" }}
+            radius={10}
+          >
+            <Popup>
+              longitude: {x} <br />
+              latitude: {y} <br />
+              bitrate: {bitrate} <br />
+              {timestamp.toLocaleString()} <br />
+            </Popup>
+          </CircleMarker>
+        );
+      })}
+      {lowAudiobitrateEvents.map(({ x, y, audioBitrate, timestamp }, i) => {
+        return (
+          <CircleMarker
+            center={[x, y]}
+            pathOptions={{ color: "yellow" }}
+            radius={10}
+          >
+            <Popup>
+              longitude: {x} <br />
+              latitude: {y} <br />
+              audio bitrate: {audioBitrate} <br />
+              {timestamp.toLocaleString()} <br />
+            </Popup>
+          </CircleMarker>
+        );
+      })}
     </MapContainer>
   );
 }

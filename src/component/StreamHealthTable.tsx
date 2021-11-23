@@ -1,10 +1,6 @@
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { Chip, Container } from "@mui/material";
-
-type HealthCellMetaData = {
-  isStable: boolean;
-  duration: number;
-};
+import { LowAudioBitrateEvent, LowBitrateEvent } from "./Map";
 
 const columns: GridColDef[] = [
   {
@@ -18,33 +14,30 @@ const columns: GridColDef[] = [
   {
     field: "timestamp",
     headerName: "timestamp",
-    width: 250,
+    width: 200,
   },
   {
-    field: "health",
+    field: "event",
     headerName: "status",
-    width: 160,
+    width: 200,
     hideSortIcons: true,
     sortable: false,
     filterable: false,
     renderCell: (params) => {
-      const healthMetaData: HealthCellMetaData = params[
-        "value"
-      ] as HealthCellMetaData;
-      const isStable = healthMetaData.isStable;
-      const duration = healthMetaData.duration;
+      const healthMetaData: LowAudioBitrateEvent | LowBitrateEvent =
+        params.value as LowAudioBitrateEvent | LowBitrateEvent;
       return (
         <Container>
-          {isStable && (
+          {"bitrate" in healthMetaData && (
             <Chip
-              label={`stable(${duration}s)`}
-              color="success"
+              label={`low bitrate ${healthMetaData.bitrate}`}
+              color="error"
               variant="outlined"
             />
           )}
-          {!isStable && (
+          {"audioBitrate" in healthMetaData && (
             <Chip
-              label={`unstable(${duration})s`}
+              label={`low audio bitrate ${healthMetaData.audioBitrate}`}
               color="error"
               variant="outlined"
             />
@@ -55,19 +48,19 @@ const columns: GridColDef[] = [
   },
 ];
 
-const rows = [
-  { id: 1, timestamp: Date(), health: { isStable: true, duration: 12 } },
-  { id: 2, timestamp: Date(), health: { isStable: false, duration: 32 } },
-  { id: 3, timestamp: Date(), health: { isStable: false, duration: 22 } },
-  { id: 4, timestamp: Date(), health: { isStable: true, duration: 12 } },
-  { id: 5, timestamp: Date(), health: { isStable: false, duration: 42 } },
-  { id: 6, timestamp: Date(), health: { isStable: true, duration: 12 } },
-  { id: 7, timestamp: Date(), health: { isStable: true, duration: 12 } },
-  { id: 8, timestamp: Date(), health: { isStable: false, duration: 52 } },
-  { id: 9, timestamp: Date(), health: { isStable: true, duration: 12 } },
-];
-
-export function StreamHealthTable() {
+export function StreamHealthTable({
+  healthCellMetaData,
+}: {
+  healthCellMetaData: (LowAudioBitrateEvent | LowBitrateEvent)[];
+}) {
+  const rows = healthCellMetaData.map((event, index) => {
+    return {
+      id: index,
+      event: event,
+      timestamp: event.timestamp.toLocaleString(),
+    };
+  });
+  console.log(rows);
   return (
     <div style={{ height: 400, width: 500 }}>
       <DataGrid

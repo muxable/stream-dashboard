@@ -27,7 +27,7 @@ function App() {
               <Route path="/forgotpassword">
                 <ForgotPassword />
               </Route>
-              <Route path="/analytic">
+              <Route path="/analytic/:streamId">
                 <Analytics />
               </Route>
               <Route path="/profile">

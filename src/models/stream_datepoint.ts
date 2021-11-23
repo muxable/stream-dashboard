@@ -41,9 +41,9 @@ export const streamDatapointModelConverter = {
       data.audioBitrate,
       data.ping,
       data.streamTitle,
-      data.startDate,
-      data.endDate,
-      data.timestamp
+      data.startDate.toDate(),
+      data.endDate.toDate(),
+      data.timestamp.toDate()
     );
   },
 };
