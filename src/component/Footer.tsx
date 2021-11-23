@@ -17,7 +17,8 @@ const Footer = () => {
         left: "0",
         right: "0",
         width: "100%",
-        paddingTop: "18px",
+        paddingTop: "5px",
+        zIndex: 1201,
       }}
     >
       <Grid
@@ -28,26 +29,29 @@ const Footer = () => {
         style={{ padding: "5px" }}
       >
         <Grid item style={{ marginLeft: "20px" }}>
-          <Typography variant="h5">Support</Typography>
+          <Typography variant="h6">Support</Typography>
           <Divider />
-          <Link style={{ color: "white" }}>Contact Us</Link>
+          <Link style={{ color: "white", fontSize: 20 }}>Contact Us</Link>
         </Grid>
 
         <Grid item style={{ marginLeft: "20px" }}>
-          <Typography variant="h5">Socials</Typography>
+          <Typography variant="h6">Socials</Typography>
           <Divider />
-          <FacebookIcon /> <Link style={{ color: "white" }}>Facebook</Link>
+          <FacebookIcon fontSize="small" />{" "}
+          <Link style={{ color: "white", fontSize: 20 }}>Facebook</Link>
           <br />
-          <InstagramIcon /> <Link style={{ color: "white" }}>Instagram</Link>
+          <InstagramIcon fontSize="small" />{" "}
+          <Link style={{ color: "white", fontSize: 20 }}>Instagram</Link>
           <br />
-          <TwitterIcon /> <Link style={{ color: "white" }}>Twitter</Link>
+          <TwitterIcon fontSize="small" />{" "}
+          <Link style={{ color: "white", fontSize: 20 }}>Twitter</Link>
         </Grid>
       </Grid>
-      <Divider style={{ width: "100%" }} />
-      <div style={{ display: "flexStart" }}>
-        <span> &copy; {copyright} | </span>
-        <span> Privacy Policy | </span>
-        <span> Terms of Service </span>
+      <Divider />
+      <div>
+        <span style={{ fontSize: 18 }}> &copy; {copyright} &#183; </span>
+        <span style={{ fontSize: 18 }}> Privacy Policy &#183; </span>
+        <span style={{ fontSize: 18 }}> Terms of Service </span>
       </div>
     </div>
   );

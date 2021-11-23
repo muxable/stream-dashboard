@@ -7,8 +7,9 @@ import {
   Paper,
   Box,
   Drawer,
-  Typography,
 } from "@mui/material";
+
+import { useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/core";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
@@ -17,36 +18,48 @@ import HomeIcon from "@mui/icons-material/Home";
 import InfoIcon from "@mui/icons-material/Info";
 import HelpIcon from "@mui/icons-material/Help";
 import LogoutIcon from "@mui/icons-material/Logout";
+import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   drawer: {
     width: "240px",
   },
 
   drawerPaper: {
     width: "240px",
+    height: "100%",
+    overflow: "auto",
   },
-});
+
+  toolbar: theme.mixins.toolbar,
+}));
 
 const Sidebar = () => {
   const classes = useStyles();
+  const history = useHistory();
+  const toHome = () => {
+    history.push("/");
+  };
+
+  const toProfile = () => {
+    history.push("/profile");
+  };
+
+  const toTest = () => {
+    history.push("/test");
+  };
+
+  const toAnalytic = () => {
+    history.push("/analytic");
+  };
   return (
     <Box style={{ display: "flex" }}>
-      <Drawer
-        className={classes.drawer}
-        variant="permanent"
-        anchor="left"
-        classes={{ paper: classes.drawerPaper }}
-      >
-        <div>
-          <Typography variant="h6" align="center">
-            Streamer Dashboard
-          </Typography>
-        </div>
+      <Drawer variant="permanent" classes={{ paper: classes.drawerPaper }}>
+        <div className={classes.toolbar} />
 
         <List>
-          <Paper style={{ marginTop: "2px" }} elevation={1}>
-            <ListItem key="home" button>
+          <Paper elevation={1}>
+            <ListItem key="home" button onClick={toHome}>
               <ListItemIcon>
                 {" "}
                 <HomeIcon />{" "}
@@ -56,7 +69,7 @@ const Sidebar = () => {
           </Paper>
 
           <Paper style={{ marginTop: "5px" }} elevation={1}>
-            <ListItem key="profile" button>
+            <ListItem key="profile" button onClick={toProfile}>
               <ListItemIcon>
                 {" "}
                 <AccountCircleIcon />{" "}
@@ -66,7 +79,7 @@ const Sidebar = () => {
           </Paper>
 
           <Paper style={{ marginTop: "5px" }} elevation={1}>
-            <ListItem key="data" button>
+            <ListItem key="data" button onClick={toAnalytic}>
               <ListItemIcon>
                 <TrendingUpIcon />
               </ListItemIcon>
@@ -114,11 +127,22 @@ const Sidebar = () => {
             </ListItem>
           </Paper>
 
+          <Paper style={{ marginTop: "5px" }} elevation={1}>
+            <ListItem key="test" button onClick={toTest}>
+              <ListItemIcon>
+                {" "}
+                <HelpOutlineIcon />{" "}
+              </ListItemIcon>
+              <ListItemText primary="test" />
+            </ListItem>
+          </Paper>
+
           <ListItem key="toggle">
             <ListItemText primary="Dark mode" />
             <Switch defaultChecked />
           </ListItem>
         </List>
+        <div className={classes.toolbar} />
       </Drawer>
     </Box>
   );

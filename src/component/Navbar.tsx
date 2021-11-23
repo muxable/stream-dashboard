@@ -25,9 +25,13 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "12px",
     height: "20px",
   },
+
+  appBar: {
+    zIndex: theme.zIndex.drawer + 1,
+  },
 }));
 
-const Navbar = () => {
+const Navbar = (props: any) => {
   const classes = useStyles();
 
   const history = useHistory();
@@ -50,9 +54,14 @@ const Navbar = () => {
     <>
       <CssBaseline />
 
-      <AppBar position="fixed" color="primary">
+      <AppBar
+        position="fixed"
+        color="primary"
+        elevation={0}
+        className={classes.appBar}
+      >
         <Toolbar>
-          <Typography variant="overline">Stream Dashboard</Typography>
+          <Typography variant="overline">{props.title}</Typography>
 
           <div className={classes.searchBox}>
             <InputBase
@@ -69,7 +78,7 @@ const Navbar = () => {
           </div>
 
           {/*Profile icon if ever decided to show a profile page*/}
-          <Tooltip title="Your account">
+          <Tooltip title="Your profile">
             <IconButton
               color="inherit"
               size="large"
@@ -110,6 +119,10 @@ const Navbar = () => {
       </Menu>
     </>
   );
+};
+
+Navbar.defaultProps = {
+  title: "Streamer Dashboard",
 };
 
 export default Navbar;

@@ -1,4 +1,4 @@
-import logo from "../assets/muxlogoR.png";
+import logo from "../assets/muxlogo.png";
 
 const Logo = () => {
   return <img src={logo} alt="muxLogo" />;
