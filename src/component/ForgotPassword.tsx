@@ -10,10 +10,11 @@ import {
 import SendIcon from "@mui/icons-material/Send";
 import { Link } from "react-router-dom";
 import Logo from "./Logo";
+import Footer from "./Footer";
 
 export function ForgotPassword() {
   return (
-    <Container>
+    <Container style={{ paddingBottom: "165px" }}>
       <Logo />
       <p> Stream Dashboard by Muxable </p>
       <Grid container spacing={3} direction="column" alignContent="center">
@@ -55,6 +56,7 @@ export function ForgotPassword() {
           </Box>
         </Grid>
       </Grid>
+      <Footer />
     </Container>
   );
 }

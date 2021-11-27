@@ -1,5 +1,5 @@
 import React from "react";
-import { CssBaseline, AppBar, Toolbar, Typography } from "@material-ui/core";
+import { AppBar, Toolbar, Typography } from "@material-ui/core";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { Menu, MenuList, MenuItem, IconButton, Avatar } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
@@ -52,8 +52,6 @@ const Navbar = (props: any) => {
 
   return (
     <>
-      <CssBaseline />
-
       <AppBar
         position="fixed"
         color="primary"

@@ -3,8 +3,7 @@ import "./App.css";
 import { Login } from "./component/Login";
 import { SignUp } from "./component/SignUp";
 import { ForgotPassword } from "./component/ForgotPassword";
-import { ProfilePage } from "./component/ProfilePage";
-import { Test } from "./component/Test";
+import { Profile } from "./component/Profile";
 
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { StreamsTableView } from "./component/TableView";
@@ -31,11 +30,7 @@ function App() {
                 <Analytics />
               </Route>
               <Route path="/profile">
-                <ProfilePage />
-              </Route>
-
-              <Route path="/test">
-                <Test />
+                <Profile />
               </Route>
               <Route path="/">
                 {/* "Your past streams" could be replaced with {regular or twitch username}'s past streams */}

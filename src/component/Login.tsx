@@ -12,6 +12,7 @@ import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { Link, useHistory } from "react-router-dom";
 // import { auth } from "../firebaseSetup";
 import Logo from "./Logo";
+import Footer from "./Footer";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 const provider = new GoogleAuthProvider();
@@ -95,7 +96,7 @@ export function Login() {
   };
 
   return (
-    <Container>
+    <Container style={{ paddingBottom: "165px" }}>
       <Logo />
       <p> Stream Dashboard by Muxable</p>
       <Grid container spacing={3} direction="column" alignContent="center">
@@ -179,6 +180,8 @@ export function Login() {
           </Box>
         </Grid>
       </Grid>
+
+      <Footer />
     </Container>
   );
 }

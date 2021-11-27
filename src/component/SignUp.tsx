@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import Logo from "./Logo";
+import Footer from "./Footer";
 import React, { useState, useRef } from "react";
 import {
   getAuth,
@@ -98,7 +99,7 @@ export function SignUp() {
   }
 
   return (
-    <Container>
+    <Container style={{ paddingBottom: "165px" }}>
       <Logo />
       <p> Stream Dashboard by Muxable </p>
       <Grid container spacing={3} direction="column" alignContent="center">
@@ -178,6 +179,7 @@ export function SignUp() {
           </Box>
         </Grid>
       </Grid>
+      <Footer />
     </Container>
   );
 }

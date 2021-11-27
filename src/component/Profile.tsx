@@ -1,6 +1,8 @@
 import Typography from "@material-ui/core/Typography";
 import React from "react";
 import Navbar from "./Navbar";
+import Footer from "./Footer";
+import Sidebar from "./Sidebar";
 import CreateIcon from "@mui/icons-material/Create";
 import RoomIcon from "@mui/icons-material/Room";
 import { makeStyles } from "@material-ui/core/styles";
@@ -21,12 +23,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export function ProfilePage() {
+export function Profile() {
   const classes = useStyles();
 
   return (
     <>
       <Navbar />
+
+      <Sidebar />
 
       <Typography variant="h4">Your profile</Typography>
 
@@ -79,8 +83,10 @@ export function ProfilePage() {
       </Paper>
 
       {/*Maybe random funfacts here somewhere to pad out the profile page*/}
+
+      <Footer />
     </>
   );
 }
 
-export default ProfilePage;
+export default Profile;

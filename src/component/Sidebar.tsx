@@ -18,7 +18,6 @@ import HomeIcon from "@mui/icons-material/Home";
 import InfoIcon from "@mui/icons-material/Info";
 import HelpIcon from "@mui/icons-material/Help";
 import LogoutIcon from "@mui/icons-material/Logout";
-import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 
 const useStyles = makeStyles((theme) => ({
   drawer: {
@@ -43,10 +42,6 @@ const Sidebar = () => {
 
   const toProfile = () => {
     history.push("/profile");
-  };
-
-  const toTest = () => {
-    history.push("/test");
   };
 
   const toAnalytic = () => {
@@ -124,16 +119,6 @@ const Sidebar = () => {
                 <LogoutIcon />{" "}
               </ListItemIcon>
               <ListItemText primary="Logout" />
-            </ListItem>
-          </Paper>
-
-          <Paper style={{ marginTop: "5px" }} elevation={1}>
-            <ListItem key="test" button onClick={toTest}>
-              <ListItemIcon>
-                {" "}
-                <HelpOutlineIcon />{" "}
-              </ListItemIcon>
-              <ListItemText primary="test" />
             </ListItem>
           </Paper>
 
