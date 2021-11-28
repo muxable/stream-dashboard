@@ -8,8 +8,10 @@ import { StreamsTableView } from "./component/TableView";
 import { Analytics } from "./screens/Analytics";
 import { AuthProvider, useAuthState } from "./context/AuthContext";
 
-  const AuthenticatedRoute = ({ component: C, ...props }) => {
+
+  const AuthenticatedRoute: React.FC<any> = ({ component:C, ...props }) => {
     const { isAuthenticated } = useAuthState();
+    console.log('authstate', useAuthState())
     console.log(`AuthenticatedRoute: ${isAuthenticated}`);
     return (
       <Route
@@ -21,6 +23,18 @@ import { AuthProvider, useAuthState } from "./context/AuthContext";
     );
   };
 
+  const UnauthenticatedRoute: React.FC<any> = ({ component: C, ...props }) => {
+    const { isAuthenticated } = useAuthState();
+    console.log(`UnauthenticatedRoute: ${isAuthenticated}`);
+    return (
+      <Route
+        {...props}
+        render={(routeProps) =>
+          !isAuthenticated ? <C {...routeProps} /> : <Redirect to="/" />
+        }
+      />
+    );
+  };
 function App() {
 
   return (
@@ -39,10 +53,16 @@ function App() {
                 <Analytics />
               </Route>
               <Route path="/">
-                {/* "Your past streams" could be replaced with {regular or twitch username}'s past streams */}
                 <p>Your past streams</p>
                 <StreamsTableView userId="rippyae" />
               </Route>
+              {/* <UnauthenticatedRoute exact path="/signup" component={SignUp} />
+              <UnauthenticatedRoute exact path="/login" component={Login} />
+              <AuthenticatedRoute
+                exact
+                path="/"
+                component={<StreamsTableView userId="rippyae" />}
+              /> */}
             </Switch>
           </Router>
         </AuthProvider>
