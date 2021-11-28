@@ -30,6 +30,6 @@ export function AuthProvider({ children }: React.PropsWithChildren<{}>) {
 }
 
 export const useAuthState = () => {
-  const authValues = useContext(AuthContext)
-  return { ...authValues, isAuthenticated: authValues != null }
-}
+  const authValues = useContext(AuthContext);
+  return { ...authValues, isAuthenticated: authValues != null };
+};
