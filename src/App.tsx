@@ -40,7 +40,7 @@ const UnauthenticatedRoute: React.FC<any> = ({ component: C, ...props }) => {
     />
   );
 };
-function App() {
+async function App() {
   const { email } = useAuthState();
   return (
     <div className="App">
@@ -66,15 +66,13 @@ function App() {
               <AuthenticatedRoute
                 exact
                 path="/"
-                component={StreamsTableView}
-                userId={email}
+                component={<StreamsTableView userId={email} />}
                 // userId="rippyae"
               />
               <AuthenticatedRoute
                 exact
                 path="/analytic/:streamId"
                 component={Analytics}
-                userId={email}
               />
             </Switch>
           </Router>
