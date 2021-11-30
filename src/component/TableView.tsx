@@ -3,6 +3,7 @@ import { IconButton } from "@mui/material";
 import Tooltip from "@mui/material/Tooltip";
 import AnalyticsIcon from "@mui/icons-material/Analytics";
 import Navbar from "./Navbar";
+import Footer from "./Footer";
 import { StreamModel } from "../models/stream_sessions";
 import { filterByUserId } from "../adapters/stream_sessions";
 import { useEffect, useState } from "react";
@@ -110,10 +111,10 @@ export function StreamsTableView({ userId }: { userId: string }) {
   }, [userId]);
 
   return (
-    <>
+    <div>
       <Navbar />
 
-      <div style={{ height: 400, width: "1100px" }}>
+      <div style={{ height: 400, width: "1100px", paddingBottom: "115px" }}>
         <DataGrid
           rows={rows}
           columns={columns}
@@ -122,6 +123,8 @@ export function StreamsTableView({ userId }: { userId: string }) {
           disableSelectionOnClick
         />
       </div>
-    </>
+
+      <Footer />
+    </div>
   );
 }

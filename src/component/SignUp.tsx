@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import { Link, useHistory } from "react-router-dom";
 import Logo from "./Logo";
+import Footer from "./Footer";
 import React, { useState, useRef } from "react";
 import {
   getAuth,
@@ -104,11 +105,18 @@ export function SignUp() {
   }
 
   return (
-    <Container>
+    <Container style={{ paddingBottom: "165px" }}>
       <Logo />
       <p> Stream Dashboard by Muxable </p>
       <Grid container spacing={3} direction="column" alignContent="center">
-        {error && <Alert severity="error">{error}</Alert>}
+        {error && (
+          <Alert
+            style={{ marginTop: "15px", marginLeft: "23px" }}
+            severity="error"
+          >
+            {error}
+          </Alert>
+        )}
         <Grid item>
           <Box width={350}>
             <TextField
@@ -177,6 +185,7 @@ export function SignUp() {
           </Box>
         </Grid>
       </Grid>
+      <Footer />
     </Container>
   );
 }

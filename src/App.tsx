@@ -2,6 +2,8 @@ import React from "react";
 import "./App.css";
 import { Login } from "./component/Login";
 import { SignUp } from "./component/SignUp";
+import { ForgotPassword } from "./component/ForgotPassword";
+import { Profile } from "./component/Profile";
 
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { StreamsTableView } from "./component/TableView";
@@ -21,8 +23,14 @@ function App() {
               <Route path="/login">
                 <Login />
               </Route>
+              <Route path="/forgotpassword">
+                <ForgotPassword />
+              </Route>
               <Route path="/analytic/:streamId">
                 <Analytics />
+              </Route>
+              <Route path="/profile">
+                <Profile />
               </Route>
               <Route path="/">
                 {/* "Your past streams" could be replaced with {regular or twitch username}'s past streams */}
