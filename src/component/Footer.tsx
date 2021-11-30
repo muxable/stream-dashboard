@@ -27,7 +27,7 @@ const Footer = () => {
       <Grid
         container
         direction="row"
-        justify="flex-start"
+        justifyContent="flex-start"
         spacing={3}
         style={{ padding: "3px" }}
       >
