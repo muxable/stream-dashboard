@@ -54,25 +54,14 @@ export function ForgotPassword() {
       <Logo />
       <p> Forgot your password? </p>
       <Grid container spacing={3} direction="column" alignContent="center">
-        {error && (
-          <Alert
-            severity="error"
-            style={{ marginTop: "15px", marginLeft: "23px" }}
-          >
-            {error}
-          </Alert>
-        )}
-        {success && (
-          <Alert
-            severity="success"
-            style={{ marginTop: "15px", marginLeft: "23px" }}
-          >
-            You will receive an email shortly.
-          </Alert>
-        )}
+        <Grid item>
+          {error && <Alert severity="error">{error}</Alert>}
+          {success && (
+            <Alert severity="success">You will receive an email shortly.</Alert>
+          )}
+        </Grid>
         <Grid item>
           <Typography variant="body1">Enter your email address.</Typography>
-          <Grid item></Grid>
           <Box width={350}>
             <TextField
               fullWidth
