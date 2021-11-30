@@ -14,8 +14,9 @@ import { Analytics } from "./screens/Analytics";
 import { AuthProvider, useAuthState } from "./context/AuthContext";
 
 const AuthenticatedRoute: React.FC<any> = ({ component: C, ...props }) => {
-  const { isAuthenticated } = useAuthState();
-  console.log("authstate", useAuthState());
+  const { isAuthenticated, email} = useAuthState();
+  // console.log('props', {...props})
+  console.log("authstate", email, useAuthState());
   console.log(`AuthenticatedRoute: ${isAuthenticated}`);
   return (
     <Route
@@ -40,6 +41,7 @@ const UnauthenticatedRoute: React.FC<any> = ({ component: C, ...props }) => {
   );
 };
 function App() {
+  const { email } = useAuthState();
   return (
     <div className="App">
       <header className="App-header">
@@ -65,12 +67,14 @@ function App() {
                 exact
                 path="/"
                 component={StreamsTableView}
-                userId="rippyae"
+                userId={email}
+                // userId="rippyae"
               />
               <AuthenticatedRoute
                 exact
                 path="/analytic/:streamId"
                 component={Analytics}
+                userId={email}
               />
             </Switch>
           </Router>
