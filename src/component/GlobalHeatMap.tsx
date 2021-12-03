@@ -5,7 +5,7 @@ import MapGL, { Source, LayerProps, Layer } from "react-map-gl";
 import { heatmapLayer } from "./MapStyle";
 // import ControlPanel from './control-panel';
 
-const MAPBOX_TOKEN = ""; // Set your mapbox token here
+const MAPBOX_TOKEN = "pk.eyJ1Ijoia2V2bW8zMTQiLCJhIjoiY2t3bjR3cTloMDJ1ajJ1cW9obGh2ZmcybCJ9.uWdEuy9ilDupIiaOQIcMpQ"; 
 
 export function GlobalHeatMap() {
   const [viewport, setViewport] = useState({
