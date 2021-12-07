@@ -41,7 +41,8 @@ const UnauthenticatedRoute: React.FC<any> = ({ component: C, ...props }) => {
   );
 };
 function App() {
-  const { email = "" } = useAuthState();
+  let { email = "" } = useAuthState();
+  if (email === null) email = ""
   return (
     <div className="App">
       <header className="App-header">
@@ -70,7 +71,7 @@ function App() {
                 // element={<StreamsTableView userId={email} />}
                 // userId="rippyae"
               >
-                {/* <StreamsTableView userId={email || ""} /> */}
+                {/* <StreamsTableView userId={email} /> */}
               </AuthenticatedRoute>
               <AuthenticatedRoute
                 exact
