@@ -2,8 +2,8 @@ import React from "react";
 import "./App.css";
 import { Login } from "./component/Login";
 import { SignUp } from "./component/SignUp";
-import { ForgotPassword } from "./component/ForgotPassword";
-import { Profile } from "./component/Profile";
+// import { ForgotPassword } from "./component/ForgotPassword";
+// import { Profile } from "./component/Profile";
 
 import {
   BrowserRouter as Router,
@@ -14,8 +14,8 @@ import {
 import { StreamsTableView } from "./component/TableView";
 import { Analytics } from "./screens/Analytics";
 import { AuthProvider, useAuthState } from "./context/AuthContext";
-import { AuthProvider } from "./context/AuthContext";
-import { GlobalHeatMap } from "./component/GlobalHeatMap";
+// import { AuthProvider } from "./context/AuthContext";
+// import { GlobalHeatMap } from "./component/GlobalHeatMap";
 
 const AuthenticatedRoute: React.FC<any> = ({ component: C, ...props }) => {
   const { isAuthenticated, email} = useAuthState();
