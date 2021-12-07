@@ -17,7 +17,6 @@ export function GlobalHeatMap() {
   const [earthquakes, setEarthQuakes] = useState(null);
 
   useEffect(() => {
-    /* global fetch */
     fetch("https://docs.mapbox.com/mapbox-gl-js/assets/earthquakes.geojson")
       .then((resp) => resp.json())
       .then((json) => {
