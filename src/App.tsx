@@ -41,7 +41,7 @@ const UnauthenticatedRoute: React.FC<any> = ({ component: C, ...props }) => {
   );
 };
 function App() {
-  const { email } = useAuthState();
+  const { email = "" } = useAuthState();
   return (
     <div className="App">
       <header className="App-header">
