@@ -60,7 +60,6 @@ export function StreamHealthTable({
       timestamp: event.timestamp.toLocaleString(),
     };
   });
-  console.log(rows);
   return (
     <div style={{ height: 400, width: 500 }}>
       <DataGrid

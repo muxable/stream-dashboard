@@ -7,8 +7,9 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import Logo from "./Logo";
+import Footer from "./Footer";
 import React, { useState, useRef } from "react";
 import {
   getAuth,
@@ -25,11 +26,12 @@ export function SignUp() {
   const emailRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
   const passwordConfirmRef = useRef<HTMLInputElement | null>(null);
+  const history = useHistory();
   // TODO Improve typing
   const signup = async (event: any) => {
     event.preventDefault();
     const signupAuth = getAuth();
-
+    setError("");
     if (
       passwordRef.current === null ||
       emailRef.current === null ||
@@ -39,6 +41,7 @@ export function SignUp() {
 
     if (passwordRef.current.value !== passwordConfirmRef.current.value) {
       setError("Password doesn't match");
+      return;
     }
 
     try {
@@ -47,6 +50,7 @@ export function SignUp() {
         emailRef.current.value,
         passwordRef.current.value
       );
+      history.replace("/");
     } catch (error: any) {
       switch (error.code) {
         case "auth/invalid-email":
@@ -69,8 +73,11 @@ export function SignUp() {
   };
 
   // These are only some of the popup errors handled
-  function signInWithGoogle() {
-    signInWithPopup(getAuth(), provider).catch((error) => {
+  async function signInWithGoogle() {
+    try {
+      await signInWithPopup(getAuth(), provider);
+      history.replace("/");
+    } catch (error: any) {
       switch (error.code) {
         case "auth/internal-error":
           setError("Internal Error, notify admin");
@@ -94,15 +101,22 @@ export function SignUp() {
           setError("Account type cannot use this auth method");
           break;
       }
-    });
+    }
   }
 
   return (
-    <Container>
+    <Container style={{ paddingBottom: "165px" }}>
       <Logo />
       <p> Stream Dashboard by Muxable </p>
       <Grid container spacing={3} direction="column" alignContent="center">
-        {error && <Alert severity="error">{error}</Alert>}
+        {error && (
+          <Alert
+            style={{ marginTop: "15px", marginLeft: "23px" }}
+            severity="error"
+          >
+            {error}
+          </Alert>
+        )}
         <Grid item>
           <Box width={350}>
             <TextField
@@ -163,7 +177,7 @@ export function SignUp() {
         <Grid item>
           <Box width={350} textAlign="left">
             <Typography variant="subtitle1">
-              Have an account?
+              Have an account?&nbsp;
               <Link to="/login" style={{ textDecoration: "none" }}>
                 Login
               </Link>
@@ -171,6 +185,7 @@ export function SignUp() {
           </Box>
         </Grid>
       </Grid>
+      <Footer />
     </Container>
   );
 }
