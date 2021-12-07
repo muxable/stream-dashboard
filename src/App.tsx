@@ -9,6 +9,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { StreamsTableView } from "./component/TableView";
 import { Analytics } from "./screens/Analytics";
 import { AuthProvider } from "./context/AuthContext";
+import { GlobalHeatMap } from "./component/GlobalHeatMap";
 
 function App() {
   return (
@@ -17,6 +18,9 @@ function App() {
         <AuthProvider>
           <Router>
             <Switch>
+              <Route path="/global">
+                <GlobalHeatMap />
+              </Route>
               <Route path="/signup">
                 <SignUp />
               </Route>
