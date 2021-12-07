@@ -19,7 +19,11 @@ export type LowAudioBitrateEvent = {
   timestamp: Date;
 };
 
-export function Map({ unstableEvents }: { unstableEvents: UnstableEvents }) {
+export function MapComponent({
+  unstableEvents,
+}: {
+  unstableEvents: UnstableEvents;
+}) {
   const { lowBitrateEvents, lowAudiobitrateEvents } = unstableEvents;
   return (
     <MapContainer

@@ -12,14 +12,17 @@ import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { Link, useHistory } from "react-router-dom";
 // import { auth } from "../firebaseSetup";
 import Logo from "./Logo";
+import Footer from "./Footer";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 const provider = new GoogleAuthProvider();
 
 export function Login() {
-  function logInWithGoogle() {
-    // signInWithPopup(auth, provider);
-    signInWithPopup(getAuth(), provider).catch((error) => {
+  async function logInWithGoogle() {
+    try {
+      await signInWithPopup(getAuth(), provider);
+      history.replace("/");
+    } catch (error: any) {
       switch (error.code) {
         case "auth/internal-error":
           setError("Internal Error, notify admin");
@@ -37,13 +40,17 @@ export function Login() {
           setError("Account type cannot use this auth method");
           break;
       }
-    });
+    }
   }
 
   const [error, setError] = useState<string>("");
   const emailRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
   const history = useHistory();
+
+  const toForgotPassword = () => {
+    history.push("/forgotpassword");
+  };
 
   const loginSubmit = async (event: any) => {
     event.preventDefault();
@@ -70,7 +77,7 @@ export function Login() {
         emailRef.current.value,
         passwordRef.current.value
       );
-      history.push("/");
+      history.replace("/");
     } catch (error: any) {
       // TO DO: improve error type
       switch (error.code) {
@@ -91,11 +98,18 @@ export function Login() {
   };
 
   return (
-    <Container>
+    <Container style={{ paddingBottom: "165px" }}>
       <Logo />
       <p> Stream Dashboard by Muxable</p>
       <Grid container spacing={3} direction="column" alignContent="center">
-        {error && <Alert severity="error">{error}</Alert>}
+        {error && (
+          <Alert
+            severity="error"
+            style={{ marginTop: "15px", marginLeft: "23px" }}
+          >
+            {error}
+          </Alert>
+        )}
         <Grid item>
           <Box width={350}>
             <TextField
@@ -147,7 +161,12 @@ export function Login() {
         </Grid>
         <Grid item textAlign="left">
           <Box width={350}>
-            <Button fullWidth size="medium" variant="outlined">
+            <Button
+              fullWidth
+              size="medium"
+              variant="outlined"
+              onClick={toForgotPassword}
+            >
               Forgot password?
             </Button>
           </Box>
@@ -155,7 +174,7 @@ export function Login() {
         <Grid item>
           <Box width={350} textAlign="left">
             <Typography variant="subtitle1">
-              Don't have an account?
+              Don't have an account?&nbsp;
               <Link to="/signup" style={{ textDecoration: "none" }}>
                 Sign up
               </Link>
@@ -163,6 +182,8 @@ export function Login() {
           </Box>
         </Grid>
       </Grid>
+
+      <Footer />
     </Container>
   );
 }
