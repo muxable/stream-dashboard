@@ -114,7 +114,7 @@ async def get_all_bins():
         avg_audio_bitrate = 0
         # using the center of the square as the point for showing up on the heatmap
         longitude = anchor_longitude + SQUARE_SIZE
-        latitude = anchor_latitude + SQUARE_SIZE
+        latitude = anchor_latitude - SQUARE_SIZE
 
         if count > 0:
             avg_bitrate = total_bitrate / count        
@@ -128,7 +128,7 @@ async def get_all_bins():
         })
     # use convext hull to process each bin if we like to use polygon for the heatmap
     # ######################################
-    
+
     # convert the process data into an proper geojson  
     formatted = convert_to_point_geojson(preprocess)
     return formatted
