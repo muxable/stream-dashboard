@@ -1,24 +1,67 @@
+import SendIcon from "@mui/icons-material/Send";
 import {
-  Typography,
-  Container,
+  Alert,
   Box,
   Button,
+  Container,
   Grid,
   TextField,
+  Typography,
 } from "@mui/material";
-
-import SendIcon from "@mui/icons-material/Send";
+import { getAuth, sendPasswordResetEmail } from "firebase/auth";
+import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import Logo from "./Logo";
 import Footer from "./Footer";
 
 export function ForgotPassword() {
+  const emailRef = useRef<HTMLInputElement | null>(null);
+  const [error, setError] = useState<string>("");
+  const [success, toggleSuccessMessage] = useState<boolean>(false);
+
+  function sendResetEmail() {
+    sendPasswordResetEmail(getAuth(), emailRef!.current!.value)
+      .then(() => {
+        toggleSuccessMessage(true);
+        setError("");
+      })
+      .catch((error) => {
+        toggleSuccessMessage(false);
+        switch (error.code) {
+          case "auth/invalid-email":
+            setError("Invalid email provided.");
+            break;
+          case "auth/missing-email":
+            setError("Please provide your email address.");
+            break;
+          case "auth/too-many-requests":
+            setError("Too many attempts, try again later.");
+            break;
+          case "auth/internal-error":
+            setError("Internal Error, notify an administrator.");
+            break;
+          case "auth/user-not-found":
+            setError("This email does not seem to be registered.");
+            break;
+          default:
+            setError(error.message);
+        }
+      });
+  }
+
   return (
     <Container style={{ paddingBottom: "165px" }}>
       <Logo />
-      <p> Stream Dashboard by Muxable </p>
+      <p> Forgot your password? </p>
       <Grid container spacing={3} direction="column" alignContent="center">
         <Grid item>
+          {error && <Alert severity="error">{error}</Alert>}
+          {success && (
+            <Alert severity="success">You will receive an email shortly.</Alert>
+          )}
+        </Grid>
+        <Grid item>
+          <Typography variant="body1">Enter your email address.</Typography>
           <Box width={350}>
             <TextField
               fullWidth
@@ -26,6 +69,7 @@ export function ForgotPassword() {
               name="sendEmail"
               size="small"
               variant="outlined"
+              inputRef={emailRef}
             />
           </Box>
         </Grid>
@@ -37,9 +81,9 @@ export function ForgotPassword() {
               size="medium"
               variant="outlined"
               endIcon={<SendIcon />}
+              onClick={sendResetEmail}
             >
-              {" "}
-              Send Email{" "}
+              Send Email
             </Button>
           </Box>
         </Grid>
