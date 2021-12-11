@@ -43,7 +43,7 @@ def add_datapoints():
             anchor_longitude, anchor_latitude = determine_anchor_id(longitude, latitude)
             anchor_id = f"lng:{anchor_longitude},lat{anchor_latitude}"
             doc_ref =  bins_ref.document(anchor_id)
-        update_bin_transaction(transaction, doc_ref, bitrate, audio_bitrate)
+            update_bin_transaction(transaction, doc_ref, bitrate, audio_bitrate)
         return jsonify({"success": True}), 200
 
     except Exception as e:
