@@ -7,7 +7,7 @@ import { AuthorizationCode, ModuleOptions } from "simple-oauth2";
 
 const HOST =
   process.env.NODE_ENV === "production"
-    ? "https://test-dash-98b05.web.app"
+    ? "https://dashboard.mtun.io"
     : "http://localhost:5000";
 const SCOPES = "user:read:email";
 
@@ -40,21 +40,17 @@ export const callback = functions.https.onRequest((req, res) => {
         functions.logger.warn("Invalid cookie state in twitch auth");
         res.redirect("/auth/redirect");
       } else if (req.query.code === undefined || req.query.code === "") {
-        functions.logger.warn("No auth code provided");
         res.redirect("/auth/redirect");
       }
-      functions.logger.info("mfer");
       const accessToken = await authCode.getToken({
         code: String(req.query.code),
         redirect_uri: `${HOST}/auth/callback`,
       });
-      functions.logger.info("mferrrrr", accessToken.token.access_token);
 
       const twitchUser = await getTwitchUser(accessToken.token.access_token);
 
       const firebaseToken = await createFirebaseAccount(twitchUser);
       res.cookie("token", firebaseToken);
-      functions.logger.info("redirect");
       res.redirect("/");
     });
   } catch (error) {
