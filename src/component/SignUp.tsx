@@ -169,7 +169,12 @@ export function SignUp() {
         </Grid>
         <Grid item>
           <Box width={350}>
-            <Button fullWidth size="medium" variant="outlined" href="/auth/redirect">
+            <Button
+              fullWidth
+              size="medium"
+              variant="outlined"
+              href="/auth/redirect"
+            >
               Sign up with Twitch
             </Button>
           </Box>
