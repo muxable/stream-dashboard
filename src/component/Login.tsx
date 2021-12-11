@@ -152,6 +152,13 @@ export function Login() {
             </Button>
           </Box>
         </Grid>
+        <Grid item>
+          <Box width={350}>
+            <Button fullWidth size="medium" variant="outlined" href="/auth/redirect">
+              Continue with Twitch
+            </Button>
+          </Box>
+        </Grid>
         <Grid item textAlign="left">
           <Box width={350}>
             <Button
