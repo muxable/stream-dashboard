@@ -41,7 +41,7 @@ def add_datapoints():
             
             # uppper left corner will determine the square/bin of this datapoint
             anchor_longitude, anchor_latitude = determine_anchor_id(longitude, latitude)
-            anchor_id = f"lng:{anchor_longitude},lat{anchor_latitude}"
+            anchor_id = f"lng:{anchor_longitude},lat:{anchor_latitude}"
             doc_ref =  bins_ref.document(anchor_id)
             update_bin_transaction(transaction, doc_ref, bitrate, audio_bitrate)
         return jsonify({"success": True}), 200
@@ -67,7 +67,7 @@ def add_datapoint():
 
         # uppper left corner will determine the square/bin of this datapoint
         anchor_longitude, anchor_latitude = determine_anchor_id(longitude, latitude)
-        anchor_id = f"lng:{anchor_longitude},lat{anchor_latitude}"
+        anchor_id = f"lng:{anchor_longitude},lat:{anchor_latitude}"
 
         # pull the document from firebase with that anchor_id
         doc_ref = bin_ref.document(anchor_id)
