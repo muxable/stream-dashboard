@@ -8,7 +8,7 @@ import { Login } from "./component/Login";
 import { SignUp } from "./component/SignUp";
 import { StreamsTableView } from "./component/TableView";
 import { UnauthenticatedRoute } from "./component/UnauthenticatedRoute";
-import { AuthProvider, useAuthState } from "./context/AuthContext";
+import { useAuthState } from "./context/AuthContext";
 import { Analytics } from "./screens/Analytics";
 // import { AuthProvider } from "./context/AuthContext";
 // import { GlobalHeatMap } from "./component/GlobalHeatMap";
@@ -19,10 +19,9 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <AuthProvider>
-          <Router>
-            <Switch>
-              {/* <Route path="/signup">
+        <Router>
+          <Switch>
+            {/* <Route path="/signup">
               <Route path="/global">
                 <GlobalHeatMap />
               </Route>
@@ -45,19 +44,18 @@ function App() {
                 <p>Your past streams</p>
                 <StreamsTableView userId="rippyae" />
               </Route> */}
-              <UnauthenticatedRoute exact path="/signup" component={SignUp} />
-              <UnauthenticatedRoute exact path="/login" component={Login} />
-              <AuthenticatedRoute exact path="/">
-                <StreamsTableView userId={email ?? ""} />
-              </AuthenticatedRoute>
-              <AuthenticatedRoute
-                exact
-                path="/analytic/:streamId"
-                component={Analytics}
-              />
-            </Switch>
-          </Router>
-        </AuthProvider>
+            <UnauthenticatedRoute exact path="/signup" component={SignUp} />
+            <UnauthenticatedRoute exact path="/login" component={Login} />
+            <AuthenticatedRoute exact path="/">
+              <StreamsTableView userId={email ?? ""} />
+            </AuthenticatedRoute>
+            <AuthenticatedRoute
+              exact
+              path="/analytic/:streamId"
+              component={Analytics}
+            />
+          </Switch>
+        </Router>
       </header>
     </div>
   );
