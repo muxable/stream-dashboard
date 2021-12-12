@@ -7,11 +7,18 @@ export const AuthenticatedRoute: React.FC<any> = ({
   ...props
 }) => {
   const { isAuthenticated } = useAuthState();
-  return (
+  return props.children ? (
+    <Route
+      {...props}
+      children={() =>
+        isAuthenticated ? props.children : <Redirect to="/login" />
+      }
+    />
+  ) : (
     <Route
       {...props}
       render={(routeProps) =>
-        isAuthenticated ? <C {...routeProps} /> : <Redirect to="/" />
+        isAuthenticated ? <C {...routeProps} /> : <Redirect to="/login" />
       }
     />
   );

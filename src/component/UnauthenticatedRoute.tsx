@@ -7,7 +7,12 @@ export const UnauthenticatedRoute: React.FC<any> = ({
   ...props
 }) => {
   const { isAuthenticated } = useAuthState();
-  return (
+  return props.children ? (
+    <Route
+      {...props}
+      children={() => (!isAuthenticated ? props.children : <Redirect to="/" />)}
+    />
+  ) : (
     <Route
       {...props}
       render={(routeProps) =>
