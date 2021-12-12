@@ -2,8 +2,8 @@ from flask import Flask, request, jsonify
 from firebase_admin import credentials, firestore, initialize_app
 from math import floor
 
-app = Flask(__name__)
-
+def create(test_source=None):
+    app = Flask(__name__)
 
 cred = credentials.Certificate('./fbkey.json')
 default_app = initialize_app(cred)
