@@ -1,52 +1,21 @@
 import React from "react";
-import "./App.css";
-import { Login } from "./component/Login";
-import { SignUp } from "./component/SignUp";
 // import { ForgotPassword } from "./component/ForgotPassword";
 // import { Profile } from "./component/Profile";
-
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Redirect,
-} from "react-router-dom";
+import { BrowserRouter as Router, Switch } from "react-router-dom";
+import "./App.css";
+import { AuthenticatedRoute } from "./component/AuthenticatedRoute";
+import { Login } from "./component/Login";
+import { SignUp } from "./component/SignUp";
 import { StreamsTableView } from "./component/TableView";
-import { Analytics } from "./screens/Analytics";
+import { UnauthenticatedRoute } from "./component/UnauthenticatedRoute";
 import { AuthProvider, useAuthState } from "./context/AuthContext";
+import { Analytics } from "./screens/Analytics";
 // import { AuthProvider } from "./context/AuthContext";
 // import { GlobalHeatMap } from "./component/GlobalHeatMap";
 
-const AuthenticatedRoute: React.FC<any> = ({ component: C, ...props }) => {
-  const { isAuthenticated, email} = useAuthState();
-  // console.log('props', {...props})
-  console.log("authstate", email, useAuthState());
-  console.log(`AuthenticatedRoute: ${isAuthenticated}`);
-  return (
-    <Route
-      {...props}
-      render={(routeProps) =>
-        isAuthenticated ? <C {...routeProps} /> : <Redirect to="/login" />
-      }
-    />
-  );
-};
-
-const UnauthenticatedRoute: React.FC<any> = ({ component: C, ...props }) => {
-  const { isAuthenticated } = useAuthState();
-  console.log(`UnauthenticatedRoute: ${isAuthenticated}`);
-  return (
-    <Route
-      {...props}
-      render={(routeProps) =>
-        !isAuthenticated ? <C {...routeProps} /> : <Redirect to="/" />
-      }
-    />
-  );
-};
 function App() {
-  let { email = "" } = useAuthState();
-  if (email === null) email = ""
+  const { email } = useAuthState();
+
   return (
     <div className="App">
       <header className="App-header">
@@ -78,14 +47,8 @@ function App() {
               </Route> */}
               <UnauthenticatedRoute exact path="/signup" component={SignUp} />
               <UnauthenticatedRoute exact path="/login" component={Login} />
-              <AuthenticatedRoute
-                exact
-                path="/"
-                component={<StreamsTableView userId={email} />}
-                // element={<StreamsTableView userId={email} />}
-                // userId="rippyae"
-              >
-                {/* <StreamsTableView userId={email} /> */}
+              <AuthenticatedRoute exact path="/">
+                <StreamsTableView userId={email ?? ""} />
               </AuthenticatedRoute>
               <AuthenticatedRoute
                 exact
