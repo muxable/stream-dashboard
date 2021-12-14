@@ -27,7 +27,7 @@ export const redirect = functions.https.onRequest((req, res) => {
       state: state,
     });
 
-    // Append `force_verify=true` to avoid the prompt
+    // Append `force_verify=true` to always prompt for authorization
     res.redirect(`${redirectUri}&force_verify=true`);
   });
 });
