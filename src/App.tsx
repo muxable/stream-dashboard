@@ -10,8 +10,7 @@ import { StreamsTableView } from "./component/TableView";
 import { UnauthenticatedRoute } from "./component/UnauthenticatedRoute";
 import { useAuthState } from "./context/AuthContext";
 import { Analytics } from "./screens/Analytics";
-// import { AuthProvider } from "./context/AuthContext";
-// import { GlobalHeatMap } from "./component/GlobalHeatMap";
+import { GlobalHeatMap } from "./component/GlobalHeatMap";
 
 function App() {
   const { email } = useAuthState();
@@ -21,29 +20,11 @@ function App() {
       <header className="App-header">
         <Router>
           <Switch>
-            {/* <Route path="/signup">
-              <Route path="/global">
-                <GlobalHeatMap />
-              </Route>
-              <Route path="/signup">
-                <SignUp />
-              </Route>
-              <Route path="/login">
-                <Login />
-              </Route>
-              <Route path="/forgotpassword">
-                <ForgotPassword />
-              </Route>
-              <Route path="/analytic/:streamId">
-                <Analytics />
-              </Route>
-              <Route path="/profile">
-                <Profile />
-              </Route>
-              <Route path="/">
-                <p>Your past streams</p>
-                <StreamsTableView userId="rippyae" />
-              </Route> */}
+            <UnauthenticatedRoute
+              exact
+              path="/global"
+              component={GlobalHeatMap}
+            />
             <UnauthenticatedRoute exact path="/signup" component={SignUp} />
             <UnauthenticatedRoute exact path="/login" component={Login} />
             <AuthenticatedRoute exact path="/">
