@@ -10,6 +10,8 @@ import Tooltip from "@mui/material/Tooltip";
 import InputBase from "@material-ui/core/InputBase";
 import { makeStyles, alpha } from "@material-ui/core/styles";
 import { useHistory } from "react-router-dom";
+import { FirebaseError } from "firebase/app";
+import { signOut, getAuth } from "firebase/auth";
 
 const useStyles = makeStyles((theme) => ({
   searchBox: {
@@ -49,6 +51,10 @@ const Navbar = (props: any) => {
   const toProfile = () => {
     history.push("/profile");
   };
+
+  function signOutUser() {
+    signOut(getAuth()).then(() => history.push("/login"));
+  }
 
   return (
     <>
@@ -110,7 +116,7 @@ const Navbar = (props: any) => {
 
           <Divider />
 
-          <MenuItem onClick={closeMenu}>
+          <MenuItem onClick={signOutUser}>
             <LogoutIcon color="primary" style={{ padding: "2%" }} /> Logout
           </MenuItem>
         </MenuList>
