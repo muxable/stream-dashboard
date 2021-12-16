@@ -1,14 +1,15 @@
-import React from "react";
 import { AppBar, Toolbar, Typography } from "@material-ui/core";
+import InputBase from "@material-ui/core/InputBase";
+import { alpha, makeStyles } from "@material-ui/core/styles";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import { Menu, MenuList, MenuItem, IconButton, Avatar } from "@mui/material";
-import SearchIcon from "@mui/icons-material/Search";
 import LogoutIcon from "@mui/icons-material/Logout";
+import SearchIcon from "@mui/icons-material/Search";
 import SettingsIcon from "@mui/icons-material/Settings";
+import { Avatar, IconButton, Menu, MenuItem, MenuList } from "@mui/material";
 import Divider from "@mui/material/Divider";
 import Tooltip from "@mui/material/Tooltip";
-import InputBase from "@material-ui/core/InputBase";
-import { makeStyles, alpha } from "@material-ui/core/styles";
+import { getAuth, signOut } from "firebase/auth";
+import React from "react";
 import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
@@ -49,6 +50,10 @@ const Navbar = (props: any) => {
   const toProfile = () => {
     history.push("/profile");
   };
+
+  function signOutUser() {
+    signOut(getAuth()).then(() => history.push("/login"));
+  }
 
   return (
     <>
@@ -110,7 +115,7 @@ const Navbar = (props: any) => {
 
           <Divider />
 
-          <MenuItem onClick={closeMenu}>
+          <MenuItem onClick={signOutUser}>
             <LogoutIcon color="primary" style={{ padding: "2%" }} /> Logout
           </MenuItem>
         </MenuList>
