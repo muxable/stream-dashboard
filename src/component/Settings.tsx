@@ -4,7 +4,6 @@ import {
   Typography,
   Grid,
   IconButton,
-  Tooltip,
   Button,
   TextField,
 } from "@material-ui/core";
@@ -113,11 +112,9 @@ export function Settings() {
         <Grid item>
           <span>
             Email: test@muxable.com
-            <Tooltip title="Change your email">
-              <IconButton disableRipple={true} onClick={openEmailFields}>
-                <CreateIcon />
-              </IconButton>
-            </Tooltip>
+            <IconButton disableRipple={true} onClick={openEmailFields}>
+              <CreateIcon />
+            </IconButton>
             <div id="emailDiv"></div>
           </span>
 
@@ -125,13 +122,19 @@ export function Settings() {
 
           <span>
             Password: {maskPassword.repeat(5)}
-            <Tooltip title="Change your password">
-              <IconButton disableRipple={true} onClick={openPasswordFields}>
-                <CreateIcon />
-              </IconButton>
-            </Tooltip>
+            <IconButton disableRipple={true} onClick={openPasswordFields}>
+              <CreateIcon />
+            </IconButton>
             <div id="passwordDiv"></div>
           </span>
+        </Grid>
+
+        <br />
+
+        <Grid item>
+          <Button variant="contained" color="primary">
+            Generate stream key
+          </Button>
         </Grid>
       </Grid>
       <Footer />
