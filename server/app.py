@@ -9,7 +9,7 @@ cred = credentials.Certificate('./fbkey.json')
 default_app = initialize_app(cred)
 db = firestore.client()
 transaction = db.transaction()
-SQUARE_SIZE = 90
+SQUARE_SIZE = 0.002
 
 def determine_anchor_id(longitude, latitude):
     anchor_latitude = floor(latitude / SQUARE_SIZE) * SQUARE_SIZE
@@ -60,14 +60,28 @@ def write_stream_session():
 
 
 @firestore.transactional
-def update_bin_transaction(transaction, doc_ref, bitrate, audio_bitrate):
+def update_bin_transaction(transaction, doc_ref, anchor_lng, anchor_lat, bitrate, audio_bitrate, lng, lat):
     snapshot = doc_ref.get(transaction=transaction)
-    transaction.update(doc_ref, {
-        "totalBitrate": snapshot.get("totalBitrate") + bitrate,
-        "totalAudioBitrate": snapshot.get("totalAudioBitrate") + audio_bitrate,
-        "count": snapshot.get("count") + 1,
-        "timestamp": firestore.SERVER_TIMESTAMP
-    })
+    if snapshot.exists:
+        # update existing bin
+        transaction.update(doc_ref, {
+            "totalBitrate": snapshot.get("totalBitrate") + bitrate,
+            "totalAudioBitrate": snapshot.get("totalAudioBitrate") + audio_bitrate,
+            "count": snapshot.get("count") + 1,
+            "points": firestore.ArrayUnion([f"{lng},{lat}"]),
+            "timestamp": firestore.SERVER_TIMESTAMP
+        })
+    else:
+        # create a new bin
+        transaction.set(doc_ref, {
+            "anchorLongitude": anchor_lng,
+            "anchorLatitude": anchor_lat,
+            "totalBitrate": bitrate,
+            "totalAudioBitrate": audio_bitrate,
+            "count": 1,
+            "points": [f"{lng},{lat}"],
+            "timestamp": firestore.SERVER_TIMESTAMP
+        })
 
 
 @app.route("/write_datapoints", methods=['POST'])
@@ -85,7 +99,7 @@ def add_datapoints():
             anchor_longitude, anchor_latitude = determine_anchor_id(longitude, latitude)
             anchor_id = f"lng:{anchor_longitude},lat:{anchor_latitude}"
             doc_ref =  bins_ref.document(anchor_id)
-            update_bin_transaction(transaction, doc_ref, bitrate, audio_bitrate)
+            update_bin_transaction(transaction, doc_ref, anchor_longitude, anchor_latitude, bitrate, audio_bitrate, longitude, latitude)
         return jsonify({"success": True}), 200
 
     except Exception as e:
@@ -113,8 +127,7 @@ def add_datapoint():
 
         # pull the document from firebase with that anchor_id
         doc_ref = bin_ref.document(anchor_id)
-
-        update_bin_transaction(transaction, doc_ref, bitrate, audio_bitrate)
+        update_bin_transaction(transaction, doc_ref,  anchor_longitude, anchor_latitude, bitrate, audio_bitrate, longitude, latitude)
         return jsonify({"success": True}), 200
     except Exception as e:
         return f"An Error Occured: {e}"
@@ -138,15 +151,16 @@ def convert_to_point_geojson(data):
     return {"type": "FeatureCollection", "features": points}
 
 
-def convert_to_polygon_geojson(data, concave):
-    hull = map(list, concave)
+def convert_to_polygon_geojson(data):
     polygons = []
     for b in data:
+        points = b["points"]
+        shape = hull.convex(points)
         polygon = {
             "type": "Feature",
             "geometry": {
                 "type": "Polygon",
-                "coordinates": [hull]
+                "coordinates": [shape]
             },
             "properties": {
                 "avgBitrate": b['avgBitrate'],
@@ -176,7 +190,6 @@ def get_all_bins():
     # preprocess all bins
     preprocess = []
     for b in bins:
-        _id = b['id']
         anchor_longitude = b['anchorLongitude']
         anchor_latitude = b['anchorLatitude']
         total_bitrate = b['totalBitrate']
@@ -198,7 +211,8 @@ def get_all_bins():
             "longitude": longitude,
             "latitude": latitude,
             "avgBitrate": avg_bitrate,
-            "avgAudioBitrate": avg_audio_bitrate
+            "avgAudioBitrate": avg_audio_bitrate,
+            "points": points
         })
 
     return preprocess
@@ -217,7 +231,7 @@ def point_heat_map():
         return f"An Error Occured: {e}"
 
 
-@app.route('/point_bitrate_heatmap', methods=['GET'])
+@app.route('/polygon_bitrate_heatmap', methods=['GET'])
 def polygon_heat_map():
     """
         read() : Fetches bin documents from Firestore collection as JSON.
@@ -226,11 +240,8 @@ def polygon_heat_map():
         # get all bins
         data = get_all_bins()
 
-        points = data['points']
-        concave = hull.concave(points)
-
         # convert the process data into an proper geojson  
-        formatted = convert_to_point_geojson(data, concave)
+        formatted = convert_to_polygon_geojson(data)
         return jsonify(formatted), 200
     except Exception as e:
         return f"An Error Occured: {e}"
@@ -252,21 +263,21 @@ def write_anchors(anchors):
     return
 
 
-@app.route('/setbins', methods=['POST'])
-def setbins():
-    try:
-        anchors = set() 
-        for lng in range(-180, 180, 1):
-            for lat in range(-90, 90, 1):
-                a_tuple = determine_anchor_id(lng, lat)
-                anchors.add(a_tuple)
-        print(anchors)
-        print(f"there are {len(anchors)} anchors")
+# @app.route('/setbins', methods=['POST'])
+# def setbins():
+#     try:
+#         anchors = set() 
+#         for lng in range(-180, 180, 1):
+#             for lat in range(-90, 90, 1):
+#                 a_tuple = determine_anchor_id(lng, lat)
+#                 anchors.add(a_tuple)
+#         print(anchors)
+#         print(f"there are {len(anchors)} anchors")
 
-        # write the bins to database
-        write_anchors(anchors)
-        return "<p>Hello, World!</p>" 
+#         # write the bins to database
+#         write_anchors(anchors)
+#         return "<p>Hello, World!</p>" 
 
 
-    except Exception as e:
-        return f"An Error Occured: {e}"
+#     except Exception as e:
+#         return f"An Error Occured: {e}"
