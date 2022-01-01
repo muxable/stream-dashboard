@@ -168,6 +168,18 @@ export function SignUp() {
           </Box>
         </Grid>
         <Grid item>
+          <Box width={350}>
+            <Button
+              fullWidth
+              size="medium"
+              variant="outlined"
+              href="/auth/redirect"
+            >
+              Sign up with Twitch
+            </Button>
+          </Box>
+        </Grid>
+        <Grid item>
           <Box width={350} textAlign="left">
             <Typography variant="subtitle1">
               Have an account?&nbsp;

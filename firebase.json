@@ -1,8 +1,17 @@
 {
   "hosting": {
     "public": "build",
+    "predeploy": "npm install && npm run build",
     "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
     "rewrites": [
+      {
+        "source": "/auth/redirect",
+        "function": "redirect"
+      },
+      {
+        "source": "/auth/callback",
+        "function": "callback"
+      },
       {
         "source": "**",
         "destination": "/index.html"
