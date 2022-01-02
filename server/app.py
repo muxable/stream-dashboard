@@ -87,13 +87,42 @@ def update_bin_transaction(transaction, doc_ref, anchor_lng, anchor_lat, bitrate
 @app.route("/write_datapoints", methods=['POST'])
 def add_datapoints():
     bins_ref = db.collection("bins")
+    datapoint_ref = db.collection("streams")
     try:
         datapoints = request.get_json()
         for datapoint in datapoints:
+            # extract fields
+            userId = datapoint['userId']
+            streamId = datapoint['streamId']
+            modems = datapoint['modems']
             latitude = datapoint['latitude']
             longitude = datapoint['longitude']
             bitrate = datapoint['bitrate']
             audio_bitrate = datapoint['audioBitrate']
+            fps = datapoint['fps']
+            ping = datapoint['ping']
+            streamTitle = datapoint['streamTitle']
+            startDate = datapoint['startDate']
+            endDate = datapoint['endDate']
+            startDate = datetime.fromtimestamp(startDate)
+            endDate = datetime.fromtimestamp(endDate)
+
+            # write to "streams" collection
+            datapoint_ref.add({
+                "userId": userId,
+                "streamId": streamId,
+                "modems": modems,
+                "latitude": latitude,
+                "longitude": longitude,
+                "bitrate": bitrate,
+                "audioBitrate": audio_bitrate,
+                "fps": fps,
+                "ping": ping,
+                "streamTitle": streamTitle,
+                "startDate": startDate,
+                "endDate": endDate,
+                "timestamp": firestore.SERVER_TIMESTAMP
+            })
             
             # uppper left corner will determine the square/bin of this datapoint
             anchor_longitude, anchor_latitude = determine_anchor_id(longitude, latitude)
@@ -114,13 +143,43 @@ def add_datapoint():
     """
 
     bin_ref = db.collection("bins")
+    datapoint_ref = db.collection("streams")
     try:
-        # extract fields
-        latitude = request.json['latitude']
-        longitude = request.json['longitude']
-        bitrate = request.json['bitrate']
-        audio_bitrate = request.json['audioBitrate']
+        data = request.get_json()
 
+        # extract fields
+        userId = data['userId']
+        streamId = data['streamId']
+        modems = data['modems']
+        latitude = data['latitude']
+        longitude = data['longitude']
+        bitrate = data['bitrate']
+        audio_bitrate = data['audioBitrate']
+        fps = data['fps']
+        ping = data['ping']
+        streamTitle = data['streamTitle']
+        startDate = data['startDate']
+        endDate = data['endDate']
+        startDate = datetime.fromtimestamp(startDate)
+        endDate = datetime.fromtimestamp(endDate)
+
+        # write to "streams" collection
+        datapoint_ref.add({
+            "userId": userId,
+            "streamId": streamId,
+            "modems": modems,
+            "latitude": latitude,
+            "longitude": longitude,
+            "bitrate": bitrate,
+            "audioBitrate": audio_bitrate,
+            "fps": fps,
+            "ping": ping,
+            "streamTitle": streamTitle,
+            "startDate": startDate,
+            "endDate": endDate,
+            "timestamp": firestore.SERVER_TIMESTAMP
+        })
+            
         # uppper left corner will determine the square/bin of this datapoint
         anchor_longitude, anchor_latitude = determine_anchor_id(longitude, latitude)
         anchor_id = f"lng:{anchor_longitude},lat:{anchor_latitude}"
