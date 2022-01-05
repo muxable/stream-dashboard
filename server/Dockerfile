@@ -1,5 +1,7 @@
 FROM python:3-alpine
 
+RUN apk add --update alpine-sdk python3-dev
+
 COPY ./requirements.txt /app/requirements.txt
 
 WORKDIR /app
