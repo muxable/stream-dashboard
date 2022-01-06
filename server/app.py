@@ -97,10 +97,11 @@ def add_datapoints():
             return jsonify({"success": False}), 400
         
         stream_key_doc_ref = stream_key_ref.document(stream_key)
+        if not stream_key_doc_ref.exists:
+            return jsonify({"success": False}), 500
         stream_key_doc = stream_key_doc_ref.to_dict()
         userId = stream_key_doc['userId']
-        if not userId.exists:
-            return jsonify({"success": False}), 500
+
 
         datapoints = request.get_json()
         for datapoint in datapoints:
@@ -165,10 +166,11 @@ def add_datapoint():
             return jsonify({"success": False}), 400
         
         stream_key_doc_ref = stream_key_ref.document(stream_key)
+        if not stream_key_doc_ref.exists:
+            return jsonify({"success": False}), 500
         stream_key_doc = stream_key_doc_ref.to_dict()
         userId = stream_key_doc['userId']
-        if not userId.exists:
-            return jsonify({"success": False}), 500
+
 
         data = request.get_json()
 
