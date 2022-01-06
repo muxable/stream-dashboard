@@ -88,11 +88,21 @@ def update_bin_transaction(transaction, doc_ref, anchor_lng, anchor_lat, bitrate
 def add_datapoints():
     bins_ref = db.collection("bins")
     datapoint_ref = db.collection("streams")
+    stream_key_ref = db.collection("stream-keys")
     try:
+        
+        # lookup userid from uuid, the stream key
+        stream_key = request.args.get('stream_key')
+        if stream_key == None:
+            return jsonify({"success": False}), 400
+        
+        userId = stream_key_ref.document(stream_key)
+        if not userId.exists:
+            return jsonify({"success": False}), 500
+
         datapoints = request.get_json()
         for datapoint in datapoints:
             # extract fields
-            userId = datapoint['userId']
             streamId = datapoint['streamId']
             modems = datapoint['modems']
             latitude = datapoint['latitude']
@@ -144,11 +154,21 @@ def add_datapoint():
 
     bin_ref = db.collection("bins")
     datapoint_ref = db.collection("streams")
+    stream_key_ref = db.collection('stream-keys')
     try:
+
+        # lookup userid from uuid, the stream key
+        stream_key = request.args.get('stream_key')
+        if stream_key == None:
+            return jsonify({"success": False}), 400
+        
+        userId = stream_key_ref.document(stream_key)
+        if not userId.exists:
+            return jsonify({"success": False}), 500
+
         data = request.get_json()
 
         # extract fields
-        userId = data['userId']
         streamId = data['streamId']
         modems = data['modems']
         latitude = data['latitude']
