@@ -96,7 +96,9 @@ def add_datapoints():
         if stream_key == None:
             return jsonify({"success": False}), 400
         
-        userId = stream_key_ref.document(stream_key)
+        stream_key_doc_ref = stream_key_ref.document(stream_key)
+        stream_key_doc = stream_key_doc_ref.to_dict()
+        userId = stream_key_doc['userId']
         if not userId.exists:
             return jsonify({"success": False}), 500
 
@@ -162,7 +164,9 @@ def add_datapoint():
         if stream_key == None:
             return jsonify({"success": False}), 400
         
-        userId = stream_key_ref.document(stream_key)
+        stream_key_doc_ref = stream_key_ref.document(stream_key)
+        stream_key_doc = stream_key_doc_ref.to_dict()
+        userId = stream_key_doc['userId']
         if not userId.exists:
             return jsonify({"success": False}), 500
 
