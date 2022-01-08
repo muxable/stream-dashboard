@@ -86,14 +86,13 @@ def create():
             })
 
 
-    @app.route("/write_datapoints", methods=['POST'])
-    def add_datapoints():
+    @app.route("/write_datapoints/<stream_key>", methods=['POST'])
+    def add_datapoints(stream_key):
         bins_ref = db.collection("bins")
         datapoint_ref = db.collection("streams")
         stream_key_ref = db.collection("stream-keys")
         try:
             # lookup userid from uuid, the stream key
-            stream_key = request.args.get('stream_key')
             if stream_key == None:
                 return jsonify({"success": False}), 400
 
@@ -149,8 +148,8 @@ def create():
 
 
     # For writing a single datapoint
-    @app.route('/write_datapoint', methods=['POST'])
-    def add_datapoint():
+    @app.route('/write_datapoint/<stream_key>', methods=['POST'])
+    def add_datapoint(stream_key):
         """
             create() : Add document to Firestore collection with request body.
         """
@@ -160,7 +159,6 @@ def create():
         stream_key_ref = db.collection("stream-keys")
         try:
             # lookup userid from uuid, the stream key
-            stream_key = request.args.get('stream_key')
             if stream_key == None:
                 return jsonify({"success": False}), 400
 
