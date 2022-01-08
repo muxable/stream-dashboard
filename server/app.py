@@ -173,7 +173,6 @@ def create():
             data = request.get_json()
 
             # extract fields
-            userId = data['userId']
             streamId = data['streamId']
             modems = data['modems']
             latitude = data['latitude']
