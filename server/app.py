@@ -97,7 +97,7 @@ def create():
             if stream_key == None:
                 return jsonify({"success": False}), 400
 
-            stream_key_doc_ref = stream_key_ref.document(stream_key)
+            stream_key_doc_ref = stream_key_ref.document(stream_key).get()
             if not stream_key_doc_ref.exists:
                 return jsonify({"success": False}), 500
             stream_key_doc = stream_key_doc_ref.to_dict()
@@ -164,7 +164,7 @@ def create():
             if stream_key == None:
                 return jsonify({"success": False}), 400
 
-            stream_key_doc_ref = stream_key_ref.document(stream_key)
+            stream_key_doc_ref = stream_key_ref.document(stream_key).get()
             if not stream_key_doc_ref.exists:
                 return jsonify({"success": False}), 500
             stream_key_doc = stream_key_doc_ref.to_dict()
