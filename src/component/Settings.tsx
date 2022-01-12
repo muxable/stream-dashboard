@@ -6,10 +6,37 @@ import {
   IconButton,
   Button,
   TextField,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
 } from "@material-ui/core";
 import ReactDOM from "react-dom";
 import React from "react";
+import { v4 as uuidv4 } from "uuid";
 import CreateIcon from "@mui/icons-material/Create";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+
+let rows = [];
+let keyGenDateTime = new (Date.toLocaleString() as any)();
+console.log(keyGenDateTime);
+function createData() {
+  {
+    /*Procedure:
+    1. Click button -> createData function returns an object containing a stream key and the date time it was created
+    2. append that object to "rows" array
+    3. rerender the table everytime theres a new index to the rows array
+   */
+  }
+
+  let streamKey = uuidv4();
+  let currentDateandTime = new (Date.toLocaleString() as any)();
+
+  return { currentDateandTime, streamKey };
+}
 
 export function Settings() {
   const maskPassword = "•";
@@ -92,12 +119,36 @@ export function Settings() {
     </div>
   );
 
+  const streamKeyTable = (
+    <TableContainer component={Paper}>
+      <Table>
+        <TableHead>
+          <TableRow>
+            <TableCell>Date</TableCell>
+            <TableCell>Stream key</TableCell>
+          </TableRow>
+        </TableHead>
+
+        <TableBody>
+          <TableRow>
+            <TableCell>{new Date().toLocaleString()}</TableCell>
+            <TableCell>AAA-BBB-CCC-DDD</TableCell>
+          </TableRow>
+        </TableBody>
+      </Table>
+    </TableContainer>
+  );
+
   const openEmailFields = () => {
     ReactDOM.render(emailFields, document.getElementById("emailDiv"));
   };
 
   const openPasswordFields = () => {
     ReactDOM.render(passwordFields, document.getElementById("passwordDiv"));
+  };
+
+  const openKeyTable = () => {
+    ReactDOM.render(streamKeyTable, document.getElementById("keyTable"));
   };
 
   return (
@@ -108,7 +159,12 @@ export function Settings() {
         Settings
       </Typography>
 
-      <Grid container direction="row" justifyContent="flex-start" spacing={3}>
+      <Grid
+        container
+        direction="column"
+        justifyContent="flex-start"
+        spacing={3}
+      >
         <Grid item>
           <span>
             Email: test@muxable.com
@@ -129,12 +185,14 @@ export function Settings() {
           </span>
         </Grid>
 
-        <br />
-
         <Grid item>
-          <Button variant="contained" color="primary">
+          <Button variant="contained" color="primary" onClick={openKeyTable}>
             Generate stream key
           </Button>
+        </Grid>
+
+        <Grid item>
+          <div id="keyTable"></div>
         </Grid>
       </Grid>
       <Footer />
