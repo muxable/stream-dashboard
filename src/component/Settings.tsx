@@ -18,11 +18,10 @@ import ReactDOM from "react-dom";
 import React from "react";
 import { v4 as uuidv4 } from "uuid";
 import CreateIcon from "@mui/icons-material/Create";
-import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+
 
 let rows = [];
-let keyGenDateTime = new (Date.toLocaleString() as any)();
-console.log(keyGenDateTime);
+
 function createData() {
   {
     /*Procedure:
