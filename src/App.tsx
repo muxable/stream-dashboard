@@ -10,6 +10,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { StreamsTableView } from "./component/TableView";
 import { Analytics } from "./screens/Analytics";
 import { AuthProvider } from "./context/AuthContext";
+import { Setting } from "./component/setting/Setting";
 
 function App() {
   return (
@@ -34,7 +35,7 @@ function App() {
                 <Profile />
               </Route>
               <Route path="/settings">
-                <Settings />
+                <Setting />
               </Route>
               <Route path="/">
                 {/* "Your past streams" could be replaced with {regular or twitch username}'s past streams */}
