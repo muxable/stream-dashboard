@@ -3,6 +3,7 @@ name: Docker Server CI
 on:
   pull_request:
     branches: [ main ]
+    paths: [ "server/**"]
 
 jobs:
   build:
