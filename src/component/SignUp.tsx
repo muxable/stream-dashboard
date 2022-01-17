@@ -16,6 +16,7 @@ import {
   createUserWithEmailAndPassword,
   GoogleAuthProvider,
   signInWithPopup,
+  AuthErrorCodes,
 } from "firebase/auth";
 
 const provider = new GoogleAuthProvider();
@@ -53,19 +54,19 @@ export function SignUp() {
       history.replace("/");
     } catch (error: any) {
       switch (error.code) {
-        case "auth/invalid-email":
-          setError("Invalid email provided");
+        case AuthErrorCodes.INVALID_EMAIL:
+          setError("Invalid email provided.");
           break;
-        case "auth/email-already-in-use":
+        case AuthErrorCodes.EMAIL_EXISTS:
           setError("Email already used");
           break;
-        case "auth/weak-password":
+        case AuthErrorCodes.WEAK_PASSWORD:
           setError("Please use a stronger password");
           break;
-        case "auth/operation-not-allowed":
+        case AuthErrorCodes.OPERATION_NOT_ALLOWED:
           setError("Please ensure email registration is enabled");
           break;
-        case "auth/internal-error":
+        case AuthErrorCodes.INTERNAL_ERROR:
           setError("Internal Error, notify admin");
           break;
       }
@@ -79,25 +80,25 @@ export function SignUp() {
       history.replace("/");
     } catch (error: any) {
       switch (error.code) {
-        case "auth/internal-error":
+        case AuthErrorCodes.INTERNAL_ERROR:
           setError("Internal Error, notify admin");
           break;
-        case "auth/popup-blocked":
+        case AuthErrorCodes.POPUP_BLOCKED:
           setError("Popup is blocked");
           break;
-        case "auth/popup-closed-by-user":
+        case AuthErrorCodes.POPUP_CLOSED_BY_USER:
           setError("Popup closed by user, try again");
           break;
-        case "auth/cancelled-popup-request":
+        case AuthErrorCodes.EXPIRED_POPUP_REQUEST:
           setError("Only one popup request at a time");
           break;
-        case "auth/account-exists-with-different-credential":
+        case AuthErrorCodes.NEED_CONFIRMATION:
           setError("Email already in use");
           break;
-        case "auth/auth-domain-config-required":
+        case AuthErrorCodes.MISSING_AUTH_DOMAIN:
           setError("Notify admin, domain config required");
           break;
-        case "auth/operation-not-allowed":
+        case AuthErrorCodes.OPERATION_NOT_ALLOWED:
           setError("Account type cannot use this auth method");
           break;
       }

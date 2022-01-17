@@ -8,7 +8,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { getAuth, sendPasswordResetEmail } from "firebase/auth";
+import { AuthErrorCodes, getAuth, sendPasswordResetEmail } from "firebase/auth";
 import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import Logo from "./Logo";
@@ -19,34 +19,30 @@ export function ForgotPassword() {
   const [error, setError] = useState<string>("");
   const [success, toggleSuccessMessage] = useState<boolean>(false);
 
-  function sendResetEmail() {
-    sendPasswordResetEmail(getAuth(), emailRef!.current!.value)
-      .then(() => {
-        toggleSuccessMessage(true);
-        setError("");
-      })
-      .catch((error) => {
-        toggleSuccessMessage(false);
-        switch (error.code) {
-          case "auth/invalid-email":
-            setError("Invalid email provided.");
-            break;
-          case "auth/missing-email":
-            setError("Please provide your email address.");
-            break;
-          case "auth/too-many-requests":
-            setError("Too many attempts, try again later.");
-            break;
-          case "auth/internal-error":
-            setError("Internal Error, notify an administrator.");
-            break;
-          case "auth/user-not-found":
-            setError("This email does not seem to be registered.");
-            break;
-          default:
-            setError(error.message);
-        }
-      });
+  async function sendResetEmail() {
+    try {
+      await sendPasswordResetEmail(getAuth(), emailRef!.current!.value);
+      toggleSuccessMessage(true);
+      setError("");
+    } catch (error: any) {
+      toggleSuccessMessage(false);
+      switch (error.code) {
+        case AuthErrorCodes.INVALID_EMAIL:
+          setError("Invalid email provided.");
+          break;
+        case AuthErrorCodes.TOO_MANY_ATTEMPTS_TRY_LATER:
+          setError("Too many attempts, try again later.");
+          break;
+        case AuthErrorCodes.INTERNAL_ERROR:
+          setError("Internal Error, notify an administrator.");
+          break;
+        case AuthErrorCodes.USER_DELETED:
+          setError("This email does not seem to be registered.");
+          break;
+        default:
+          setError(error.message);
+      }
+    }
   }
 
   return (

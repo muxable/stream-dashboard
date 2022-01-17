@@ -8,9 +8,12 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import {
+  AuthErrorCodes,
+  GoogleAuthProvider,
+  signInWithPopup,
+} from "firebase/auth";
 import { Link, useHistory } from "react-router-dom";
-// import { auth } from "../firebaseSetup";
 import Logo from "./Logo";
 import Footer from "./Footer";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
@@ -24,19 +27,19 @@ export function Login() {
       history.replace("/");
     } catch (error: any) {
       switch (error.code) {
-        case "auth/internal-error":
+        case AuthErrorCodes.INTERNAL_ERROR:
           setError("Internal Error, notify admin");
           break;
-        case "auth/popup-blocked":
+        case AuthErrorCodes.POPUP_BLOCKED:
           setError("Popup is blocked");
           break;
-        case "auth/popup-closed-by-user":
+        case AuthErrorCodes.POPUP_CLOSED_BY_USER:
           setError("Popup closed by user, try again");
           break;
-        case "auth/cancelled-popup-request":
+        case AuthErrorCodes.EXPIRED_POPUP_REQUEST:
           setError("Only one popup request at a time");
           break;
-        case "auth/operation-not-allowed":
+        case AuthErrorCodes.OPERATION_NOT_ALLOWED:
           setError("Account type cannot use this auth method");
           break;
       }
@@ -81,17 +84,20 @@ export function Login() {
     } catch (error: any) {
       // TO DO: improve error type
       switch (error.code) {
-        case "auth/invalid-email":
-          setError("Invalid email provided");
+        case AuthErrorCodes.USER_DELETED:
+          setError("Couldn't find your account.");
           break;
-        case "auth/too-many-requests":
-          setError("Too many attempts, try later");
+        case AuthErrorCodes.INVALID_EMAIL:
+          setError("Invalid email provided.");
           break;
-        case "auth/wrong-password":
+        case AuthErrorCodes.TOO_MANY_ATTEMPTS_TRY_LATER:
+          setError("Too many attempts, try again later.");
+          break;
+        case AuthErrorCodes.INVALID_PASSWORD:
           setError("Invalid Password");
           break;
-        case "auth/internal-error":
-          setError("Internal Error, notify admin");
+        case AuthErrorCodes.INTERNAL_ERROR:
+          setError("Internal Error, notify an administrator.");
           break;
       }
     }
