@@ -1,7 +1,6 @@
-import { Stack, IconButton, Button, Container } from "@mui/material";
+import { Stack, IconButton, Button } from "@mui/material";
 import Footer from "../Footer";
 import Navbar from "../Navbar";
-import { EmailEdit } from "./EmailPane";
 import { PasswordEdit } from "./PasswordPane";
 import { StreamKeyTable } from "./StreamKeyTable";
 import CreateIcon from "@mui/icons-material/Create";
@@ -26,7 +25,7 @@ export function Setting() {
       setStreamKeyList(keyList);
     }
     getKeyList(email!);
-  }, []);
+  }, [email!]);
 
   // generate a new key, write to database, and append to client side keyList
   const generateStreamKey = () => {
@@ -43,7 +42,7 @@ export function Setting() {
       <Stack>
         <span>
           Email: test@muxable.com
-          <IconButton disableRipple={true} onClick={() => {}}>
+          <IconButton disableRipple={true} onClick={() => { }}>
             <CreateIcon />
           </IconButton>
         </span>
