@@ -25,7 +25,7 @@ export function Setting() {
       setStreamKeyList(keyList);
     }
     getKeyList(email!);
-  }, [email!]);
+  });
 
   // generate a new key, write to database, and append to client side keyList
   const generateStreamKey = () => {
@@ -42,7 +42,7 @@ export function Setting() {
       <Stack>
         <span>
           Email: test@muxable.com
-          <IconButton disableRipple={true} onClick={() => { }}>
+          <IconButton disableRipple={true} onClick={() => {}}>
             <CreateIcon />
           </IconButton>
         </span>
