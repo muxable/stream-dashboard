@@ -21,3 +21,14 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# flask app
+/server/__pycache__
+/server/venv
+
+# firebase
+ui-debug.log
+.firebase/
+functions/firebase-debug.log
+functions/.runtimeconfig.json
+firebase-debug.log

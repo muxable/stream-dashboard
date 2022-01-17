@@ -109,14 +109,7 @@ export function SignUp() {
       <Logo />
       <p> Stream Dashboard by Muxable </p>
       <Grid container spacing={3} direction="column" alignContent="center">
-        {error && (
-          <Alert
-            style={{ marginTop: "15px", marginLeft: "23px" }}
-            severity="error"
-          >
-            {error}
-          </Alert>
-        )}
+        <Grid item>{error && <Alert severity="error">{error}</Alert>}</Grid>
         <Grid item>
           <Box width={350}>
             <TextField
@@ -171,6 +164,18 @@ export function SignUp() {
               onClick={signInWithGoogle}
             >
               Sign up with Google
+            </Button>
+          </Box>
+        </Grid>
+        <Grid item>
+          <Box width={350}>
+            <Button
+              fullWidth
+              size="medium"
+              variant="outlined"
+              href="/auth/redirect"
+            >
+              Sign up with Twitch
             </Button>
           </Box>
         </Grid>
