@@ -8,7 +8,6 @@ import { Login } from "./component/Login";
 import { SignUp } from "./component/SignUp";
 import { ForgotPassword } from "./component/ForgotPassword";
 import { Profile } from "./component/Profile";
-import { Settings } from "./component/Settings";
 import { StreamsTableView } from "./component/TableView";
 import { UnauthenticatedRoute } from "./component/UnauthenticatedRoute";
 import { useAuthState } from "./context/AuthContext";

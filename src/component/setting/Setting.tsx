@@ -9,9 +9,13 @@ import { v4 as uuidv4 } from "uuid";
 import { filterByUserId, writeStreamKey } from "../../adapters/stream_key";
 import { useState, useEffect } from "react";
 import { StreamKeyModel } from "../../models/stream_key";
+import { useAuthState } from "../../context/AuthContext";
+
 
 export function Setting() {
 	const maskPassword = "•";
+
+	const { email } = useAuthState();
 
 	const [openPasswordEdit, setOpenPasswordEdit] = useState(false)
 	const [streamKeyList, setStreamKeyList] = useState<StreamKeyModel[]>([])
@@ -22,15 +26,15 @@ export function Setting() {
 			const keyList = await filterByUserId(userId)
 			setStreamKeyList(keyList)
 		}
-		getKeyList("test@muxable.com")
+		getKeyList(email!)
 	}, [])
 
 	// generate a new key, write to database, and append to client side keyList
 	const generateStreamKey = () => {
 		let streamKey = uuidv4();
-		writeStreamKey("test@muxable.com", streamKey)
+		writeStreamKey(email!, streamKey)
 			.then(() => {
-				const streamKeyModel = new StreamKeyModel("test@muxable.com", streamKey, new Date())
+				const streamKeyModel = new StreamKeyModel(email!, streamKey, new Date())
 				setStreamKeyList(oldList => [...oldList, streamKeyModel])
 			})
 	}
