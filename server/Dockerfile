@@ -12,6 +12,8 @@ RUN pip install waitress
 
 COPY . /app
 
+COPY /etc/secrets/fbkey.json /app/fbkey.json
+
 EXPOSE 8080
 
 CMD ["waitress-serve", "--call", "app:create"]
