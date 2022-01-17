@@ -6,13 +6,10 @@ import "./App.css";
 import { AuthenticatedRoute } from "./component/AuthenticatedRoute";
 import { Login } from "./component/Login";
 import { SignUp } from "./component/SignUp";
-import { ForgotPassword } from "./component/ForgotPassword";
-import { Profile } from "./component/Profile";
 import { StreamsTableView } from "./component/TableView";
 import { UnauthenticatedRoute } from "./component/UnauthenticatedRoute";
 import { useAuthState } from "./context/AuthContext";
 import { Analytics } from "./screens/Analytics";
-import { AuthProvider } from "./context/AuthContext";
 import { Setting } from "./component/setting/Setting";
 import { GlobalHeatMap } from "./component/GlobalHeatMap";
 
