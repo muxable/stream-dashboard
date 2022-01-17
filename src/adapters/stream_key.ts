@@ -5,7 +5,7 @@ import {
   query,
   getDocs,
   setDoc,
-  doc
+  doc,
 } from "@firebase/firestore";
 import { StreamKeyModel, streamKeyModelConverter } from "../models/stream_key";
 require("../firebaseSetup");
@@ -32,7 +32,7 @@ export async function filterByUserId(userId: string) {
 }
 
 /**
- * 
+ *
  * @param userId email address of user
  * @param streamKey the generated uuid from an external library
  */
@@ -41,5 +41,5 @@ export async function writeStreamKey(userId: string, streamKey: string) {
     userId: userId,
     streamKey: streamKey,
     timestamp: new Date(),
-  })
+  });
 }

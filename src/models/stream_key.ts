@@ -3,7 +3,7 @@ import { DocumentData, QueryDocumentSnapshot } from "@firebase/firestore";
 export class StreamKeyModel {
   constructor(
     readonly userId: string,
-		readonly streamKey: string,
+    readonly streamKey: string,
     readonly timestamp: Date
   ) {}
 }

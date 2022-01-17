@@ -39,15 +39,11 @@ function App() {
               path="/analytic/:streamId"
               component={Analytics}
             />
-            <AuthenticatedRoute
-              exact
-              path="/settings"
-              component={Setting}
-            />
+            <AuthenticatedRoute exact path="/settings" component={Setting} />
           </Switch>
         </Router>
-      </header >
-    </div >
+      </header>
+    </div>
   );
 }
 
