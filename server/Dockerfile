@@ -12,7 +12,7 @@ RUN pip install waitress
 
 COPY . /app
 
-COPY /etc/secrets/fbkey.json /app/fbkey.json
+COPY ./fbkey.json /app/fbkey.json
 
 EXPOSE 8080
 
