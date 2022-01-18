@@ -12,7 +12,6 @@ import { useAuthState } from "./context/AuthContext";
 import { Analytics } from "./screens/Analytics";
 import { Setting } from "./component/setting/Setting";
 
-
 function App() {
   const { email } = useAuthState();
 
