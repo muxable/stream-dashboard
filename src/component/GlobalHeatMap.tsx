@@ -1,6 +1,6 @@
 import * as React from "react";
-import { useState, useEffect } from "react";
-import MapGL, { Source, Layer } from "react-map-gl";
+import { useState } from "react";
+import MapGL, { Layer, Source } from "react-map-gl";
 import { heatmapLayer } from "./MapStyle";
 
 const MAPBOX_TOKEN =
@@ -14,17 +14,6 @@ export function GlobalHeatMap() {
     bearing: 0,
     pitch: 0,
   });
-  const [earthquakes, setEarthQuakes] = useState(null);
-
-  useEffect(() => {
-    fetch("https://docs.mapbox.com/mapbox-gl-js/assets/earthquakes.geojson")
-      .then((resp) => resp.json())
-      .then((json) => {
-        // Note: In a real application you would do a validation of JSON data before doing anything with it,
-        // but for demonstration purposes we ingore this part here and just trying to select needed data...
-        setEarthQuakes(json);
-      });
-  }, []);
 
   return (
     <div>
@@ -37,7 +26,7 @@ export function GlobalHeatMap() {
         mapboxApiAccessToken={MAPBOX_TOKEN}
       >
         {true && (
-          <Source type="geojson" data={earthquakes!}>
+          <Source type="geojson" data="/data/sample.json">
             <Layer {...heatmapLayer} />
           </Source>
         )}
