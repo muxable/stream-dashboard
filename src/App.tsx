@@ -1,9 +1,9 @@
 import React from "react";
-// import { ForgotPassword } from "./component/ForgotPassword";
-// import { Profile } from "./component/Profile";
 import { BrowserRouter as Router, Switch } from "react-router-dom";
 import "./App.css";
 import { AuthenticatedRoute } from "./component/AuthenticatedRoute";
+import { ForgotPassword } from "./component/ForgotPassword";
+import { GlobalHeatMap } from "./component/GlobalHeatMap";
 import { Login } from "./component/Login";
 import { SignUp } from "./component/SignUp";
 import { StreamsTableView } from "./component/TableView";
@@ -11,7 +11,7 @@ import { UnauthenticatedRoute } from "./component/UnauthenticatedRoute";
 import { useAuthState } from "./context/AuthContext";
 import { Analytics } from "./screens/Analytics";
 import { Setting } from "./component/setting/Setting";
-import { GlobalHeatMap } from "./component/GlobalHeatMap";
+
 
 function App() {
   const { email } = useAuthState();
@@ -28,6 +28,11 @@ function App() {
             />
             <UnauthenticatedRoute exact path="/signup" component={SignUp} />
             <UnauthenticatedRoute exact path="/login" component={Login} />
+            <UnauthenticatedRoute
+              exact
+              path="/forgotpassword"
+              component={ForgotPassword}
+            />
             <AuthenticatedRoute exact path="/">
               <StreamsTableView userId={email ?? ""} />
             </AuthenticatedRoute>

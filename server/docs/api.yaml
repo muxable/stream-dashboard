@@ -1,0 +1,131 @@
+openapi: 3.0.0
+info:
+  title: Stream Dashboard Ingestion API
+  version: 1.0.0
+servers:
+  - url: http://127.0.0.1:8080
+paths:
+  /write_stream_session:
+    post:
+      summary: Creates a new stream session
+      description: ''
+      operationId: ''
+      requestBody:
+        content:
+          'application/json':
+            schema: 
+              $ref: "#/components/schemas/Session"
+      responses:
+        default:
+          description: Default error sample response
+  /write_datapoints:
+    post:
+      summary: Creates a set of data points for the signal heatmap
+      description: ''
+      operationId: ''
+      requestBody:
+        content:
+          'application/json':
+            schema:
+              type: array
+              items:
+                $ref: "#/components/schemas/DataPoint"
+      responses:
+        default:
+          description: Default error sample response
+  /write_datapoint:
+    post:
+      summary: Creates a data point for the signal heatmap
+      description: ''
+      operationId: ''
+      requestBody:
+        content:
+          'application/json':
+            schema: 
+              $ref: "#/components/schemas/DataPoint"
+      responses:
+        default:
+          description: Default error sample response
+  /point_bitrate_heatmap:
+    get:
+      summary: Retrieves the signal heatmap in GeoJSON format (as points)
+      description: ''
+      operationId: ''
+      responses:
+        default:
+          description: Default error sample response
+  /polygon_bitrate_heatmap:
+    get:
+      summary: Retrieves the signam heatmap in GeoJSON format (as polygons)
+      description: ''
+      operationId: ''
+      responses:
+        default:
+          description: Default error sample response
+components:
+  schemas:
+    Session:
+      type: object
+      properties:
+        userId:
+          type: string
+        streamId:
+          type: string
+        videoCodec:
+          type: string
+        audioCodec:
+          type: string
+        videoResolution:
+          type: string
+        server:
+          type: string
+        duration:
+          type: integer
+          format: int32
+        modemCount:
+          type: integer
+          format: int32
+        unstableEvents:
+          type: integer
+          format: int32
+        startDate:
+          type: string
+          format: date-time
+        endDate:
+          type: string
+          format: date-time
+    DataPoint:
+      type: object
+      properties:
+        userId:
+          type: string
+        streamId:
+          type: string
+        modems:
+          type: string
+        latitude:
+          type: integer
+          format: int32
+        longitude:
+          type: integer
+          format: int32
+        bitrate:
+          type: integer
+          format: int32
+        audioBitrate:
+          type: integer
+          format: int32
+        fps:
+          type: integer
+          format: int32
+        ping:
+          type: integer
+          format: int32
+        streamTitle:
+          type: string
+        startDate:
+          type: integer
+          format: int32
+        endDate:
+          type: integer
+          format: int32
