@@ -1,6 +1,7 @@
 import * as cookieParser from "cookie-parser";
 import * as crypto from "crypto";
 import * as admin from "firebase-admin";
+import { FirebaseError } from "firebase-admin";
 import * as functions from "firebase-functions";
 import fetch from "node-fetch";
 import { AuthorizationCode, ModuleOptions } from "simple-oauth2";
@@ -55,11 +56,39 @@ export const callback = functions.https.onRequest((req, res) => {
     });
   } catch (error) {
     functions.logger.error(error);
+    // TODO probably should add some info before redirecting
+    res.redirect("/login");
   }
 });
 
+/**
+ * Defines de user identifier. If an user by the email exists, then  the existing uid is used, 
+ * otherwise we create a uid based on the twitch account information
+ * @param twitchUser 
+ * @returns 
+ */
+async function defineUID(twitchUser: TwitchUser) {
+  if (!twitchUser.email) {
+    // If there is an email, its because its a verified one
+    // https://dev.twitch.tv/docs/api/reference#get-users
+    return `twitch:${twitchUser.id}`;
+  }
+
+  try {
+    const existingUser = await admin.auth().getUserByEmail(twitchUser.email);
+    return existingUser.uid;
+  }
+  catch (error) {
+    if ((error as FirebaseError).code === "auth/user-not-found") {
+      // No account exists using that verified email, so we create a new user
+      return `twitch:${twitchUser.id}`;
+    }
+    throw error;
+  }
+}
+
 async function createFirebaseAccount(twitchUser: TwitchUser) {
-  const uid = `twitch:${twitchUser.id}`;
+  const uid = await defineUID(twitchUser);
 
   const db = admin.firestore();
   const databaseTask = db.collection("users").doc(uid).set(twitchUser);
@@ -85,8 +114,7 @@ async function createFirebaseAccount(twitchUser: TwitchUser) {
 
   await Promise.all([userCreationTask, databaseTask]);
 
-  const token = await admin.auth().createCustomToken(uid);
-  return token;
+  return await admin.auth().createCustomToken(uid);
 }
 
 /**
