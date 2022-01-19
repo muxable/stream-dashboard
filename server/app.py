@@ -86,15 +86,25 @@ def create():
             })
 
 
-    @app.route("/write_datapoints", methods=['POST'])
-    def add_datapoints():
+    @app.route("/write_datapoints/<stream_key>", methods=['POST'])
+    def add_datapoints(stream_key):
         bins_ref = db.collection("bins")
         datapoint_ref = db.collection("streams")
+        stream_key_ref = db.collection("stream-keys")
         try:
+            # lookup userid from uuid, the stream key
+            if stream_key == None:
+                return jsonify({"success": False}), 400
+
+            stream_key_doc_ref = stream_key_ref.document(stream_key).get()
+            if not stream_key_doc_ref.exists:
+                return jsonify({"success": False}), 500
+            stream_key_doc = stream_key_doc_ref.to_dict()
+            userId = stream_key_doc['userId']
+
             datapoints = request.get_json()
             for datapoint in datapoints:
                 # extract fields
-                userId = datapoint['userId']
                 streamId = datapoint['streamId']
                 modems = datapoint['modems']
                 latitude = datapoint['latitude']
@@ -138,19 +148,29 @@ def create():
 
 
     # For writing a single datapoint
-    @app.route('/write_datapoint', methods=['POST'])
-    def add_datapoint():
+    @app.route('/write_datapoint/<stream_key>', methods=['POST'])
+    def add_datapoint(stream_key):
         """
             create() : Add document to Firestore collection with request body.
         """
 
         bin_ref = db.collection("bins")
         datapoint_ref = db.collection("streams")
+        stream_key_ref = db.collection("stream-keys")
         try:
+            # lookup userid from uuid, the stream key
+            if stream_key == None:
+                return jsonify({"success": False}), 400
+
+            stream_key_doc_ref = stream_key_ref.document(stream_key).get()
+            if not stream_key_doc_ref.exists:
+                return jsonify({"success": False}), 500
+            stream_key_doc = stream_key_doc_ref.to_dict()
+            userId = stream_key_doc['userId']
+
             data = request.get_json()
 
             # extract fields
-            userId = data['userId']
             streamId = data['streamId']
             modems = data['modems']
             latitude = data['latitude']
