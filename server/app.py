@@ -27,6 +27,7 @@ swaggerui_blueprint = get_swaggerui_blueprint(
 
 def create():
     app = Flask(__name__)
+    app.register_blueprint(swaggerui_blueprint, url_prefix=SWAGGER_URL)
 
     @app.route('/docs/<path:path>')
     def send_static(path):
@@ -375,6 +376,3 @@ def create():
         return
 
     return app
-
-app = create()
-app.register_blueprint(swaggerui_blueprint, url_prefix=SWAGGER_URL)
