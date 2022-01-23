@@ -5,11 +5,17 @@ info:
 servers:
   - url: http://127.0.0.1:8080
 paths:
-  /write_stream_session:
+  /write_stream_session/{stream_key}:
     post:
-      summary: Creates a new stream session
+      summary: Creates a new stream session, and store to database
       description: ''
       operationId: ''
+      parameters:
+        - in: path
+          name: stream_key
+          schema:
+            type: integer
+          required: true
       requestBody:
         content:
           'application/json':
@@ -18,11 +24,17 @@ paths:
       responses:
         default:
           description: Default error sample response
-  /write_datapoints:
+  /write_datapoints/{stream_key}:
     post:
-      summary: Creates a set of data points for the signal heatmap
+      summary: Creates a set of data points, and store to database
       description: ''
       operationId: ''
+      parameters:
+        - in: path
+          name: stream_key
+          schema:
+            type: integer
+          required: true
       requestBody:
         content:
           'application/json':
@@ -33,11 +45,17 @@ paths:
       responses:
         default:
           description: Default error sample response
-  /write_datapoint:
+  /write_datapoint/{stream_key}:
     post:
-      summary: Creates a data point for the signal heatmap
+      summary: Creates a data point and store to database.
       description: ''
       operationId: ''
+      parameters:
+        - in: path
+          name: stream_key
+          schema:
+            type: integer
+          required: true
       requestBody:
         content:
           'application/json':
@@ -67,8 +85,6 @@ components:
     Session:
       type: object
       properties:
-        userId:
-          type: string
         streamId:
           type: string
         videoCodec:
@@ -89,20 +105,22 @@ components:
           type: integer
           format: int32
         startDate:
-          type: string
-          format: date-time
+          type: integer
+          format: int64
+          description: Epoch Unix Timestamp
         endDate:
-          type: string
-          format: date-time
+          type: integer
+          format: int64
+          description: Epoch Unix Timestamp
     DataPoint:
       type: object
       properties:
-        userId:
-          type: string
         streamId:
           type: string
         modems:
-          type: string
+          type: array
+          items: 
+            $ref: "#/components/schemas/Modem"
         latitude:
           type: integer
           format: int32
@@ -125,7 +143,25 @@ components:
           type: string
         startDate:
           type: integer
-          format: int32
+          format: int64
+          description: Epoch Unix Timestamp
         endDate:
           type: integer
+          format: int64
+          description: Epoch Unix Timestamp
+    Modem:
+      type: object
+      properties:
+        name:
+          type: string
+        temperature:
+          type: integer
           format: int32
+        upstreamBandwidth:
+          type: integer
+          format: int32
+        downstreamBandwidth:
+          type: integer
+          format: int32
+        type:
+          type: string
