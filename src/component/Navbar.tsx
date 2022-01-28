@@ -51,6 +51,9 @@ const Navbar = (props: any) => {
     history.push("/profile");
   };
 
+  const toSettings = () => {
+    history.push("/settings");
+  };
   function signOutUser() {
     signOut(getAuth()).then(() => history.push("/login"));
   }
@@ -109,7 +112,7 @@ const Navbar = (props: any) => {
             View profile
           </MenuItem>
 
-          <MenuItem onClick={closeMenu}>
+          <MenuItem onClick={toSettings}>
             <SettingsIcon style={{ paddingRight: "2%" }} /> Settings
           </MenuItem>
 

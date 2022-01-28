@@ -18,8 +18,8 @@ paths:
           required: true
       requestBody:
         content:
-          'application/json':
-            schema: 
+          "application/json":
+            schema:
               $ref: "#/components/schemas/Session"
       responses:
         default:
@@ -37,7 +37,7 @@ paths:
           required: true
       requestBody:
         content:
-          'application/json':
+          "application/json":
             schema:
               type: array
               items:
@@ -58,8 +58,8 @@ paths:
           required: true
       requestBody:
         content:
-          'application/json':
-            schema: 
+          "application/json":
+            schema:
               $ref: "#/components/schemas/DataPoint"
       responses:
         default:
@@ -67,16 +67,16 @@ paths:
   /point_bitrate_heatmap:
     get:
       summary: Retrieves the signal heatmap in GeoJSON format (as points)
-      description: ''
-      operationId: ''
+      description: ""
+      operationId: ""
       responses:
         default:
           description: Default error sample response
   /polygon_bitrate_heatmap:
     get:
       summary: Retrieves the signam heatmap in GeoJSON format (as polygons)
-      description: ''
-      operationId: ''
+      description: ""
+      operationId: ""
       responses:
         default:
           description: Default error sample response

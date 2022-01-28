@@ -10,6 +10,7 @@ import { StreamsTableView } from "./component/TableView";
 import { UnauthenticatedRoute } from "./component/UnauthenticatedRoute";
 import { useAuthState } from "./context/AuthContext";
 import { Analytics } from "./screens/Analytics";
+import { Setting } from "./component/setting/Setting";
 
 function App() {
   const { email } = useAuthState();
@@ -35,6 +36,7 @@ function App() {
               path="/analytic/:streamId"
               component={Analytics}
             />
+            <AuthenticatedRoute exact path="/settings" component={Setting} />
           </Switch>
         </Router>
       </header>
