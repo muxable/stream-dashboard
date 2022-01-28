@@ -1,8 +1,10 @@
 from datetime import date, datetime
-from flask import Flask, request, jsonify
+from sys import prefix
+from flask import Flask, request, jsonify, send_from_directory
 from firebase_admin import credentials, firestore, initialize_app
 from math import floor
 import hull
+from flask_swagger_ui import get_swaggerui_blueprint
 
 cred = credentials.Certificate('./fbkey.json')
 default_app = initialize_app(cred)
@@ -10,8 +12,27 @@ db = firestore.client()
 transaction = db.transaction()
 SQUARE_SIZE = 0.002
 
+
+SWAGGER_URL = '/api/docs'  # URL for exposing Swagger UI (without trailing '/')
+API_URL = "/docs/api.yaml"  # Our API url (can of course be a local resource)
+
+# Call factory function to create our blueprint
+swaggerui_blueprint = get_swaggerui_blueprint(
+    SWAGGER_URL,  # Swagger UI static files will be mapped to '{SWAGGER_URL}/dist/'
+    API_URL,
+    config={  # Swagger UI config overrides
+        'app_name': "docs application"
+    },
+)
+
 def create():
     app = Flask(__name__)
+    app.register_blueprint(swaggerui_blueprint, url_prefix=SWAGGER_URL)
+
+    @app.route('/docs/<path:path>')
+    def send_static(path):
+        return send_from_directory('docs', path)
+
 
     def determine_anchor_id(longitude, latitude):
         anchor_latitude = floor(latitude / SQUARE_SIZE) * SQUARE_SIZE
@@ -19,13 +40,24 @@ def create():
         return (anchor_longitude, anchor_latitude)
 
 
-    @app.route("/write_stream_session", methods=['POST'])
-    def write_stream_session():
+    @app.route("/write_stream_session/<stream_key>", methods=['POST'])
+    def write_stream_session(stream_key):
         stream_session_ref = db.collection("stream-sessions")
+        stream_key_ref = db.collection("stream-keys")
         try:
+            # lookup userid from uuid, the stream key
+            if stream_key == None:
+                return jsonify({"success": False}), 400
+
+            stream_key_doc_ref = stream_key_ref.document(stream_key).get()
+            if not stream_key_doc_ref.exists:
+                return jsonify({"success": False}), 500
+            stream_key_doc = stream_key_doc_ref.to_dict()
+            userId = stream_key_doc['userId']
+            
             # extract fields
             data = request.get_json()
-            userId = data['userId']
+            userId = userId
             streamId = data['streamId']
             videoCodec = data['videoCodec']
             audioCodec = data['audioCodec']
@@ -86,15 +118,25 @@ def create():
             })
 
 
-    @app.route("/write_datapoints", methods=['POST'])
-    def add_datapoints():
+    @app.route("/write_datapoints/<stream_key>", methods=['POST'])
+    def add_datapoints(stream_key):
         bins_ref = db.collection("bins")
         datapoint_ref = db.collection("streams")
+        stream_key_ref = db.collection("stream-keys")
         try:
+            # lookup userid from uuid, the stream key
+            if stream_key == None:
+                return jsonify({"success": False}), 400
+
+            stream_key_doc_ref = stream_key_ref.document(stream_key).get()
+            if not stream_key_doc_ref.exists:
+                return jsonify({"success": False}), 500
+            stream_key_doc = stream_key_doc_ref.to_dict()
+            userId = stream_key_doc['userId']
+
             datapoints = request.get_json()
             for datapoint in datapoints:
                 # extract fields
-                userId = datapoint['userId']
                 streamId = datapoint['streamId']
                 modems = datapoint['modems']
                 latitude = datapoint['latitude']
@@ -138,19 +180,29 @@ def create():
 
 
     # For writing a single datapoint
-    @app.route('/write_datapoint', methods=['POST'])
-    def add_datapoint():
+    @app.route('/write_datapoint/<stream_key>', methods=['POST'])
+    def add_datapoint(stream_key):
         """
             create() : Add document to Firestore collection with request body.
         """
 
         bin_ref = db.collection("bins")
         datapoint_ref = db.collection("streams")
+        stream_key_ref = db.collection("stream-keys")
         try:
+            # lookup userid from uuid, the stream key
+            if stream_key == None:
+                return jsonify({"success": False}), 400
+
+            stream_key_doc_ref = stream_key_ref.document(stream_key).get()
+            if not stream_key_doc_ref.exists:
+                return jsonify({"success": False}), 500
+            stream_key_doc = stream_key_doc_ref.to_dict()
+            userId = stream_key_doc['userId']
+
             data = request.get_json()
 
             # extract fields
-            userId = data['userId']
             streamId = data['streamId']
             modems = data['modems']
             latitude = data['latitude']

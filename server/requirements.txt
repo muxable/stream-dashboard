@@ -1,5 +1,7 @@
+asgiref==3.4.1
 click==8.0.3
 Flask==2.0.2
+flask-swagger-ui==3.36.0
 itsdangerous==2.0.1
 Jinja2==3.0.3
 MarkupSafe==2.0.1

@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.css";
 import { AuthenticatedRoute } from "./component/AuthenticatedRoute";
 import { ForgotPassword } from "./component/ForgotPassword";
@@ -20,11 +20,7 @@ function App() {
       <header className="App-header">
         <Router>
           <Switch>
-            <UnauthenticatedRoute
-              exact
-              path="/global"
-              component={GlobalHeatMap}
-            />
+            <Route path="/heatmap" component={GlobalHeatMap} />
             <UnauthenticatedRoute exact path="/signup" component={SignUp} />
             <UnauthenticatedRoute exact path="/login" component={Login} />
             <UnauthenticatedRoute
