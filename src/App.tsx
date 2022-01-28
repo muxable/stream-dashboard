@@ -11,6 +11,7 @@ import { UnauthenticatedRoute } from "./component/UnauthenticatedRoute";
 import { useAuthState } from "./context/AuthContext";
 import { Analytics } from "./screens/Analytics";
 import { Setting } from "./component/setting/Setting";
+import { Profile } from "./component/Profile"
 
 function App() {
   const { email } = useAuthState();
@@ -37,6 +38,7 @@ function App() {
               component={Analytics}
             />
             <AuthenticatedRoute exact path="/settings" component={Setting} />
+            <AuthenticatedRoute exact path="/profile" component={Profile} />
           </Switch>
         </Router>
       </header>
