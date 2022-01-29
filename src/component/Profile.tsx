@@ -5,88 +5,60 @@ import Footer from "./Footer";
 import Sidebar from "./Sidebar";
 import CreateIcon from "@mui/icons-material/Create";
 import RoomIcon from "@mui/icons-material/Room";
-import { makeStyles } from "@material-ui/core/styles";
-import { Button, Box, IconButton, Avatar, Paper, Tooltip } from "@mui/material";
-
-const useStyles = makeStyles((theme) => ({
-  paper: {
-    padding: theme.spacing(1),
-    margin: "8px",
-    textAlign: "center",
-    color: theme.palette.text.secondary,
-  },
-
-  center: {
-    display: "flex",
-    justifyContent: "center",
-    textAlign: "center",
-  },
-}));
+import { Button, IconButton, Avatar, Paper, Tooltip, Grid } from "@mui/material";
 
 export function Profile() {
-  const classes = useStyles();
+    let bio = "No bio set. Add one now!";
+    return (
+        <div>
+            <Navbar/>
 
-  return (
-    <>
-      <Navbar />
+            <Typography variant = "h4">Your profile</Typography>
+            <br/>
 
-      <Sidebar />
+            {/*<Sidebar>*/}
 
-      <Typography variant="h4">Your profile</Typography>
+            <Grid container direction = "column" justifyContent= "center" spacing = {3} >
+                <Grid item>
+                    <Paper style={{padding:"15px"}}>
+                        <IconButton disableRipple={true}>
+                            <Avatar style={{height:"100px", width:"100px"}}/>
+                        </IconButton>
 
-      <Paper className={classes.paper}>
-        <IconButton disableRipple={true}>
-          <Avatar style={{ margin: "1px", width: "100px", height: "100px" }} />
-        </IconButton>
+                    <br/>
 
-        <br />
-        <Typography>userName</Typography>
-        <div className={classes.center}>
-          <Box pr={1} pt={1}>
-            <Tooltip title="Your last known location">
-              <RoomIcon style={{ fill: "#b71c1c", paddingLeft: "2px" }} />
-            </Tooltip>
-          </Box>
-          <Box>
-            {/*This info can be the last recorded location the streamer ended at */}
-            <Typography variant="caption"> Last known location </Typography>
-          </Box>
+                    <Typography>userName</Typography>
+                    <span>
+                        <Tooltip title = "Your last known location">
+                            <RoomIcon style={{ fill: "#b71c1c", paddingLeft: "2px" }}/> 
+                        </Tooltip>
+                        <Typography variant = "caption">Last known location</Typography>
+                        <br/>
+                        <Typography>
+                            {bio}
+                            <Tooltip title="Edit your bio">
+                                <IconButton>
+                                    <CreateIcon style={{height:"25px", width:"25px"}}/>
+                                </IconButton>
+                            </Tooltip> 
+                        </Typography>
+
+                    </span>
+                    </Paper>
+                </Grid>
+
+                    <Grid item>
+                        <Paper style={{padding:"5px"}}>
+                                <Typography>Link to twitch:</Typography>
+                                <Button variant="contained">Link</Button>
+                        </Paper>
+                    </Grid>
+            </Grid>
+
+            <Footer/>
+            
         </div>
-      </Paper>
-
-      <Paper className={classes.paper}>
-        <div className={classes.center}>
-          <Box pt={2} pl={8}>
-            <Typography variant="body1"> Your email: </Typography>
-          </Box>
-
-          <Box pt={2} pl={4}>
-            <Typography variant="body1">random@domain.com</Typography>
-          </Box>
-
-          <Box pt={1}>
-            <IconButton>
-              <CreateIcon />
-            </IconButton>
-          </Box>
-        </div>
-
-        <div className={classes.center}>
-          <Box pt={2} pl={6} pr={3}>
-            <Typography> Link to twitch: </Typography>
-          </Box>
-
-          <Box pt={2} pl={3}>
-            <Button variant="contained">Dummy button</Button>
-          </Box>
-        </div>
-      </Paper>
-
-      {/*Maybe random funfacts here somewhere to pad out the profile page*/}
-
-      <Footer />
-    </>
-  );
+    )
 }
 
 export default Profile;
