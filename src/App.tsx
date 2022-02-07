@@ -11,7 +11,7 @@ import { UnauthenticatedRoute } from "./component/UnauthenticatedRoute";
 import { useAuthState } from "./context/AuthContext";
 import { Analytics } from "./screens/Analytics";
 import { Setting } from "./component/setting/Setting";
-import { Profile } from "./component/Profile"
+import { Profile } from "./component/profile/Profile";
 
 function App() {
   const { email } = useAuthState();

@@ -62,10 +62,10 @@ export const callback = functions.https.onRequest((req, res) => {
 });
 
 /**
- * Defines de user identifier. If an user by the email exists, then  the existing uid is used, 
+ * Defines de user identifier. If an user by the email exists, then  the existing uid is used,
  * otherwise we create a uid based on the twitch account information
- * @param twitchUser 
- * @returns 
+ * @param twitchUser
+ * @returns
  */
 async function defineUID(twitchUser: TwitchUser) {
   if (!twitchUser.email) {
@@ -77,8 +77,7 @@ async function defineUID(twitchUser: TwitchUser) {
   try {
     const existingUser = await admin.auth().getUserByEmail(twitchUser.email);
     return existingUser.uid;
-  }
-  catch (error) {
+  } catch (error) {
     if ((error as FirebaseError).code === "auth/user-not-found") {
       // No account exists using that verified email, so we create a new user
       return `twitch:${twitchUser.id}`;
