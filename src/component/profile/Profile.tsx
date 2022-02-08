@@ -16,13 +16,11 @@ import {
 } from "@mui/material";
 
 export function Profile() {
-  let bio = "No bio set. Add one now!";
-  {
-    /*pull bio from firestore, if no bio: set it to the default text: "no bio set, add one now!" */
-  }
-  const [openBioEdit, setOpenBioEdit] = useState(false);
+  const [openBioPanel, setOpenBioPanel] = useState(false);
+  const [bioText, setBioText] = useState("No bio set, add one now!");
 
-  console.log(openBioEdit);
+  console.log(openBioPanel);
+  console.log(bioText);
 
   return (
     <div>
@@ -50,18 +48,23 @@ export function Profile() {
               <Typography variant="caption">Last known location</Typography>
               <br />
               <Typography style={{ textAlign: "center" }} component={"span"}>
-                No bio set, add one now!
+                {bioText}
                 <Tooltip title="Edit your bio">
                   <IconButton
                     onClick={() => {
-                      setOpenBioEdit(!openBioEdit);
+                      setOpenBioPanel(!openBioPanel);
                     }}
                   >
                     <CreateIcon style={{ height: "25px", width: "25px" }} />
                   </IconButton>
                 </Tooltip>
               </Typography>
-              {openBioEdit && <BioEdit setOpenBioEdit={setOpenBioEdit} />}
+              {openBioPanel && (
+                <BioEdit
+                  setOpenBioPanel={setOpenBioPanel}
+                  setBioText={setBioText}
+                />
+              )}
             </span>
           </Paper>
         </Grid>
