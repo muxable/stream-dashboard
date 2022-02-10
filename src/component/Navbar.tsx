@@ -30,6 +30,11 @@ const useStyles = makeStyles((theme) => ({
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
   },
+
+  offset: {
+    ...theme.mixins.toolbar,
+    flexGrow: 1
+  }
 }));
 
 const Navbar = (props: any) => {
@@ -59,9 +64,9 @@ const Navbar = (props: any) => {
   }
 
   return (
-    <>
+    <div style={{marginBottom:"20px"}}>
       <AppBar
-        position="fixed"
+        position="absolute"
         color="primary"
         elevation={0}
         className={classes.appBar}
@@ -98,6 +103,8 @@ const Navbar = (props: any) => {
         </Toolbar>
       </AppBar>
 
+      <div className={classes.offset} />
+
       <Menu
         open={Boolean(anchorEl)}
         onClose={closeMenu}
@@ -123,7 +130,7 @@ const Navbar = (props: any) => {
           </MenuItem>
         </MenuList>
       </Menu>
-    </>
+    </div>
   );
 };
 
