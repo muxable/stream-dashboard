@@ -1,5 +1,7 @@
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { StreamKeyModel } from "../../models/stream_key";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { IconButton } from "@mui/material";
 
 const columns: GridColDef[] = [
   { field: "id", headerName: "ID", width: 100 },
@@ -12,6 +14,18 @@ const columns: GridColDef[] = [
     field: "streamKey",
     headerName: "Stream Key",
     width: 300,
+  },
+  {
+    field: "delete",
+    headerName: "Delete",
+    renderCell: (cell) => {
+      return (
+        <IconButton disableRipple={true}>
+          <DeleteIcon style={{ fill: "#CF2400" }} />
+        </IconButton>
+      );
+    },
+    width: 100,
   },
 ];
 export function StreamKeyTable({
