@@ -2,6 +2,7 @@ import { Stack, IconButton, Button } from "@mui/material";
 import Footer from "../Footer";
 import Navbar from "../Navbar";
 import { PasswordEdit } from "./PasswordPane";
+import { EmailEdit } from "./EmailPane";
 import { StreamKeyTable } from "./StreamKeyTable";
 import CreateIcon from "@mui/icons-material/Create";
 import { v4 as uuidv4 } from "uuid";
@@ -15,8 +16,9 @@ export function Setting() {
 
   const { email } = useAuthState();
 
-  const [openPasswordEdit, setOpenPasswordEdit] = useState(false);
+  const [openPasswordPanel, setOpenPasswordPanel] = useState(false);
   const [streamKeyList, setStreamKeyList] = useState<StreamKeyModel[]>([]);
+  const [openEmailPanel, setOpenEmailPanel] = useState(false);
 
   // pull the keys
   useEffect(() => {
@@ -42,24 +44,34 @@ export function Setting() {
       <Stack>
         <span>
           Email: test@muxable.com
-          <IconButton disableRipple={true} onClick={() => {}}>
+          <IconButton
+            disableRipple={true}
+            onClick={() => {
+              setOpenEmailPanel(!openEmailPanel);
+            }}
+          >
             <CreateIcon />
           </IconButton>
+          {openEmailPanel && (
+            <EmailEdit setOpenEmailPanel={setOpenEmailPanel} />
+          )}
         </span>
+        <br />
         <span>
           Password: {maskPassword.repeat(5)}
           <IconButton
             disableRipple={true}
             onClick={() => {
-              setOpenPasswordEdit(!openPasswordEdit);
+              setOpenPasswordPanel(!openPasswordPanel);
             }}
           >
             <CreateIcon />
           </IconButton>
-          {openPasswordEdit && (
-            <PasswordEdit setOpenPasswordEdit={setOpenPasswordEdit} />
+          {openPasswordPanel && (
+            <PasswordEdit setOpenPasswordPanel={setOpenPasswordPanel} />
           )}
         </span>
+        <br />
         <Button
           variant="contained"
           color="primary"
@@ -67,9 +79,9 @@ export function Setting() {
         >
           Generate a stream key
         </Button>
+        <br />
         <StreamKeyTable streamKeyList={streamKeyList} />
       </Stack>
-      <Footer />
     </div>
   );
 }

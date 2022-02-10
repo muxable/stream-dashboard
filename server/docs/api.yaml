@@ -8,8 +8,8 @@ paths:
   /write_stream_session/{stream_key}:
     post:
       summary: Creates a new stream session, and store to database
-      description: ''
-      operationId: ''
+      description: ""
+      operationId: ""
       parameters:
         - in: path
           name: stream_key
@@ -27,8 +27,8 @@ paths:
   /write_datapoints/{stream_key}:
     post:
       summary: Creates a set of data points, and store to database
-      description: ''
-      operationId: ''
+      description: ""
+      operationId: ""
       parameters:
         - in: path
           name: stream_key
@@ -48,8 +48,8 @@ paths:
   /write_datapoint/{stream_key}:
     post:
       summary: Creates a data point and store to database.
-      description: ''
-      operationId: ''
+      description: ""
+      operationId: ""
       parameters:
         - in: path
           name: stream_key
@@ -119,7 +119,7 @@ components:
           type: string
         modems:
           type: array
-          items: 
+          items:
             $ref: "#/components/schemas/Modem"
         latitude:
           type: integer

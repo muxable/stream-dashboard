@@ -27,14 +27,10 @@ const useStyles = makeStyles((theme) => ({
     height: "20px",
   },
 
-  appBar: {
-    zIndex: theme.zIndex.drawer + 1,
-  },
-
   offset: {
     ...theme.mixins.toolbar,
-    flexGrow: 1
-  }
+    flexGrow: 1,
+  },
 }));
 
 const Navbar = (props: any) => {
@@ -64,13 +60,8 @@ const Navbar = (props: any) => {
   }
 
   return (
-    <div style={{marginBottom:"20px"}}>
-      <AppBar
-        position="absolute"
-        color="primary"
-        elevation={0}
-        className={classes.appBar}
-      >
+    <div style={{ marginBottom: "55px" }}>
+      <AppBar position="absolute" color="primary" elevation={0}>
         <Toolbar>
           <Typography variant="overline">{props.title}</Typography>
 
@@ -88,7 +79,6 @@ const Navbar = (props: any) => {
             />
           </div>
 
-          {/*Profile icon if ever decided to show a profile page*/}
           <Tooltip title="Your profile">
             <IconButton
               color="inherit"
