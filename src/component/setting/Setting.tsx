@@ -21,7 +21,7 @@ export function Setting() {
   // pull the keys
   useEffect(() => {
     async function getKeyList(userId: string) {
-      const keyList = await filterByUserId(userId);
+      const keyList: any = [];
       setStreamKeyList(keyList);
     }
     getKeyList(email!);
@@ -42,7 +42,7 @@ export function Setting() {
       <Stack>
         <span>
           Email: test@muxable.com
-          <IconButton disableRipple={true} onClick={() => {}}>
+          <IconButton disableRipple={true} onClick={() => { }}>
             <CreateIcon />
           </IconButton>
         </span>
