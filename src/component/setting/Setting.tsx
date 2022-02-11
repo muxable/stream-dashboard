@@ -5,7 +5,7 @@ import { PasswordEdit } from "./PasswordPane";
 import { StreamKeyTable } from "./StreamKeyTable";
 import CreateIcon from "@mui/icons-material/Create";
 import { v4 as uuidv4 } from "uuid";
-import { filterByUserId, writeStreamKey } from "../../adapters/stream_key";
+import { writeStreamKey } from "../../adapters/stream_key";
 import { useState, useEffect } from "react";
 import { StreamKeyModel } from "../../models/stream_key";
 import { useAuthState } from "../../context/AuthContext";
