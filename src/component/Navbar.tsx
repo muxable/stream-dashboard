@@ -1,32 +1,17 @@
 import { AppBar, Toolbar, Typography } from "@material-ui/core";
-import InputBase from "@material-ui/core/InputBase";
-import { alpha, makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import LogoutIcon from "@mui/icons-material/Logout";
-import SearchIcon from "@mui/icons-material/Search";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { Avatar, IconButton, Menu, MenuItem, MenuList } from "@mui/material";
 import Divider from "@mui/material/Divider";
 import Tooltip from "@mui/material/Tooltip";
 import { getAuth, signOut } from "firebase/auth";
 import React from "react";
+import Search from "./Search";
 import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
-  searchBox: {
-    display: "flex",
-    backgroundColor: alpha(theme.palette.common.white, 0.3),
-    marginLeft: "20px",
-  },
-
-  searchField: {
-    width: "200px",
-    border: 5,
-    padding: "18px",
-    fontSize: "12px",
-    height: "20px",
-  },
-
   offset: {
     ...theme.mixins.toolbar,
     flexGrow: 1,
@@ -65,19 +50,7 @@ const Navbar = (props: any) => {
         <Toolbar>
           <Typography variant="overline">{props.title}</Typography>
 
-          <div className={classes.searchBox}>
-            <InputBase
-              type="text"
-              placeholder="Search"
-              className={classes.searchField}
-              endAdornment={
-                <IconButton>
-                  {" "}
-                  <SearchIcon />{" "}
-                </IconButton>
-              }
-            />
-          </div>
+          <Search />
 
           <Tooltip title="Your profile">
             <IconButton
