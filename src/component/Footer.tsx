@@ -2,7 +2,7 @@ import { Link, Typography, Grid } from "@material-ui/core";
 import Divider from "@mui/material/Divider";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import TwitterIcon from "@mui/icons-material/Twitter";
-import FacebookIcon from "@mui/icons-material/Facebook";
+import DiscordIcon from "./DiscordIcon";
 
 const copyright = new Date().getFullYear() + " Muxable";
 
@@ -12,18 +12,18 @@ const Footer = () => {
       style={{
         color: "white",
         backgroundColor: "#3f51b5",
-        position: "fixed",
-        bottom: "0",
+        position: "absolute",
         left: "0",
         right: "0",
-        width: "100%",
         paddingTop: "13px",
         padding: "5px",
+        marginTop: "45px",
         display: "flex",
         flexDirection: "column",
         zIndex: 1201,
       }}
     >
+      {/*z index so that the footer can overlap the sidebar whenever implemented (either as anchored to a hamburger menu or always on beneath the navbar and above the footer)*/}
       <Grid
         container
         direction="row"
@@ -32,16 +32,17 @@ const Footer = () => {
         style={{ padding: "3px" }}
       >
         <Grid item style={{ marginLeft: "20px" }}>
-          <Typography variant="h6">Support</Typography>
-          <Divider />
-          <Link style={{ color: "white", fontSize: 20 }}>Contact Us</Link>
-        </Grid>
-
-        <Grid item style={{ marginLeft: "20px" }}>
           <Typography variant="h6">Socials</Typography>
           <Divider />
-          <FacebookIcon fontSize="small" />{" "}
-          <Link style={{ color: "white", fontSize: 20 }}>Facebook</Link>
+          <DiscordIcon />{" "}
+          <Link
+            href="https://discord.gg/UKHJMQs74u"
+            target="_blank"
+            rel="noopener"
+            style={{ color: "white", fontSize: 20 }}
+          >
+            Discord
+          </Link>
           <br />
           <InstagramIcon fontSize="small" />{" "}
           <Link style={{ color: "white", fontSize: 20 }}>Instagram</Link>

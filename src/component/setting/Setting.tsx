@@ -82,6 +82,8 @@ export function Setting() {
         <br />
         <StreamKeyTable streamKeyList={streamKeyList} />
       </Stack>
+
+      <Footer />
     </div>
   );
 }
