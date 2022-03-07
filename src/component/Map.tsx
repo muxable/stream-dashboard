@@ -42,6 +42,7 @@ export function MapComponent({
             center={[x, y]}
             pathOptions={{ color: "red" }}
             radius={10}
+            key={i}
           >
             <Popup>
               longitude: {x} <br />
@@ -58,6 +59,7 @@ export function MapComponent({
             center={[x, y]}
             pathOptions={{ color: "yellow" }}
             radius={10}
+            key={i}
           >
             <Popup>
               longitude: {x} <br />

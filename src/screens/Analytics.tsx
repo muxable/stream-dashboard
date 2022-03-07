@@ -17,6 +17,8 @@ import { StreamHealthTable } from "../component/StreamHealthTable";
 import { ModemModel } from "../models/modem";
 import { StreamDatapointModel } from "../models/stream_datepoint";
 import { StreamModel } from "../models/stream_sessions";
+import Navbar from "../component/Navbar";
+import Footer from "../component/Footer";
 
 const cacheDisplayData = new Map<string, any>();
 export function Analytics() {
@@ -353,6 +355,7 @@ export function Analytics() {
 
   return (
     <Container>
+      <Navbar />
       <Stack direction="column" spacing={4}>
         <Stack direction="row" spacing={2}>
           <Paper style={{ width: 650 }}>
@@ -460,6 +463,7 @@ export function Analytics() {
           }}
         />
       </Stack>
+      <Footer />
     </Container>
   );
 }

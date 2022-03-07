@@ -1,6 +1,10 @@
 import { Grid, Button, TextField } from "@material-ui/core";
 
-export function EmailEdit() {
+export function EmailEdit({
+  setOpenEmailPanel,
+}: {
+  setOpenEmailPanel: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
   return (
     <div>
       <TextField
@@ -21,7 +25,13 @@ export function EmailEdit() {
         </Grid>
 
         <Grid item>
-          <Button size="medium" variant="contained" onClick={() => {}}>
+          <Button
+            size="medium"
+            variant="contained"
+            onClick={() => {
+              setOpenEmailPanel((openEmailPanel) => !openEmailPanel);
+            }}
+          >
             Cancel
           </Button>
         </Grid>

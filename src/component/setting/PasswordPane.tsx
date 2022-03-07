@@ -1,9 +1,9 @@
 import { Grid, Button, TextField } from "@material-ui/core";
 
 export function PasswordEdit({
-  setOpenPasswordEdit,
+  setOpenPasswordPanel,
 }: {
-  setOpenPasswordEdit: React.Dispatch<React.SetStateAction<boolean>>;
+  setOpenPasswordPanel: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   return (
     <div>
@@ -39,7 +39,7 @@ export function PasswordEdit({
             size="medium"
             variant="contained"
             onClick={() => {
-              setOpenPasswordEdit((openPasswordEdit) => !openPasswordEdit);
+              setOpenPasswordPanel((openPasswordPanel) => !openPasswordPanel);
             }}
           >
             Cancel
